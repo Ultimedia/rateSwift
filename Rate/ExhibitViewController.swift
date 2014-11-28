@@ -10,77 +10,103 @@ import UIKit
 
 class ExhibitViewController: UIViewController, UIPageViewControllerDelegate {
 
+    @IBOutlet weak var exhibitScrollView: UIScrollView!
+    
     // our pageview controller
     var pageViewController: UIPageViewController?
-    
-    
-    // Create our model
-    var modelController: ExhibitionModel {
-        // Return the model controller object, creating it if necessary.
-        // In more complex implementations, the model controller may be passed to the view controller.
-        if _modelController == nil {
-            _modelController = ExhibitionModel()
-        }
-        return _modelController!
-    }
-    var _modelController: ExhibitionModel? = nil
-    
+    let applicationData = ApplicationData.sharedModel()
+    let screenSize: CGRect = UIScreen.mainScreen().bounds
+
+    // applicationModel
+    let applicationModel = ApplicationData.sharedModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        // make it black
-        view.backgroundColor = UIColor.clearColor()
-        
-        createModules()
-    }
-    
-    
-    func createModules(){
-        // create an UIPageViewController
-        self.pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Vertical, options: nil)
-        self.pageViewController!.delegate = self
-        
-        // set starting point
-        let startingViewController:ExhibitStageViewController =  self.modelController.viewControllerAtIndex(0)!
 
-        // asign the viewcontrollers to the UIPageviewController
-        let viewControllers: NSArray = [startingViewController]
-        self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: {done in })
-        self.pageViewController!.dataSource = self.modelController
         
-        // add the pageview contoller
-        self.addChildViewController(self.pageViewController!)
-        self.view.addSubview(self.pageViewController!.view)
-       
-        // Set the page view controller's bounds using an inset rect so that self's view is visible around the edges of the pages.
-        var pageViewRect = self.view.bounds
-        self.pageViewController!.view.frame = pageViewRect
-        self.pageViewController!.didMoveToParentViewController(self)
         
-        // Add the page view controller's gesture recognizers to the view controller's view so that the gestures are started more easily.
-        self.view.gestureRecognizers = self.pageViewController!.gestureRecognizers
+        // Do any additional setup after loading the view, typically from a nib.
+        view.backgroundColor = UIColor.whiteColor()
+        
+        createExhibition()
     }
     
     
-    // UIPageViewController delegate methods
-    func pageViewController(pageViewController: UIPageViewController, spineLocationForInterfaceOrientation orientation: UIInterfaceOrientation) -> UIPageViewControllerSpineLocation {
-        // Set the spine position to "min" and the page view controller's view controllers array to contain just one view controller. Setting the spine position to 'UIPageViewControllerSpineLocationMid' in landscape orientation sets the doubleSided property to true, so set it to false here.
-        let currentViewController = self.pageViewController!.viewControllers[0] as UIViewController
-        let viewControllers: NSArray = [currentViewController]
+    func createExhibition(){
+
+        view.backgroundColor = UIColor.blackColor()
+
         
-        self.pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: false, completion: {done in })
-        self.pageViewController!.doubleSided = false
+        // current exhibi (this should be handled by the beacons)
+        var myExhibit = applicationData.museumData[0].exhibitData[0]
+        var scrollHeight = CGFloat((myExhibit.roomData.count)+2)
         
-        return .Min
+        // create the scrollview
+        exhibitScrollView.contentSize = CGSize(width:screenSize.width, height: screenSize.height*scrollHeight)
+        exhibitScrollView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        exhibitScrollView.bounces = false
+        exhibitScrollView.pagingEnabled = true
+        
+        // rooms
+        var looper:Int = 0;
+        
+        for room in myExhibit.roomData  {
+            var yPos = screenSize.height*CGFloat(looper)
+            if(looper >= 1){
+                print("alt")
+ 
+                yPos = screenSize.height*CGFloat(looper+1)
+            }
+            
+            
+            // Create the overview screen
+            if(looper == 1){
+                
+                var overviewViewController = ExhibitOverviewController(nibName: "ExhibitOverviewController", bundle:nil)
+                    overviewViewController.exhibitModel = applicationData.museumData[0].exhibitData[0]
+                    overviewViewController.view.frame = CGRect(x: 0, y:screenSize.height*CGFloat(looper), width: screenSize.width, height: screenSize.height)
+                
+                exhibitScrollView.addSubview(overviewViewController.view)
+                self.addChildViewController(overviewViewController)
+            }
+            
+        
+            // Create a new view controller and pass suitable data.
+            var dataViewController = ExhibitStageViewController(nibName: "ExhibitStageViewController", bundle: nil)
+                dataViewController.exhibitModel = applicationData.museumData[0].exhibitData[0]
+                dataViewController.roomModel = room
+                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
+            
+                exhibitScrollView.addSubview(dataViewController.view)
+                self.addChildViewController(dataViewController)
+            
+            
+            looper++
+
+            
+            if(looper == myExhibit.roomData.count){
+                
+                println("laatste")
+                // create the feedback screen
+                var feedbackScreen = ExhibitFeedbackScreenViewController(nibName: "ExhibitFeedbackScreenViewController", bundle: nil)
+                    feedbackScreen.feedbackScreenModel = applicationData.museumData[0].exhibitData[0]
+                    feedbackScreen.view.frame = CGRect(x: 0, y:yPos+screenSize.height, width: screenSize.width, height: screenSize.height)
+                    feedbackScreen.view.backgroundColor = UIColor.yellowColor()
+                
+                    exhibitScrollView.addSubview(feedbackScreen.view)
+                    self.addChildViewController(feedbackScreen)
+            }
+
+            
+
+        }
     }
     
-    
-    /// super super hero I'm in cafe nero
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    /**
+    * Hide status bar
+    */
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
 }

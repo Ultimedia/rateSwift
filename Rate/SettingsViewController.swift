@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsViewController: UIViewController {
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,8 +21,11 @@ class SettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
+    @IBAction func logoutButtonHandle(sender: AnyObject) {
+    
+    }
+    
     /*
     // MARK: - Navigation
 

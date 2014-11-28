@@ -9,33 +9,24 @@ import CoreLocation
 import UIKit
 
 class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
-
-    // An instance of a core location manager
-    let locationManager = CLLocationManager()
     
-    // Your beacon uuid and identifier
-    let region = CLBeaconRegion(proximityUUID: NSUUID(UUIDString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D"), identifier: "Estimotes")
-    
-    // First bool
+    // Class specific data
     var firstRun:Bool = true
     var eventData = Dictionary<String, String>()
-
-    
-    // Create our model
-    var modelController: ModelController {
-        // Return the model controller object, creating it if necessary.
-        // In more complex implementations, the model controller may be passed to the view controller.
-        if _modelController == nil {
-            _modelController = ModelController()
-        }
-        return _modelController!
-    }
-    
     var current:UIViewController?
     var currentMenu:UIViewController?
     
-    // Model Controller
-    var _modelController: ModelController? = nil
+    // applicationModel
+    let applicationModel = ApplicationData.sharedModel()
+    
+    // Location Services
+    let locationServices = LocationSevices.locationServices()
+    
+    // Data services
+    let dataServices = DataManager.dataManager()
+    
+    // Location Services
+    let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
     
     // Screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -47,37 +38,54 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var favouritesViewController:FavouritesViewController?
     var settingsViewController:SettingsViewController?
     var signOnViewController:SignOnScreenViewController?
+    var loadingViewControler:LoadingViewController?
+    var menuViewController:UIViewController?
+    var connectionFound = false
+    var targetController:UIViewController?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        // detect our device type
+        deviceFunctionService.detectDevice()
         
-        // initiate viewControllers
+        //initiate viewControllers
         helpViewController = HelpViewController(nibName: "HelpViewController", bundle: nil)
         exhibitViewController = ExhibitViewController(nibName: "ExhibitViewController", bundle: nil)
         teaserViewController = TeaserViewController(nibName: "TeaserViewController", bundle: nil)
         favouritesViewController = FavouritesViewController(nibName: "FavouritesViewController", bundle: nil)
         settingsViewController = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
         signOnViewController = SignOnScreenViewController(nibName: "SignOnScreenViewController", bundle: nil)
+        loadingViewControler = LoadingViewController(nibName: "LoadingViewController", bundle: nil)
 
-
+        // show loading screen
+        navigationController?.pushViewController(loadingViewControler!, animated: false)
+        
         // Check connection in a timed function
-        var connectionTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("checkConnection"), userInfo: nil, repeats: true)
+        var dataTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("checkDataConnection"), userInfo: nil, repeats: true)
         
         // Bind custom events to handle page flow from this controller
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuChangedHandler:", name:"MenuChangedHandler", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMenu:", name:"ShowMenuHandler", object: nil)
+
+        
+        // get locationServices
+        locationServices.initLocationServices()
     }
     
-    
-    
+
     /**
     * Handle navigation
     */
     func menuChangedHandler(notification: NSNotification){
-        var targetController:UIViewController?
         var createViewController:Bool = false
         
         if let info = notification.userInfo {
+            println(notification.userInfo)
+            
             var myTarget: String = (info["menu"] as String)
             
             switch myTarget
@@ -104,11 +112,12 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
             
             // do we need to push or pop?
             if(!createViewController){
-                navigationController?.pushViewController(targetController!, animated: true)
+                navigationController?.pushViewController(targetController!, animated: false)
             }else{
-                navigationController?.popToViewController(targetController!, animated: true)
+                navigationController?.popToViewController(targetController!, animated: false)
             }
             
+            applicationModel.currentViewController = targetController
             
         } else {
             println("no valid data")
@@ -116,94 +125,70 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     }
     
     
+    func showMenu(notification: NSNotification){
+         }
+    
+    
+    /**
+    * Show alerts
+    */
+    func displayAlertWithTitle(title: String, message: String){
+        let controller = UIAlertController(title: title,
+            message: message,
+            preferredStyle: .Alert)
+        
+        controller.addAction(UIAlertAction(title: "OK",
+            style: .Default,
+            handler: nil))
+        
+        presentViewController(controller, animated: true, completion: nil)
+    }
+    
     
     /**
     * Check network connection
     */
-    func checkConnection(){
+    func checkDataConnection(){
         
+        // first check if we have a connection
         if Reachability.isConnectedToNetwork() {
-            modelController.networkConnection = true
-        } else {
-            modelController.networkConnection = false
-            println("Netwerkverbinding: \(modelController.networkConnection)")
-        }
+            applicationModel.networkConnection = true
         
-        if(firstRun){
-            firstRun = false
-         
-            
-            if(modelController.firstLogin == true){
+            if(!connectionFound){
+                connectionFound = true
                 
-                navigationController?.pushViewController(signOnViewController!, animated: false)
-                
-                eventData["show"] = "true"
-                NSNotificationCenter.defaultCenter().postNotificationName("HideNavigation", object: nil, userInfo:  eventData)
-                
-            }else{
-                navigationController?.pushViewController(teaserViewController!, animated: false)
+                // load data
+                dataServices.loadData()
             }
             
+            // show views once data has loaded
+            if(dataServices.dataLoaded && firstRun){
+                
+                // toggle the first run
+                firstRun = false
+                
+                if(applicationModel.firstLogin == true){
+                
+                    navigationController?.pushViewController(signOnViewController!, animated: false)
+                
+                    eventData["show"] = "true"
+                    NSNotificationCenter.defaultCenter().postNotificationName("HideNavigation", object: nil, userInfo:  eventData)
+                
+                }else{
+                    navigationController?.pushViewController(teaserViewController!, animated: false)
+                }
+            }
             
-            /*
-            // create the first page
-            navigationController?.pushViewController(teaserViewController!, animated: false)*/
-            /*
-            var v = teaserViewController?.view
-            addChildViewController(teaserViewController!)
-            view.addSubview(v!)
-            current = teaserViewController*/
+        } else {
+            applicationModel.networkConnection = false
+            println("Netwerkverbinding: \(applicationModel.networkConnection)")
         }
     }
-    
     
     /**
-    * Setup beacons
+    * Hide status bar
     */
-    func initBeacons(){
-        
-        // Let our locationManager know that this View Controller should be its delegate (so it should deliver its messages here)
-        locationManager.delegate = self;
-        
-        // Ask user permission and check if the permission has been granted
-        if (CLLocationManager.authorizationStatus() != CLAuthorizationStatus.AuthorizedWhenInUse) {
-            println("no beacon permission :(")
-            modelController.beaconPermission = false
-            locationManager.requestWhenInUseAuthorization()
-        }else{
-            modelController.beaconPermission = true
-        }
-        
-        // Start monitoring the beacon region
-        locationManager.startRangingBeaconsInRegion(region)
+    override func prefersStatusBarHidden() -> Bool {
+        return true
     }
-    
-    
-    /**
-    * Handle iBeacon events
-    */
-    func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
-        
-        // show all beacons
-        println(beacons)
-        
-        // strip the beacons that have an unknown proximity
-        let knownBeacons = beacons.filter{ $0.proximity != CLProximity.Unknown }
-        
-        // proceed if we have beacons in range
-        // first element in array is the closest beacon
-        if (knownBeacons.count > 0) {
-            
-            //get closest beacon
-            let closestBeacon = knownBeacons[0] as CLBeacon
-            
-            // gotoArtwork
-            var minor:Int = Int(closestBeacon.minor)
-            var te:String = String(minor)
-            
-        }
-    }
-    
-    
 }
-

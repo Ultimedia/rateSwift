@@ -31,8 +31,8 @@ class MenuViewController: UIViewController {
         // Do any additional setup after loading the view.
         createUI()
         
-        view.backgroundColor = UIColor.clearColor()
-
+        view.backgroundColor = UIColor.blackColor()
+        view.alpha = 0
     }
     
     
@@ -56,14 +56,12 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func closeMenu(sender: AnyObject) {
-    
-        
         UIView.animateWithDuration(0.5, animations: {
             
             // for the x-position I entered 320-50 (width of screen - width of the square)
             // if you want, you could just enter 270
             // but I prefer to enter the math as a reminder of what's happenings
-            self.view.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height)
+            self.view.frame = CGRect(x: 0, y: -self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height)
             self.view.alpha = 0
             },
             
@@ -71,8 +69,6 @@ class MenuViewController: UIViewController {
                 self.dismissViewControllerAnimated(false, completion: nil)
             }
         })
-
-
     }
     
     @IBAction func showHelpView(sender: AnyObject) {
@@ -91,8 +87,13 @@ class MenuViewController: UIViewController {
     func changeMenu(targetPage:String){
         
         eventData["menu"] = targetPage
+
+        NSNotificationCenter.defaultCenter().postNotificationName("HideNavigation", object: nil, userInfo:  eventData)
+
+        
+        /*
         NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        self.dismissViewControllerAnimated(false, completion: nil)*/
     }
 
     
@@ -119,5 +120,12 @@ class MenuViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    /**
+    * Hide status bar
+    */
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 
 }

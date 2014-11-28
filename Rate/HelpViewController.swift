@@ -32,5 +32,12 @@ class HelpViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    /**
+    * Hide status bar
+    */
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }
 
 }

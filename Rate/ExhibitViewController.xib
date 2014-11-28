@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ExhibitViewController" customModule="Rate" customModuleProvider="target">
             <connections>
+                <outlet property="exhibitScrollView" destination="ahh-YV-xY7" id="nuY-xg-3uj"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -13,7 +14,18 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-YV-xY7">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                </scrollView>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ahh-YV-xY7" secondAttribute="bottom" id="Fsi-CI-e9g"/>
+                <constraint firstAttribute="trailing" secondItem="ahh-YV-xY7" secondAttribute="trailing" id="P68-Mc-oSG"/>
+                <constraint firstItem="ahh-YV-xY7" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="jfu-NK-We4"/>
+                <constraint firstItem="ahh-YV-xY7" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mtL-pA-sgb"/>
+            </constraints>
         </view>
     </objects>
 </document>
