@@ -9,6 +9,12 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
+    // Data services
+    let dataServices = DataManager.dataManager()
+    let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
+    let locationServices = LocationSevices.locationServices()
+    let applicationModel = ApplicationData.sharedModel()
+    var eventData = Dictionary<String, String>()
 
     
     override func viewDidLoad() {
@@ -23,7 +29,13 @@ class SettingsViewController: UIViewController {
     }
 
     @IBAction func logoutButtonHandle(sender: AnyObject) {
-    
+        applicationModel.localAccount = false
+        applicationModel.activeUser = nil
+        
+        // go back to the initial screen
+        eventData["menu"] = "sign"
+        NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+        self.dismissViewControllerAnimated(false, completion: nil)
     }
     
     /*

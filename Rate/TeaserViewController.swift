@@ -131,7 +131,6 @@ class TeaserViewController: UIViewController {
             subtitleLabel?.frame = CGRect(x: 20, y: 180, width: screenSize.width/2, height: 100)
             subtitleLabel?.numberOfLines = 2
             subtitleLabel?.lineBreakMode = NSLineBreakMode.ByWordWrapping
-            
         }
         
         

@@ -11,11 +11,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="322"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqa-xT-iqX">
-                    <rect key="frame" x="21" y="257" width="548" height="39"/>
+                    <rect key="frame" x="21" y="245" width="548" height="39"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="23"/>
                     <state key="normal" title="Help">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -48,7 +48,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dX4-4j-SdP">
-                    <rect key="frame" x="21" y="28" width="548" height="39"/>
+                    <rect key="frame" x="21" y="28" width="248" height="47"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="23"/>
                     <state key="normal" title="Start">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,10 +69,10 @@
                         <action selector="showSettings:" destination="-1" eventType="touchUpInside" id="L4P-iW-fmL"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiR-vn-uRo">
-                    <rect key="frame" x="26" y="538" width="548" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiR-vn-uRo">
+                    <rect key="frame" x="531" y="28" width="46" height="47"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="23"/>
-                    <state key="normal" title="Sluit">
+                    <state key="normal" title="X">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -83,9 +83,11 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="XiR-vn-uRo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="28" id="jWo-pN-z3K"/>
-                <constraint firstAttribute="bottom" secondItem="XiR-vn-uRo" secondAttribute="bottom" constant="107" id="tHQ-A9-lrX"/>
+                <constraint firstAttribute="trailing" secondItem="XiR-vn-uRo" secondAttribute="trailing" constant="23" id="JC4-tK-Ygr"/>
+                <constraint firstItem="XiR-vn-uRo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="28" id="rs7-eC-J0d"/>
             </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="311" y="455"/>
         </view>
     </objects>
 </document>

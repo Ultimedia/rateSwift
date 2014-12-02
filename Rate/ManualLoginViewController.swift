@@ -24,6 +24,9 @@ class ManualLoginViewController: UIViewController {
     }
 
     @IBAction func signOnButton(sender: AnyObject) {
+        NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  eventData)
+
+        
         eventData["menu"] = "teaser"
         NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
         self.dismissViewControllerAnimated(false, completion: nil)

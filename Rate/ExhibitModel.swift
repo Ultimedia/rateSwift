@@ -28,6 +28,9 @@ class ExhibitModel: NSObject, Printable {
     // Default Texts
     let overviewInfo_Dutch = "Begeef je door de exhibitie, deze app zal je automatisch begeleiden. Hieronder vind je een overzicht met de verschillende ruimtes die de worden geactiveerd"
     let overviewTitle_Dutch = "Overzicht"
+    let outroviewInfo_Dutch = "Einde"
+    let outroviewTitle_Dutch = "Einde"
+    
     
     // Functional variables
     var globalIndex = 1

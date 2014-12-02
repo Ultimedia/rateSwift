@@ -56,7 +56,9 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func closeMenu(sender: AnyObject) {
-        UIView.animateWithDuration(0.5, animations: {
+        NSNotificationCenter.defaultCenter().postNotificationName("CloseMenuFromNavigation", object: nil, userInfo:  eventData)
+
+        UIView.animateWithDuration(0.4, animations: {
             
             // for the x-position I entered 320-50 (width of screen - width of the square)
             // if you want, you could just enter 270

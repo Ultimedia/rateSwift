@@ -34,9 +34,7 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDelegate {
     
     
     func createExhibition(){
-
         view.backgroundColor = UIColor.blackColor()
-
         
         // current exhibi (this should be handled by the beacons)
         var myExhibit = applicationData.museumData[0].exhibitData[0]
@@ -51,6 +49,7 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDelegate {
         // rooms
         var looper:Int = 0;
         
+        // Create room views
         for room in myExhibit.roomData  {
             var yPos = screenSize.height*CGFloat(looper)
             if(looper >= 1){
@@ -85,21 +84,18 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDelegate {
             looper++
 
             
+            // Create ending view
             if(looper == myExhibit.roomData.count){
                 
-                println("laatste")
                 // create the feedback screen
                 var feedbackScreen = ExhibitFeedbackScreenViewController(nibName: "ExhibitFeedbackScreenViewController", bundle: nil)
-                    feedbackScreen.feedbackScreenModel = applicationData.museumData[0].exhibitData[0]
+                    feedbackScreen.exhibitModel = applicationData.museumData[0].exhibitData[0]
                     feedbackScreen.view.frame = CGRect(x: 0, y:yPos+screenSize.height, width: screenSize.width, height: screenSize.height)
                     feedbackScreen.view.backgroundColor = UIColor.yellowColor()
                 
                     exhibitScrollView.addSubview(feedbackScreen.view)
                     self.addChildViewController(feedbackScreen)
             }
-
-            
-
         }
     }
     

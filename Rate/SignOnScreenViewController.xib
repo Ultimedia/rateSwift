@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignOnScreenViewController" customModule="Rate" customModuleProvider="target">
             <connections>
-                <outlet property="facebookLoginView" destination="Ytc-a3-UXJ" id="Ov4-zP-ihw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -14,66 +13,7 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Welkom" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEb-ts-9gf">
-                    <rect key="frame" x="164" y="58" width="273" height="81"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="27"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Om de functionaliteiten optimaal te benutten is het aangeraden om in te loggen via Twitter of Facebook" lineBreakMode="clip" numberOfLines="8" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SmI-dz-TCh">
-                    <rect key="frame" x="76" y="133" width="449" height="108"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uog-hQ-g0c">
-                    <rect key="frame" x="215" y="328" width="173" height="53"/>
-                    <state key="normal" title="Aanmelden via Facebook">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="facebookSignOnButton:" destination="-1" eventType="touchUpInside" id="0wA-1z-Vyj"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aIj-ft-7YZ">
-                    <rect key="frame" x="164" y="402" width="275" height="57"/>
-                    <state key="normal" title="Ik heb geen Twitter of Facebook">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="skipSignOnbutton:" destination="-1" eventType="touchUpInside" id="TuR-YT-odu"/>
-                    </connections>
-                </button>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ytc-a3-UXJ" customClass="FBLoginView">
-                    <rect key="frame" x="207" y="330" width="200" height="50"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5eA-2a-rKP">
-                    <rect key="frame" x="154" y="261" width="290" height="62"/>
-                    <state key="normal" image="TwitterButton">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="twitterLoginButton:" destination="-1" eventType="touchUpInside" id="Mh2-hU-MgN"/>
-                        <action selector="twitterSignOnButton:" destination="-1" eventType="touchUpInside" id="RiY-2f-GmV"/>
-                    </connections>
-                </button>
-            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="centerX" secondItem="CEb-ts-9gf" secondAttribute="centerX" id="7Jb-bp-SWB"/>
-                <constraint firstAttribute="centerX" secondItem="Uog-hQ-g0c" secondAttribute="centerX" id="A1I-ng-jOC"/>
-                <constraint firstAttribute="trailing" secondItem="SmI-dz-TCh" secondAttribute="trailing" constant="30" id="Ko3-hP-6Aa"/>
-                <constraint firstAttribute="centerX" secondItem="SmI-dz-TCh" secondAttribute="centerX" id="MY3-Yw-6xy"/>
-                <constraint firstAttribute="centerX" secondItem="5eA-2a-rKP" secondAttribute="centerX" id="O3d-7G-w2V"/>
-                <constraint firstAttribute="centerX" secondItem="aIj-ft-7YZ" secondAttribute="centerX" id="SD1-9f-oMT"/>
-                <constraint firstItem="SmI-dz-TCh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="30" id="cru-oT-hKH"/>
-                <constraint firstAttribute="centerX" secondItem="Ytc-a3-UXJ" secondAttribute="centerX" id="h6O-5F-SWt"/>
-            </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="TwitterButton" width="290" height="62"/>
-    </resources>
 </document>

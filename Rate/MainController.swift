@@ -16,18 +16,12 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var current:UIViewController?
     var currentMenu:UIViewController?
     
-    // applicationModel
-    let applicationModel = ApplicationData.sharedModel()
-    
-    // Location Services
-    let locationServices = LocationSevices.locationServices()
-    
     // Data services
     let dataServices = DataManager.dataManager()
-    
-    // Location Services
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
-    
+    let locationServices = LocationSevices.locationServices()
+    let applicationModel = ApplicationData.sharedModel()
+
     // Screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     
@@ -43,11 +37,11 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var connectionFound = false
     var targetController:UIViewController?
 
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         // detect our device type
         deviceFunctionService.detectDevice()
         
@@ -68,10 +62,9 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         
         // Bind custom events to handle page flow from this controller
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuChangedHandler:", name:"MenuChangedHandler", object: nil)
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMenu:", name:"ShowMenuHandler", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMenu:", name:"CloseMenuFromNavigation", object: nil)
 
-        
         // get locationServices
         locationServices.initLocationServices()
     }
@@ -82,6 +75,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     */
     func menuChangedHandler(notification: NSNotification){
         var createViewController:Bool = false
+        var initialSetup:Bool = false
         
         if let info = notification.userInfo {
             println(notification.userInfo)
@@ -100,6 +94,9 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                     targetController = favouritesViewController
                 case "settings":
                     targetController = settingsViewController
+                case "sign":
+                    targetController = signOnViewController
+                    initialSetup = true
                 default:
                     println("none")
             }
@@ -110,23 +107,91 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                 }
             }
             
-            // do we need to push or pop?
+            var tar = targetController?.view
             if(!createViewController){
                 navigationController?.pushViewController(targetController!, animated: false)
             }else{
                 navigationController?.popToViewController(targetController!, animated: false)
             }
             
+            /**
+            * Animation: Position the content
+            */
             applicationModel.currentViewController = targetController
+            
+            var yPos = screenSize.height - 322
+            tar?.frame = CGRect(x: 0, y: +self.screenSize.height-yPos, width: screenSize.width, height: screenSize.height)
+            tar?.alpha = 0.5
+
+            /**
+            * Animation: Scroll the content frame up
+            */
+            
+            // outro to go back to the intro screen
+            if(initialSetup){
+                
+                UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+                    tar?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:self.screenSize.height)
+                    tar?.alpha = 1
+                    return
+                    }, completion: { finished in
+                        self.menuViewController?.removeFromParentViewController()
+                        self.menuViewController?.view.removeFromSuperview()
+                })
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
+
+            }else{
+            
+                UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+                    tar?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:self.screenSize.height)
+                    tar?.alpha = 1
+                    return
+                    }, completion: { finished in
+                        self.menuViewController?.removeFromParentViewController()
+                        self.menuViewController?.view.removeFromSuperview()
+                })
+            
+                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
+            }
             
         } else {
             println("no valid data")
         }
     }
     
-    
+    /**
+    * Animation: Scroll the content frame down when opening the menu
+    */
     func showMenu(notification: NSNotification){
-         }
+        println("showing menu")
+        
+        var myView = targetController?.view
+        var yPos = screenSize.height - 322
+        
+        UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+            myView?.frame = CGRect(x:0, y:+self.screenSize.height-yPos, width:self.screenSize.width, height:self.screenSize.height)
+            myView?.alpha = 0.5
+            return
+        }, completion: { finished in
+
+        })
+    }
+    
+    /**
+    * Animation: Bring the target frame back up
+    */
+    func closeMenu(notification:NSNotification){
+        var myView = targetController?.view
+        
+        UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+            myView?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:self.screenSize.height)
+            myView?.alpha = 1
+            return
+            }, completion: { finished in
+
+        })
+    }
     
     
     /**
@@ -168,15 +233,14 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                 firstRun = false
                 
                 if(applicationModel.firstLogin == true){
-                
                     navigationController?.pushViewController(signOnViewController!, animated: false)
-                
-                    eventData["show"] = "true"
-                    NSNotificationCenter.defaultCenter().postNotificationName("HideNavigation", object: nil, userInfo:  eventData)
-                
+                    NSNotificationCenter.defaultCenter().postNotificationName("HideMenuButton", object: nil, userInfo:  eventData)
+
                 }else{
                     navigationController?.pushViewController(teaserViewController!, animated: false)
                 }
+                
+                targetController = navigationController?.visibleViewController
             }
             
         } else {

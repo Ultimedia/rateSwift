@@ -17,19 +17,22 @@ class ApplicationData: NSObject {
     var museumData:[MuseumModel] = []
     var currentViewController:UIViewController?
     
-
     var menuAnimationValueForIphone = 100
     var menuAnimationValueForIpad = 100
     
-    
     // Network
     var networkConnection:Bool = false
-    var firstLogin:Bool = false
+    var firstLogin:Bool = true
+    
+    // Did the user sign in using facebook or twitter?
+    var localAccount = false
+    
+    // Current User
+    var activeUser:UserModel?
     
     class func sharedModel() -> ApplicationData {
         return _sharedModel
     }
-
     
 }
 let _sharedModel : ApplicationData = { ApplicationData() }()

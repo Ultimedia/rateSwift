@@ -11,8 +11,9 @@ import Foundation
 
 
 class DataManager: NSObject {
-    let museumUrl = "http://ultimedia.biz/mulab/index.php/museums"
-    let userUrl = "http://ultimedia.biz/mulab/index.php/users"
+    let museumUrl = "http://ultimedia.biz/mulab/museums"
+    let userUrl = "http://ultimedia.biz/mulab/users"
+    var userSaveUrl = "http://ultimedia.biz/mulab/user"
     
     // Data load checks
     var userLoaded:Bool = false
@@ -188,6 +189,71 @@ class DataManager: NSObject {
     }
 
     
+
+    /**
+    * Post user data to server
+    */
+    func postUserData(userModel:UserModel){
+        
+        var user_name:String = userModel.user_name
+        var user_image:String = userModel.user_image
+        var user_twitterhandle:String = userModel.user_twitterhandle
+        var user_facebookid:String = userModel.user_facebookid
+        
+        var urlAsString = ""
+        urlAsString += "user_name=" + user_name
+        urlAsString += "&user_image=" + user_image
+        urlAsString += "&user_twitter=" + user_twitterhandle
+        urlAsString += "&user_facebookid=" + user_facebookid
+        
+        postData(userSaveUrl, dataString: urlAsString)
+    }
+    
+    
+    func postData(urlString:String, dataString:String){
+        let httpMethod = "POST"
+        let timeout = 15
+        
+        let body = dataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        let queue = NSOperationQueue()
+        
+        let url = NSURL(string: urlString)
+        let urlRequest = NSMutableURLRequest(URL: url!, cachePolicy: .ReloadIgnoringLocalAndRemoteCacheData,timeoutInterval: 15.0)
+            urlRequest.HTTPMethod = httpMethod
+            urlRequest.HTTPBody = body
+        
+        NSURLConnection.sendAsynchronousRequest(urlRequest,
+            queue: queue, completionHandler: {(response: NSURLResponse!,
+                data: NSData!,
+                error: NSError!) in
+                
+                if data.length > 0 && error == nil{
+                    let html = NSString(data: data, encoding: NSUTF8StringEncoding)
+                    println("html = \(html)")
+                } else if data.length == 0 && error == nil{
+                    println("Nothing was downloaded")
+                } else if error != nil{
+                    println("Error happened = \(error)")
+                }
+            }
+        )
+    }
+
+    
+    /**
+    * Get users
+    */
+    func getUserData(success: ((userData: NSData!) -> Void)) {
+        
+        loadDataFromURL(NSURL(string: userUrl)!, completion:{(data, error) -> Void in
+        let applicationModel = ApplicationData.sharedModel()
+        
+        if let urlData = data {
+            success(userData: urlData)
+        }
+        })
+    }
+    
     
     /**
     * Get musuem data
@@ -199,20 +265,6 @@ class DataManager: NSObject {
 
             if let urlData = data {
                 success(museumData: urlData)
-            }
-        })
-    }
-
-    
-    /**
-    * Get user data
-    */
-    func getUserData(success: ((userData: NSData!) -> Void)) {
-        loadDataFromURL(NSURL(string: userUrl)!, completion:{(data, error) -> Void in
-            let applicationModel = ApplicationData.sharedModel()
-
-            if let urlData = data {
-                success(userData: urlData)
             }
         })
     }

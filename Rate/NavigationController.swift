@@ -18,6 +18,7 @@ class NavigationController: UINavigationController {
     
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
+    var menuButton:UIButton?
 
     
     override func viewDidLoad() {
@@ -44,13 +45,14 @@ class NavigationController: UINavigationController {
         
         // Menu image button
         let menuImage = UIImage(named: "hamburger-ico") as UIImage?
-        var menuButton:UIButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-            menuButton.addTarget(self, action: "showMenu:", forControlEvents: UIControlEvents.TouchUpInside)
-            menuButton.setTitle("", forState: UIControlState.Normal)
-            menuButton.titleLabel?.textAlignment = .Left
-            menuButton.frame = CGRectMake(20, 20, 40, 30)
-            menuButton.setImage(menuImage, forState: .Normal)
-        view.addSubview(menuButton)
+            menuButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+            menuButton?.addTarget(self, action: "showMenu:", forControlEvents: UIControlEvents.TouchUpInside)
+            menuButton?.setTitle("", forState: UIControlState.Normal)
+            menuButton?.titleLabel?.textAlignment = .Left
+            menuButton?.frame = CGRectMake(20, 20, 40, 30)
+            menuButton?.setImage(menuImage, forState: .Normal)
+            menuButton?.alpha = 0
+        view.addSubview(menuButton!)
         
         
         // Help image button
@@ -67,20 +69,52 @@ class NavigationController: UINavigationController {
         // Bind custom events to handle page flow from this controller
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "toggleMenu:", name:"HideNavigation", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuBackgroundToggle:", name:"BackgroundMenu", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideMenuButton:", name:"HideMenuButton", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMenuButton:", name:"ShowMenuButton", object: nil)
     }
    
+    
+    func hideMenuButton(notification:NSNotification){
+        menuButton?.alpha = 0
+    }
+    
+    func showMenuButton(notification:NSNotification){
+        UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+            self.menuButton?.alpha = 100
+            return
+            }, completion: { finished in
+                
+        })
+    }
+    
     
     func toggleMenu(notification: NSNotification){
         
         if let info = notification.userInfo {
             println(notification.userInfo)
             
-            self.menuViewController?.removeFromParentViewController()
-            self.menuViewController?.view.removeFromSuperview()
-            var myTarget: String = (info["menu"] as String)
-
-            eventData["menu"] = myTarget
+            var viewy = self.menuViewController?.view
             
+            UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+                viewy!.alpha = 100
+                viewy?.frame = CGRect(x:0, y:-viewy!.frame.height, width:self.screenSize.width, height:322)
+                }, completion: { finished in
+                    self.menuViewController?.removeFromParentViewController()
+                    self.menuViewController?.view.removeFromSuperview()
+            
+                    UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
+                        self.menuButton?.alpha = 100
+                        return
+                        }, completion: { finished in
+
+                    })
+            
+            })
+            
+        
+            var myTarget: String = (info["menu"] as String)
+            eventData["menu"] = myTarget
+
             NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
         }
     }
@@ -105,6 +139,8 @@ class NavigationController: UINavigationController {
     * Adds a background to the menu
     */
     func toggleMenuBackground(visible: Bool){
+        println("in gebruik")
+        
         if(visible){
             view.backgroundColor = UIColor.blackColor()
         }else{
@@ -122,8 +158,10 @@ class NavigationController: UINavigationController {
     * Handle navigation
     */
     func menuCloseHandler(notification: NSNotification){
+        println("closing menu")
+        
         var myView = view
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animateWithDuration(0.4, animations: {
             myView.alpha = 100
     
             },
@@ -135,23 +173,22 @@ class NavigationController: UINavigationController {
 
     
     func showMenu(sender:UIBarButtonItem){
-
-
         
         menuViewController = MenuViewController(nibName: "MenuViewController", bundle: nil)
         self.addChildViewController(menuViewController!)
         self.view.addSubview(menuViewController!.view)
         var myView = menuViewController?.view
-            myView?.frame = CGRect(x:0, y:(-screenSize.height), width:screenSize.width, height:screenSize.height-100)
+            myView?.frame = CGRect(x:0, y:(-screenSize.height), width:screenSize.width, height:322)
 
-        UIView.animateWithDuration(0.7, delay: 0, options: nil, animations: {
+        UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
             myView!.alpha = 100
-            myView?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:self.screenSize.height-100)
+            myView?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:322)
         }, completion: { finished in
                 println("Basket doors opened!")
         })
         
         NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuHandler", object: nil)
+
     }
     
 
