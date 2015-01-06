@@ -32,8 +32,18 @@ class SettingsViewController: UIViewController {
         applicationModel.localAccount = false
         applicationModel.activeUser = nil
         
+        var theFBSession = FBSession.activeSession()
+        var check = FBSession.closeAndClearTokenInformation(theFBSession)
+        println(theFBSession.closeAndClearTokenInformation())
+        
+        // Reset NSdata settings
+        applicationModel.defaults.setObject(true, forKey: "firstLogin")
+        applicationModel.defaults.setObject(false, forKey: "localAccount")
+        
+        
         // go back to the initial screen
         eventData["menu"] = "sign"
+        
         NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
         self.dismissViewControllerAnimated(false, completion: nil)
     }

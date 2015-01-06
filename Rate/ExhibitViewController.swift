@@ -8,96 +8,103 @@
 
 import UIKit
 
-class ExhibitViewController: UIViewController, UIPageViewControllerDelegate {
-
-    @IBOutlet weak var exhibitScrollView: UIScrollView!
+class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     
     // our pageview controller
     var pageViewController: UIPageViewController?
-    let applicationData = ApplicationData.sharedModel()
+    var currentIndex : Int = 0
     let screenSize: CGRect = UIScreen.mainScreen().bounds
+    var exhibitCount:Int = 0
 
     // applicationModel
-    let applicationModel = ApplicationData.sharedModel()
+    let applicationModel = ApplicationData.sharedModel()    
+    var eventData = Dictionary<String, String>()
+    
+    // data
+    var museumModel:[MuseumModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-
-        
         
         // Do any additional setup after loading the view, typically from a nib.
-        view.backgroundColor = UIColor.whiteColor()
-        
-        createExhibition()
-    }
-    
-    
-    func createExhibition(){
         view.backgroundColor = UIColor.blackColor()
+    
+        // How many exhibits in this musuem?
+        exhibitCount = self.applicationModel.museumData[0].exhibitData.count
         
-        // current exhibi (this should be handled by the beacons)
-        var myExhibit = applicationData.museumData[0].exhibitData[0]
-        var scrollHeight = CGFloat((myExhibit.roomData.count)+2)
+        // Create the pageViewController
+        pageViewController = UIPageViewController(transitionStyle: .Scroll, navigationOrientation: .Horizontal, options: nil)
+        pageViewController?.dataSource = self
         
-        // create the scrollview
-        exhibitScrollView.contentSize = CGSize(width:screenSize.width, height: screenSize.height*scrollHeight)
-        exhibitScrollView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-        exhibitScrollView.bounces = false
-        exhibitScrollView.pagingEnabled = true
+        let startingViewController: ExhibitHolderViewController = viewControllerAtIndex(0)!
+        let viewControllers: NSArray = [startingViewController]
         
-        // rooms
-        var looper:Int = 0;
+        pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+        pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height + 50);
         
-        // Create room views
-        for room in myExhibit.roomData  {
-            var yPos = screenSize.height*CGFloat(looper)
-            if(looper >= 1){
-                print("alt")
- 
-                yPos = screenSize.height*CGFloat(looper+1)
-            }
-            
-            
-            // Create the overview screen
-            if(looper == 1){
-                
-                var overviewViewController = ExhibitOverviewController(nibName: "ExhibitOverviewController", bundle:nil)
-                    overviewViewController.exhibitModel = applicationData.museumData[0].exhibitData[0]
-                    overviewViewController.view.frame = CGRect(x: 0, y:screenSize.height*CGFloat(looper), width: screenSize.width, height: screenSize.height)
-                
-                exhibitScrollView.addSubview(overviewViewController.view)
-                self.addChildViewController(overviewViewController)
-            }
-            
-        
-            // Create a new view controller and pass suitable data.
-            var dataViewController = ExhibitStageViewController(nibName: "ExhibitStageViewController", bundle: nil)
-                dataViewController.exhibitModel = applicationData.museumData[0].exhibitData[0]
-                dataViewController.roomModel = room
-                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
-            
-                exhibitScrollView.addSubview(dataViewController.view)
-                self.addChildViewController(dataViewController)
-            
-            
-            looper++
-
-            
-            // Create ending view
-            if(looper == myExhibit.roomData.count){
-                
-                // create the feedback screen
-                var feedbackScreen = ExhibitFeedbackScreenViewController(nibName: "ExhibitFeedbackScreenViewController", bundle: nil)
-                    feedbackScreen.exhibitModel = applicationData.museumData[0].exhibitData[0]
-                    feedbackScreen.view.frame = CGRect(x: 0, y:yPos+screenSize.height, width: screenSize.width, height: screenSize.height)
-                    feedbackScreen.view.backgroundColor = UIColor.yellowColor()
-                
-                    exhibitScrollView.addSubview(feedbackScreen.view)
-                    self.addChildViewController(feedbackScreen)
-            }
-        }
+        addChildViewController(pageViewController!)
+        view.addSubview(pageViewController!.view)
+        pageViewController!.didMoveToParentViewController(self)
     }
+    
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as ExhibitHolderViewController).pageIndex
+        
+        if (index == 0) || (index == NSNotFound) {
+            return nil
+        }
+        
+        index--
+        
+        return viewControllerAtIndex(index)
+    }
+    
+    
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
+    {
+        var index = (viewController as ExhibitHolderViewController).pageIndex
+        
+        if index == NSNotFound {
+            return nil
+        }
+        index++
+        if (index == exhibitCount) {
+            return nil
+        }
+        
+        return viewControllerAtIndex(index)
+    }
+    
+    
+    func viewControllerAtIndex(index: Int) -> ExhibitHolderViewController?
+    {
+        if self.exhibitCount == 0 || index >= self.exhibitCount
+        {
+            return nil
+        }
+        
+        // Create a new view controller and pass suitable data.
+        let pageContentViewController = ExhibitHolderViewController()
+            pageContentViewController.pageIndex = index
+        currentIndex = index
+        
+        return pageContentViewController
+    }
+    
+    
+    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return self.applicationModel.museumData[0].exhibitData.count
+    }
+    
+    
+    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int
+    {
+        return 0
+    }
+    
     
     /**
     * Hide status bar

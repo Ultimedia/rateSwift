@@ -10,20 +10,15 @@ import UIKit
 
 class MenuViewController: UIViewController {
 
-
-
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
-
-
-    var helpLabel:UIButton?
-    var settingsLabel:UILabel?
-    var collectionLabel:UILabel?
-    var closeLabel:UIButton?
-
-    
     var eventData = Dictionary<String, String>()
 
+    @IBOutlet weak var startLabel: UIButton!
+    @IBOutlet weak var exhibitLabel: UIButton!
+    @IBOutlet weak var favLabel: UIButton!
+    @IBOutlet weak var settingsLabel: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +28,17 @@ class MenuViewController: UIViewController {
         
         view.backgroundColor = UIColor.blackColor()
         view.alpha = 0
+
+        // we found a museum / exhibit so update the menu
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "museumFoundHandler:", name:"MuseumFound", object: nil)
+
+        
+        exhibitLabel.hidden = false
+    }
+    
+    func museumFoundHandler(notification: NSNotification){
+        exhibitLabel.hidden = false
+        
     }
     
     
@@ -74,7 +80,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func showHelpView(sender: AnyObject) {
-        changeMenu("help")
+
     }
     
     @IBAction func showSettings(sender: AnyObject) {

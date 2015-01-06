@@ -14,6 +14,8 @@ class DataManager: NSObject {
     let museumUrl = "http://ultimedia.biz/mulab/museums"
     let userUrl = "http://ultimedia.biz/mulab/users"
     var userSaveUrl = "http://ultimedia.biz/mulab/user"
+    var beaconUrl = "http://ultimedia.biz/mulab/beacons"
+
     
     // Data load checks
     var userLoaded:Bool = false
@@ -40,6 +42,33 @@ class DataManager: NSObject {
     * Load core applicationData
     */
     func loadData(){
+        
+        // Get all beacons
+        getBeaconData { (beaconData) -> Void in
+            let json = JSON(data: beaconData)
+            
+            // get all beacons involved
+            if let beaconArray = json["beacons"].arrayValue {
+                var beaconData = [BeaconModel]()
+                
+                for beacon in beaconArray{
+                    
+                    let mercury_beacon_id:String? = beacon["mercury_beacon_id"].stringValue
+                    let mercury_beacon_identifier:String? = beacon["mercury_beacon_identifier"].stringValue
+                    let mercury_beacon_device_id:String? = beacon["mercury_beacon_device_id"].stringValue
+                    let mercury_exhibit_id:String? = beacon["mercury_exhibit_id"].stringValue
+                    let mercury_beacon_uuid:String? = beacon["mercury_beacon_uuid"].stringValue
+                    let mercury_room_id:String? = beacon["mercury_room_id"].stringValue
+                    let mercury_media_id:String? = beacon["mercury_media_id"].stringValue
+                    let mercury_museum_id:String? = beacon["mercury_museum_id"].stringValue
+
+                    var beaconModel = BeaconModel(mercury_beacon_id: mercury_beacon_id, mercury_beacon_identifier:mercury_beacon_identifier , mercury_beacon_device_id:mercury_beacon_device_id , mercury_exhibit_id:mercury_exhibit_id , mercury_beacon_uuid:mercury_beacon_uuid, mercury_room_id:mercury_room_id, mercury_media_id:mercury_media_id, mercury_museum_id:mercury_museum_id)
+                    
+                    self.applicationModel.beaconData.append(beaconModel)
+                }
+            }
+        }
+        
         
         // Fetch userData from JSON
         getUserData { (userData) -> Void in
@@ -96,7 +125,7 @@ class DataManager: NSObject {
                         
                         for exhibit in exhibitArray {
                             
-                            let exhibit_id:String? = exhibit["museum_id"].stringValue
+                            let exhibit_id:String? = exhibit["exhibit_id"].stringValue
                             let exhibit_museum_id:String? = exhibit["exhibit_museum_id"].stringValue
                             let exhibit_title:String? = exhibit["exhibit_title"].stringValue
                             let exhibit_description:String? = exhibit["exhibit_description"].stringValue
@@ -108,6 +137,27 @@ class DataManager: NSObject {
                             let exhibit_cover_image:String? = exhibit["exhibit_cover_image"].stringValue
                             let exhibit_twitter_enabled = exhibit["exhibit_twitter_enabled"].stringValue
                             let exhibit_facebook_enabled = exhibit["exhibit_facebook_enabled"].stringValue
+                            
+                            // get all beacons inside an exhibit
+                            var beaconData = [BeaconModel]()
+                            if let beaconArray = exhibit["beacons"].arrayValue {
+                                
+                                for beacon in beaconArray{
+                                    
+                                    let mercury_beacon_id:String? = beacon["mercury_beacon_id"].stringValue
+                                    let mercury_beacon_identifier:String? = beacon["mercury_beacon_identifier"].stringValue
+                                    let mercury_beacon_device_id:String? = beacon["mercury_beacon_device_id"].stringValue
+                                    let mercury_exhibit_id:String? = beacon["mercury_exhibit_id"].stringValue
+                                    let mercury_beacon_uuid:String? = beacon["mercury_beacon_uuid"].stringValue
+                                    let mercury_room_id:String? = beacon["mercury_room_id"].stringValue
+                                    let mercury_media_id:String? = beacon["mercury_media_id"].stringValue
+                                    let mercury_museum_id:String? = beacon["mercury_museum_id"].stringValue
+                                    
+                                    var beaconModel = BeaconModel(mercury_beacon_id: mercury_beacon_id, mercury_beacon_identifier:mercury_beacon_identifier , mercury_beacon_device_id:mercury_beacon_device_id , mercury_exhibit_id:mercury_exhibit_id , mercury_beacon_uuid:mercury_beacon_uuid, mercury_room_id:mercury_room_id, mercury_media_id:mercury_media_id, mercury_museum_id:mercury_museum_id)
+                                    
+                                    beaconData.append(beaconModel)
+                                }
+                            }
                             
                             
                             // get all rooms inside an exhibit
@@ -166,14 +216,12 @@ class DataManager: NSObject {
                                 
                             }
                             
-                            var exhibitModel = ExhibitModel(exhibit_id:exhibit_id , exhibit_museum_id:exhibit_museum_id , exhibit_title:exhibit_title , exhibit_description:exhibit_description , exhibit_hash:exhibit_hash , exhibit_twitter:exhibit_twitter , exhibit_facebook:exhibit_facebook , exhibit_subtitle:exhibit_subtitle , exhibit_cover_image:exhibit_cover_image, exhibit_twitter_enabled: exhibit_twitter_enabled, exhibit_facebook_enabled:exhibit_facebook_enabled, exhibit_website:exhibit_website, roomData: roomData)
+                            var exhibitModel = ExhibitModel(exhibit_id:exhibit_id , exhibit_museum_id:exhibit_museum_id , exhibit_title:exhibit_title , exhibit_description:exhibit_description , exhibit_hash:exhibit_hash , exhibit_twitter:exhibit_twitter , exhibit_facebook:exhibit_facebook , exhibit_subtitle:exhibit_subtitle , exhibit_cover_image:exhibit_cover_image, exhibit_twitter_enabled: exhibit_twitter_enabled, exhibit_facebook_enabled:exhibit_facebook_enabled, exhibit_website:exhibit_website, roomData: roomData, beaconData: beaconData)
                             
                             exhibitData.append(exhibitModel)
                         }
                         
-                        
                         var exhibits: Array? = exhibitData
-                        
                     }
                     
                     var museumModel = MuseumModel(museum_id: museum_id, museum_title: museum_title, museum_address: museum_address, museum_description: museum_description, museum_website: museum_website, museum_twitter: museum_twitter, museum_facebook: museum_facebook, museum_visible: museum_visible, museum_open: museum_open, exhibitData:exhibitData)
@@ -182,6 +230,10 @@ class DataManager: NSObject {
                     self.applicationModel.museumData.append(museumModel)
                 }
             }
+            
+            
+            //self.applicationModel.activeMuseum = applicationModel.museumData[0]
+            
             let mySelf = DataManager.dataManager()
             mySelf.museumLoaded = true
             mySelf.checkDataLoad()
@@ -253,6 +305,22 @@ class DataManager: NSObject {
         }
         })
     }
+    
+    
+    /**
+    * Get beacons
+    */
+    func getBeaconData(success: ((beaconData: NSData!) -> Void)) {
+        
+        loadDataFromURL(NSURL(string: beaconUrl)!, completion:{(data, error) -> Void in
+            let applicationModel = ApplicationData.sharedModel()
+            
+            if let urlData = data {
+                success(beaconData: urlData)
+            }
+        })
+    }
+    
     
     
     /**

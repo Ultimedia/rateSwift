@@ -10,9 +10,11 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class TeaserSubViewController: UIViewController {
+class TeaserSubViewController: UIViewController, UICollectionViewDelegateFlowLayout {
 
-    @IBOutlet weak var museumMapView: MKMapView!
+
+    var museumMapView: MKMapView?
+    var collectionView: UICollectionView?
     
     // Singleton Models
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
@@ -26,7 +28,7 @@ class TeaserSubViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.grayColor()
         
         createUI()
     }
@@ -34,26 +36,86 @@ class TeaserSubViewController: UIViewController {
     
     func createUI(){
         
-        var counter = 1
+        // add collectin
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 90, height: 120)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height/2), collectionViewLayout: layout)
+        collectionView!.delegate = self
+        collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView!.backgroundColor = UIColor.redColor()
+        self.view.addSubview(collectionView!)
         
+        
+        
+        
+        // museumproperties
+        museumMapView = MKMapView()
+        museumMapView?.frame = CGRect(x: 0, y: screenSize.height/2, width: screenSize.width, height: screenSize.height/2)
+        museumMapView?.showsUserLocation = true
+        view.addSubview(museumMapView!)
+        
+        
+        // Annotations
+        var annotations:[MKPointAnnotation] = []
+        
+        // Loop counter
+        var counter:Int = 1
+
+
         // lets add museums (museum overview table)
         for museum in applicationModel.museumData{
             
-            var musuemT:TeaserMuseumTileController = TeaserMuseumTileController(nibName: "TeaserMuseumTileController", bundle: nil)
-                musuemT.myMuseum = museum
+            var geocoder = CLGeocoder()
+            var yPos = 90*counter
+            var overviewFrame:UIView = UIView()
+                overviewFrame.backgroundColor = UIColor.whiteColor()
+                overviewFrame.frame = CGRect(x: 10, y: yPos, width: Int(screenSize.width-20), height: 200)
+            view.addSubview(overviewFrame)
+
             
-                musuemT.view.frame = CGRect(x: 0, y:90,width: screenSize.width, height: 90)
+            var subtitleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: 90))
+                subtitleLabel.numberOfLines = 3
+                subtitleLabel.lineBreakMode = .ByWordWrapping
+                subtitleLabel.text = museum.museum_title
+                subtitleLabel.font =  UIFont (name: "HelveticaNeue-Regular", size: 18)
+                subtitleLabel.textColor = UIColor.whiteColor()
+                subtitleLabel.backgroundColor = UIColor.grayColor()
+                subtitleLabel.textAlignment = NSTextAlignment.Center
             
+            var address = museum.museum_address
+            geocoder.geocodeAddressString(address, {(placemarks, error)->Void in
+                if let placemark = placemarks?[0] as? CLPlacemark {
+                    
+                    let location = CLLocationCoordinate2D(
+                        latitude: placemark.location.coordinate.latitude,
+                        longitude: placemark.location.coordinate.longitude
+                    )
+                    
+                    var annotation = MKPointAnnotation()
+                    annotation.setCoordinate(location)
+                    annotation.title = "Roatan"
+                    annotation.subtitle = "Honduras"
+                    self.museumMapView?.addAnnotation(annotation)
+                    
+
+                    annotations.append(annotation)
+
+                }else{
+                }
+                
+                println(error)
+            })
             
-            view.addSubview(musuemT.view)
-            self.addChildViewController(musuemT)
+            view.addSubview(overviewFrame)
+            overviewFrame.addSubview(subtitleLabel)
+            
             counter++
         }
-        
-        
+
         // ipad layout update
         if(deviceFunctionService.deviceType == "ipad"){
-            museumMapView.frame = CGRect(x: 0, y: screenSize.height-(screenSize.height/2), width: screenSize.width, height: screenSize.height/2)
+
         }
         
     }

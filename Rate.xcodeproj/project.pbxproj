@@ -14,6 +14,10 @@
 		6C198D961A1CED06003F2A21 /* ExhibitStageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C198D941A1CED06003F2A21 /* ExhibitStageViewController.xib */; };
 		6C198D991A1DF2BA003F2A21 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C198D971A1DF2BA003F2A21 /* MenuViewController.swift */; };
 		6C198D9A1A1DF2BA003F2A21 /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C198D981A1DF2BA003F2A21 /* MenuViewController.xib */; };
+		6C2138371A35AD5A0041E725 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2138351A35AD5A0041E725 /* FeedbackViewController.swift */; };
+		6C2138381A35AD5A0041E725 /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2138361A35AD5A0041E725 /* FeedbackViewController.xib */; };
+		6C22A6C21A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */; };
+		6C22A6C31A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C22A6C11A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib */; };
 		6C315B6B1A1CA33400EAEBC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C315B6A1A1CA33400EAEBC0 /* AppDelegate.swift */; };
 		6C315B6D1A1CA33400EAEBC0 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C315B6C1A1CA33400EAEBC0 /* MainController.swift */; };
 		6C315B701A1CA33400EAEBC0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C315B6E1A1CA33400EAEBC0 /* Main.storyboard */; };
@@ -46,12 +50,25 @@
 		6C6F90FB1A2DCEE800B4D4CF /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F71A2DCEE800B4D4CF /* HTTPResponseSerializer.swift */; };
 		6C6F90FC1A2DCEE800B4D4CF /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F81A2DCEE800B4D4CF /* HTTPTask.swift */; };
 		6C6F90FD1A2DCEE800B4D4CF /* HTTPUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F91A2DCEE800B4D4CF /* HTTPUpload.swift */; };
+		6C6F91041A2F089400B4D4CF /* BeaconModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F91031A2F089400B4D4CF /* BeaconModel.swift */; };
+		6C6F910B1A2F158300B4D4CF /* Rate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F91091A2F158300B4D4CF /* Rate.xcdatamodeld */; };
+		6C6F910D1A2F15ED00B4D4CF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C6F910C1A2F15ED00B4D4CF /* CoreData.framework */; };
+		6C6F91411A2F397A00B4D4CF /* OverviewTileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F913F1A2F397A00B4D4CF /* OverviewTileViewController.swift */; };
+		6C6F91421A2F397A00B4D4CF /* OverviewTileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C6F91401A2F397A00B4D4CF /* OverviewTileViewController.xib */; };
 		6C7C24111A275ED200E735DD /* MyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C24101A275ED200E735DD /* MyAnnotation.swift */; };
 		6C7C24181A27675400E735DD /* CompassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C24161A27675400E735DD /* CompassViewController.swift */; };
 		6C7C24191A27675400E735DD /* CompassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7C24171A27675400E735DD /* CompassViewController.xib */; };
+		6C7EE7221A3840590083999C /* ExhibitFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7EE7201A3840590083999C /* ExhibitFoundViewController.swift */; };
+		6C7EE7231A3840590083999C /* ExhibitFoundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7EE7211A3840590083999C /* ExhibitFoundViewController.xib */; };
+		6C8699041A309EDB005BEC05 /* HelpPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8699021A309EDB005BEC05 /* HelpPopupView.swift */; };
+		6C8699051A309EDB005BEC05 /* HelpPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8699031A309EDB005BEC05 /* HelpPopupView.xib */; };
 		6CA1D6D81A271DDF00AF80C0 /* DeviceFunctionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */; };
 		6CA1D6E11A2721BA00AF80C0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */; };
 		6CA1D6E21A2721BA00AF80C0 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CA1D6E01A2721BA00AF80C0 /* LoadingViewController.xib */; };
+		6CA23B831A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA23B821A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift */; };
+		6CA23B8A1A4DE4EE000D43F9 /* TeaserThumbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA23B881A4DE4EE000D43F9 /* TeaserThumbViewController.swift */; };
+		6CA23B8B1A4DE4EE000D43F9 /* TeaserThumbViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CA23B891A4DE4EE000D43F9 /* TeaserThumbViewController.xib */; };
+		6CAE5DCA1A41C08E00C0F2E0 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAE5DC91A41C08E00C0F2E0 /* CompassView.swift */; };
 		6CC01B711A1F331C00DBB952 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC01B6F1A1F331C00DBB952 /* FavouritesViewController.swift */; };
 		6CC01B721A1F331C00DBB952 /* FavouritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CC01B701A1F331C00DBB952 /* FavouritesViewController.xib */; };
 		6CC01B761A1F364200DBB952 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC01B741A1F364200DBB952 /* SettingsViewController.swift */; };
@@ -62,12 +79,23 @@
 		6CCE311D1A1F912D007682BB /* SignOnScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CCE311B1A1F912D007682BB /* SignOnScreenViewController.xib */; };
 		6CD0DC171A1E2B9A002D19CA /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD0DC151A1E2B9A002D19CA /* HelpViewController.swift */; };
 		6CD0DC181A1E2B9A002D19CA /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CD0DC161A1E2B9A002D19CA /* HelpViewController.xib */; };
+		6CE114551A36ECB400A553B7 /* TwitterInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE114531A36ECB400A553B7 /* TwitterInputViewController.swift */; };
+		6CE114561A36ECB400A553B7 /* TwitterInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE114541A36ECB400A553B7 /* TwitterInputViewController.xib */; };
+		6CE1145D1A36F52600A553B7 /* FacebookInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1145B1A36F52600A553B7 /* FacebookInputViewController.swift */; };
+		6CE1145E1A36F52600A553B7 /* FacebookInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE1145C1A36F52600A553B7 /* FacebookInputViewController.xib */; };
+		6CE114611A36F54300A553B7 /* InstagramInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1145F1A36F54300A553B7 /* InstagramInputViewController.swift */; };
+		6CE114621A36F54300A553B7 /* InstagramInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE114601A36F54300A553B7 /* InstagramInputViewController.xib */; };
+		6CE114651A36F55A00A553B7 /* TextInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE114631A36F55A00A553B7 /* TextInputViewController.swift */; };
+		6CE114661A36F55A00A553B7 /* TextInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE114641A36F55A00A553B7 /* TextInputViewController.xib */; };
+		6CE114691A36F58C00A553B7 /* CameraInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE114671A36F58C00A553B7 /* CameraInputViewController.swift */; };
+		6CE1146A1A36F58C00A553B7 /* CameraInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE114681A36F58C00A553B7 /* CameraInputViewController.xib */; };
 		6CE1164B1A289077004B9DC1 /* ExhibitOverviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE116491A289077004B9DC1 /* ExhibitOverviewController.swift */; };
 		6CE1164C1A289077004B9DC1 /* ExhibitOverviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE1164A1A289077004B9DC1 /* ExhibitOverviewController.xib */; };
 		6CE1164F1A28A870004B9DC1 /* TeaserMuseumTileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE1164D1A28A870004B9DC1 /* TeaserMuseumTileController.swift */; };
 		6CE116501A28A870004B9DC1 /* TeaserMuseumTileController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE1164E1A28A870004B9DC1 /* TeaserMuseumTileController.xib */; };
 		6CE116531A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE116511A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift */; };
 		6CE116541A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */; };
+		6CF916A21A31BB4800A78055 /* ExhibitHolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +172,10 @@
 		6C198D941A1CED06003F2A21 /* ExhibitStageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitStageViewController.xib; sourceTree = "<group>"; };
 		6C198D971A1DF2BA003F2A21 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		6C198D981A1DF2BA003F2A21 /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
+		6C2138351A35AD5A0041E725 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
+		6C2138361A35AD5A0041E725 /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
+		6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIrectionsOverlayViewController.swift; sourceTree = "<group>"; };
+		6C22A6C11A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DIrectionsOverlayViewController.xib; sourceTree = "<group>"; };
 		6C315B651A1CA33400EAEBC0 /* Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C315B691A1CA33400EAEBC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C315B6A1A1CA33400EAEBC0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -178,13 +210,26 @@
 		6C6F90F71A2DCEE800B4D4CF /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseSerializer.swift; sourceTree = "<group>"; };
 		6C6F90F81A2DCEE800B4D4CF /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
 		6C6F90F91A2DCEE800B4D4CF /* HTTPUpload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPUpload.swift; sourceTree = "<group>"; };
+		6C6F91031A2F089400B4D4CF /* BeaconModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconModel.swift; sourceTree = "<group>"; };
+		6C6F910A1A2F158300B4D4CF /* Rate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Rate.xcdatamodel; sourceTree = "<group>"; };
+		6C6F910C1A2F15ED00B4D4CF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6C6F913F1A2F397A00B4D4CF /* OverviewTileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewTileViewController.swift; sourceTree = "<group>"; };
+		6C6F91401A2F397A00B4D4CF /* OverviewTileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverviewTileViewController.xib; sourceTree = "<group>"; };
 		6C7C24101A275ED200E735DD /* MyAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAnnotation.swift; sourceTree = "<group>"; };
 		6C7C24161A27675400E735DD /* CompassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassViewController.swift; sourceTree = "<group>"; };
 		6C7C24171A27675400E735DD /* CompassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompassViewController.xib; sourceTree = "<group>"; };
+		6C7EE7201A3840590083999C /* ExhibitFoundViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitFoundViewController.swift; sourceTree = "<group>"; };
+		6C7EE7211A3840590083999C /* ExhibitFoundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitFoundViewController.xib; sourceTree = "<group>"; };
+		6C8699021A309EDB005BEC05 /* HelpPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPopupView.swift; sourceTree = "<group>"; };
+		6C8699031A309EDB005BEC05 /* HelpPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpPopupView.xib; sourceTree = "<group>"; };
 		6C9997161A233C4C00961EAC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFunctionServices.swift; sourceTree = "<group>"; };
 		6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		6CA1D6E01A2721BA00AF80C0 /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
+		6CA23B821A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeaserAddressCollectionViewController.swift; sourceTree = "<group>"; };
+		6CA23B881A4DE4EE000D43F9 /* TeaserThumbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeaserThumbViewController.swift; sourceTree = "<group>"; };
+		6CA23B891A4DE4EE000D43F9 /* TeaserThumbViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeaserThumbViewController.xib; sourceTree = "<group>"; };
+		6CAE5DC91A41C08E00C0F2E0 /* CompassView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		6CC01B6F1A1F331C00DBB952 /* FavouritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		6CC01B701A1F331C00DBB952 /* FavouritesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FavouritesViewController.xib; sourceTree = "<group>"; };
 		6CC01B741A1F364200DBB952 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -195,12 +240,23 @@
 		6CCE311B1A1F912D007682BB /* SignOnScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignOnScreenViewController.xib; sourceTree = "<group>"; };
 		6CD0DC151A1E2B9A002D19CA /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		6CD0DC161A1E2B9A002D19CA /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
+		6CE114531A36ECB400A553B7 /* TwitterInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterInputViewController.swift; sourceTree = "<group>"; };
+		6CE114541A36ECB400A553B7 /* TwitterInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterInputViewController.xib; sourceTree = "<group>"; };
+		6CE1145B1A36F52600A553B7 /* FacebookInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookInputViewController.swift; sourceTree = "<group>"; };
+		6CE1145C1A36F52600A553B7 /* FacebookInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FacebookInputViewController.xib; sourceTree = "<group>"; };
+		6CE1145F1A36F54300A553B7 /* InstagramInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstagramInputViewController.swift; path = ../InstagramInputViewController.swift; sourceTree = "<group>"; };
+		6CE114601A36F54300A553B7 /* InstagramInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InstagramInputViewController.xib; path = ../InstagramInputViewController.xib; sourceTree = "<group>"; };
+		6CE114631A36F55A00A553B7 /* TextInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TextInputViewController.swift; path = ../TextInputViewController.swift; sourceTree = "<group>"; };
+		6CE114641A36F55A00A553B7 /* TextInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TextInputViewController.xib; path = ../TextInputViewController.xib; sourceTree = "<group>"; };
+		6CE114671A36F58C00A553B7 /* CameraInputViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraInputViewController.swift; path = ../CameraInputViewController.swift; sourceTree = "<group>"; };
+		6CE114681A36F58C00A553B7 /* CameraInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CameraInputViewController.xib; path = ../CameraInputViewController.xib; sourceTree = "<group>"; };
 		6CE116491A289077004B9DC1 /* ExhibitOverviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExhibitOverviewController.swift; path = ../ExhibitOverviewController.swift; sourceTree = "<group>"; };
 		6CE1164A1A289077004B9DC1 /* ExhibitOverviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ExhibitOverviewController.xib; path = ../ExhibitOverviewController.xib; sourceTree = "<group>"; };
 		6CE1164D1A28A870004B9DC1 /* TeaserMuseumTileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeaserMuseumTileController.swift; sourceTree = "<group>"; };
 		6CE1164E1A28A870004B9DC1 /* TeaserMuseumTileController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeaserMuseumTileController.xib; sourceTree = "<group>"; };
 		6CE116511A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitFeedbackScreenViewController.swift; sourceTree = "<group>"; };
 		6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitFeedbackScreenViewController.xib; sourceTree = "<group>"; };
+		6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitHolderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +264,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C6F910D1A2F15ED00B4D4CF /* CoreData.framework in Frameworks */,
 				6C4712D61A238C2D002C355D /* MapKit.framework in Frameworks */,
 				6C4712CF1A236AEE002C355D /* Accounts.framework in Frameworks */,
 				6C4712CD1A236AE7002C355D /* Social.framework in Frameworks */,
@@ -233,19 +290,33 @@
 				6CE116491A289077004B9DC1 /* ExhibitOverviewController.swift */,
 				6CE116511A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift */,
 				6CE1164D1A28A870004B9DC1 /* TeaserMuseumTileController.swift */,
+				6CE114631A36F55A00A553B7 /* TextInputViewController.swift */,
+				6CE1145F1A36F54300A553B7 /* InstagramInputViewController.swift */,
+				6CAE5DC91A41C08E00C0F2E0 /* CompassView.swift */,
+				6CE114671A36F58C00A553B7 /* CameraInputViewController.swift */,
 				6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */,
 				6CC01B6F1A1F331C00DBB952 /* FavouritesViewController.swift */,
 				6C315B9A1A1CE76200EAEBC0 /* TeaserViewController.swift */,
+				6CA23B881A4DE4EE000D43F9 /* TeaserThumbViewController.swift */,
+				6CA23B891A4DE4EE000D43F9 /* TeaserThumbViewController.xib */,
+				6C2138351A35AD5A0041E725 /* FeedbackViewController.swift */,
+				6C8699021A309EDB005BEC05 /* HelpPopupView.swift */,
 				6C7C24161A27675400E735DD /* CompassViewController.swift */,
+				6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */,
 				6C198D8D1A1CECAB003F2A21 /* ExhibitViewController.swift */,
+				6C6F913F1A2F397A00B4D4CF /* OverviewTileViewController.swift */,
 				6C198D931A1CED06003F2A21 /* ExhibitStageViewController.swift */,
 				6CCE31161A1F8C05007682BB /* TeaserSubViewController.swift */,
 				6CD0DC151A1E2B9A002D19CA /* HelpViewController.swift */,
 				6C198D971A1DF2BA003F2A21 /* MenuViewController.swift */,
+				6C7EE7201A3840590083999C /* ExhibitFoundViewController.swift */,
 				6C315B6C1A1CA33400EAEBC0 /* MainController.swift */,
 				6CC01B741A1F364200DBB952 /* SettingsViewController.swift */,
 				6CCE311A1A1F912D007682BB /* SignOnScreenViewController.swift */,
 				6C4712D11A2378BC002C355D /* ManualLoginViewController.swift */,
+				6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */,
+				6CE114531A36ECB400A553B7 /* TwitterInputViewController.swift */,
+				6CE1145B1A36F52600A553B7 /* FacebookInputViewController.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -254,21 +325,32 @@
 			isa = PBXGroup;
 			children = (
 				6C7C24171A27675400E735DD /* CompassViewController.xib */,
+				6CE114641A36F55A00A553B7 /* TextInputViewController.xib */,
 				6CE1164E1A28A870004B9DC1 /* TeaserMuseumTileController.xib */,
+				6C8699031A309EDB005BEC05 /* HelpPopupView.xib */,
+				6CE114601A36F54300A553B7 /* InstagramInputViewController.xib */,
+				6CE114681A36F58C00A553B7 /* CameraInputViewController.xib */,
 				6CE1164A1A289077004B9DC1 /* ExhibitOverviewController.xib */,
 				6CA1D6E01A2721BA00AF80C0 /* LoadingViewController.xib */,
 				6CCE311B1A1F912D007682BB /* SignOnScreenViewController.xib */,
 				6CC01B701A1F331C00DBB952 /* FavouritesViewController.xib */,
+				6CE1145C1A36F52600A553B7 /* FacebookInputViewController.xib */,
+				6C2138361A35AD5A0041E725 /* FeedbackViewController.xib */,
 				6CD0DC161A1E2B9A002D19CA /* HelpViewController.xib */,
 				6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */,
+				6C6F91401A2F397A00B4D4CF /* OverviewTileViewController.xib */,
 				6C198D8E1A1CECAB003F2A21 /* ExhibitViewController.xib */,
 				6C315B9B1A1CE76200EAEBC0 /* TeaserViewController.xib */,
 				6C4712D21A2378BC002C355D /* ManualLoginViewController.xib */,
 				6CCE31171A1F8C05007682BB /* TeaserSubViewController.xib */,
+				6CA23B821A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift */,
 				6C198D941A1CED06003F2A21 /* ExhibitStageViewController.xib */,
 				6CC01B751A1F364200DBB952 /* SettingsViewController.xib */,
+				6C7EE7211A3840590083999C /* ExhibitFoundViewController.xib */,
+				6C22A6C11A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib */,
 				6C198D981A1DF2BA003F2A21 /* MenuViewController.xib */,
 				6C315B6E1A1CA33400EAEBC0 /* Main.storyboard */,
+				6CE114541A36ECB400A553B7 /* TwitterInputViewController.xib */,
 			);
 			name = Xibs;
 			sourceTree = "<group>";
@@ -284,6 +366,7 @@
 		6C198D9E1A1DF39B003F2A21 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6C6F91031A2F089400B4D4CF /* BeaconModel.swift */,
 				6C4712F21A25D369002C355D /* UserModel.swift */,
 				6C4712E81A24CB8A002C355D /* RoomModel.swift */,
 				6C315B961A1CC0E000EAEBC0 /* ApplicationData.swift */,
@@ -298,6 +381,8 @@
 		6C315B5C1A1CA33400EAEBC0 = {
 			isa = PBXGroup;
 			children = (
+				6C6F910C1A2F15ED00B4D4CF /* CoreData.framework */,
+				6C6F91091A2F158300B4D4CF /* Rate.xcdatamodeld */,
 				6C4712D51A238C2D002C355D /* MapKit.framework */,
 				6C4712CE1A236AEE002C355D /* Accounts.framework */,
 				6C4712CC1A236AE7002C355D /* Social.framework */,
@@ -523,24 +608,35 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CE1146A1A36F58C00A553B7 /* CameraInputViewController.xib in Resources */,
 				6C198D901A1CECAB003F2A21 /* ExhibitViewController.xib in Resources */,
 				6CE116501A28A870004B9DC1 /* TeaserMuseumTileController.xib in Resources */,
 				6C315B9D1A1CE76200EAEBC0 /* TeaserViewController.xib in Resources */,
 				6C315B701A1CA33400EAEBC0 /* Main.storyboard in Resources */,
+				6CE114621A36F54300A553B7 /* InstagramInputViewController.xib in Resources */,
 				6C7C24191A27675400E735DD /* CompassViewController.xib in Resources */,
 				6CE1164C1A289077004B9DC1 /* ExhibitOverviewController.xib in Resources */,
+				6C8699051A309EDB005BEC05 /* HelpPopupView.xib in Resources */,
+				6C2138381A35AD5A0041E725 /* FeedbackViewController.xib in Resources */,
+				6CE114661A36F55A00A553B7 /* TextInputViewController.xib in Resources */,
 				6C4712D41A2378BC002C355D /* ManualLoginViewController.xib in Resources */,
+				6CA23B8B1A4DE4EE000D43F9 /* TeaserThumbViewController.xib in Resources */,
 				6C198D9A1A1DF2BA003F2A21 /* MenuViewController.xib in Resources */,
+				6C7EE7231A3840590083999C /* ExhibitFoundViewController.xib in Resources */,
 				6CCE311D1A1F912D007682BB /* SignOnScreenViewController.xib in Resources */,
 				6CCE31191A1F8C05007682BB /* TeaserSubViewController.xib in Resources */,
 				6CA1D6E21A2721BA00AF80C0 /* LoadingViewController.xib in Resources */,
 				6C315B751A1CA33400EAEBC0 /* LaunchScreen.xib in Resources */,
 				6CD0DC181A1E2B9A002D19CA /* HelpViewController.xib in Resources */,
 				6C315B721A1CA33400EAEBC0 /* Images.xcassets in Resources */,
+				6C6F91421A2F397A00B4D4CF /* OverviewTileViewController.xib in Resources */,
+				6C22A6C31A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib in Resources */,
 				6C198D961A1CED06003F2A21 /* ExhibitStageViewController.xib in Resources */,
+				6CE1145E1A36F52600A553B7 /* FacebookInputViewController.xib in Resources */,
 				6CC01B721A1F331C00DBB952 /* FavouritesViewController.xib in Resources */,
 				6CC01B771A1F364200DBB952 /* SettingsViewController.xib in Resources */,
 				6CE116541A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib in Resources */,
+				6CE114561A36ECB400A553B7 /* TwitterInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,38 +655,54 @@
 			buildActionMask = 2147483647;
 			files = (
 				6C6F90FC1A2DCEE800B4D4CF /* HTTPTask.swift in Sources */,
+				6CE1145D1A36F52600A553B7 /* FacebookInputViewController.swift in Sources */,
 				6C4712D31A2378BC002C355D /* ManualLoginViewController.swift in Sources */,
+				6CA23B831A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift in Sources */,
+				6CE114551A36ECB400A553B7 /* TwitterInputViewController.swift in Sources */,
+				6CE114651A36F55A00A553B7 /* TextInputViewController.swift in Sources */,
 				6C4712D81A2495F4002C355D /* MuseumModel.swift in Sources */,
+				6CE114691A36F58C00A553B7 /* CameraInputViewController.swift in Sources */,
 				6CC01B711A1F331C00DBB952 /* FavouritesViewController.swift in Sources */,
 				6C7C24181A27675400E735DD /* CompassViewController.swift in Sources */,
 				6CD0DC171A1E2B9A002D19CA /* HelpViewController.swift in Sources */,
 				6C315B9C1A1CE76200EAEBC0 /* TeaserViewController.swift in Sources */,
+				6C6F910B1A2F158300B4D4CF /* Rate.xcdatamodeld in Sources */,
 				6CE116531A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift in Sources */,
 				6CE1164F1A28A870004B9DC1 /* TeaserMuseumTileController.swift in Sources */,
 				6CA1D6D81A271DDF00AF80C0 /* DeviceFunctionServices.swift in Sources */,
 				6C4712EB1A25C8F9002C355D /* RoomMediaModel.swift in Sources */,
+				6C2138371A35AD5A0041E725 /* FeedbackViewController.swift in Sources */,
 				6C315B991A1CC0ED00EAEBC0 /* Reachability.swift in Sources */,
 				6C198D8F1A1CECAB003F2A21 /* ExhibitViewController.swift in Sources */,
 				6C4712F11A25CD77002C355D /* RoomSocialModel.swift in Sources */,
+				6CE114611A36F54300A553B7 /* InstagramInputViewController.swift in Sources */,
 				6C315B6D1A1CA33400EAEBC0 /* MainController.swift in Sources */,
 				6C7C24111A275ED200E735DD /* MyAnnotation.swift in Sources */,
+				6CA23B8A1A4DE4EE000D43F9 /* TeaserThumbViewController.swift in Sources */,
 				6C6F90FD1A2DCEE800B4D4CF /* HTTPUpload.swift in Sources */,
+				6CF916A21A31BB4800A78055 /* ExhibitHolderViewController.swift in Sources */,
 				6CA1D6E11A2721BA00AF80C0 /* LoadingViewController.swift in Sources */,
 				6C4712F31A25D369002C355D /* UserModel.swift in Sources */,
+				6C8699041A309EDB005BEC05 /* HelpPopupView.swift in Sources */,
 				6C6F90FB1A2DCEE800B4D4CF /* HTTPResponseSerializer.swift in Sources */,
 				6C198D991A1DF2BA003F2A21 /* MenuViewController.swift in Sources */,
+				6C6F91041A2F089400B4D4CF /* BeaconModel.swift in Sources */,
 				6C315B6B1A1CA33400EAEBC0 /* AppDelegate.swift in Sources */,
+				6C6F91411A2F397A00B4D4CF /* OverviewTileViewController.swift in Sources */,
 				6C315B941A1CAAFE00EAEBC0 /* NavigationController.swift in Sources */,
 				6C198D951A1CED06003F2A21 /* ExhibitStageViewController.swift in Sources */,
 				6CCE311C1A1F912D007682BB /* SignOnScreenViewController.swift in Sources */,
 				6CC01B761A1F364200DBB952 /* SettingsViewController.swift in Sources */,
 				6C4712E91A24CB8A002C355D /* RoomModel.swift in Sources */,
 				6C4712DC1A249724002C355D /* DataManager.swift in Sources */,
+				6C7EE7221A3840590083999C /* ExhibitFoundViewController.swift in Sources */,
+				6C22A6C21A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift in Sources */,
 				6C6F90FA1A2DCEE800B4D4CF /* HTTPRequestSerializer.swift in Sources */,
 				6C4712DA1A2496F6002C355D /* SwiftyJSON.swift in Sources */,
 				6C18A27C1A27185100A5D46E /* LocationServices.swift in Sources */,
 				6C315B971A1CC0E000EAEBC0 /* ApplicationData.swift in Sources */,
 				6CE1164B1A289077004B9DC1 /* ExhibitOverviewController.swift in Sources */,
+				6CAE5DCA1A41C08E00C0F2E0 /* CompassView.swift in Sources */,
 				6CCE31181A1F8C05007682BB /* TeaserSubViewController.swift in Sources */,
 				6C4712E21A24BADC002C355D /* ExhibitModel.swift in Sources */,
 			);
@@ -827,6 +939,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6C6F91091A2F158300B4D4CF /* Rate.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6C6F910A1A2F158300B4D4CF /* Rate.xcdatamodel */,
+			);
+			currentVersion = 6C6F910A1A2F158300B4D4CF /* Rate.xcdatamodel */;
+			path = Rate.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6C315B5D1A1CA33400EAEBC0 /* Project object */;
 }

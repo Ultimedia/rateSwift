@@ -1,20 +1,22 @@
 //
-//  HelpViewController.swift
+//  OverviewTileViewController.swift
 //  Rate
 //
-//  Created by Maarten Bressinck on 20/11/14.
+//  Created by Maarten Bressinck on 3/12/14.
 //  Copyright (c) 2014 Maarten Bressinck. All rights reserved.
 //
 
 import UIKit
 
-class HelpViewController: UIViewController {
+class OverviewTileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
 
         // Do any additional setup after loading the view.
+        view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,11 +24,6 @@ class HelpViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func closeHelpView(sender: AnyObject) {
-    
-        NSNotificationCenter.defaultCenter().postNotificationName("CloseHelpPopup", object: nil, userInfo:  nil)
-        
-    }
 
     /*
     // MARK: - Navigation
@@ -37,12 +34,5 @@ class HelpViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    /**
-    * Hide status bar
-    */
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
 
 }

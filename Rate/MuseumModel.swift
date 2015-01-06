@@ -18,11 +18,13 @@ class MuseumModel: NSObject, Printable {
     let museum_facebook:String
     let museum_visible:String
     let museum_open:String
+    var musuem_loc:CLLocation?
+    var museum_coordinate:CLLocationCoordinate2D?
+    var museum_dis:Double?
+    
     let exhibitData = Array<ExhibitModel>()
     
-    
-    
-    
+
     
     
     //let exhibits:Array

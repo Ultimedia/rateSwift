@@ -1,20 +1,35 @@
 //
-//  HelpViewController.swift
+//  TwitterInputViewController.swift
 //  Rate
 //
-//  Created by Maarten Bressinck on 20/11/14.
+//  Created by Maarten Bressinck on 9/12/14.
 //  Copyright (c) 2014 Maarten Bressinck. All rights reserved.
 //
 
 import UIKit
 
-class HelpViewController: UIViewController {
+class TwitterInputViewController: UIViewController {
 
+    var textField:UITextField?
+    @IBOutlet weak var twitterInput: UITextField!
+    @IBOutlet weak var twitterButton: UIButton!
+    @IBOutlet weak var twitterLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.whiteColor()
-
+        
+        // set twitterlabel
+        twitterLabel.text = twitterLabel.text! + " heloo"
+        
         // Do any additional setup after loading the view.
+        createUI()
+    }
+    
+    func createUI(){
+ 
+        // 385
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,11 +37,10 @@ class HelpViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func closeHelpView(sender: AnyObject) {
-    
-        NSNotificationCenter.defaultCenter().postNotificationName("CloseHelpPopup", object: nil, userInfo:  nil)
-        
+    @IBAction func tweetButton(sender: AnyObject) {
+        println("sending tweet")
     }
+    
 
     /*
     // MARK: - Navigation
@@ -37,12 +51,5 @@ class HelpViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    /**
-    * Hide status bar
-    */
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
 
 }

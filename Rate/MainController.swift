@@ -7,6 +7,7 @@
 //
 import CoreLocation
 import UIKit
+import CoreData
 
 class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
     
@@ -15,6 +16,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var eventData = Dictionary<String, String>()
     var current:UIViewController?
     var currentMenu:UIViewController?
+    var helpCreated:Bool = false
     
     // Data services
     let dataServices = DataManager.dataManager()
@@ -36,7 +38,12 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var menuViewController:UIViewController?
     var connectionFound = false
     var targetController:UIViewController?
+    var map:DIrectionsOverlayViewController?
 
+    
+    
+    // Effects
+    var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
 
     
     override func viewDidLoad() {
@@ -44,6 +51,9 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         
         // detect our device type
         deviceFunctionService.detectDevice()
+        
+        // get locally stored data
+        applicationModel.getStoredData()
         
         //initiate viewControllers
         helpViewController = HelpViewController(nibName: "HelpViewController", bundle: nil)
@@ -53,6 +63,8 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         settingsViewController = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
         signOnViewController = SignOnScreenViewController(nibName: "SignOnScreenViewController", bundle: nil)
         loadingViewControler = LoadingViewController(nibName: "LoadingViewController", bundle: nil)
+        map = DIrectionsOverlayViewController(nibName: "DIrectionsOverlayViewController", bundle: nil)
+
 
         // show loading screen
         navigationController?.pushViewController(loadingViewControler!, animated: false)
@@ -64,12 +76,44 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuChangedHandler:", name:"MenuChangedHandler", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMenu:", name:"ShowMenuHandler", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMenu:", name:"CloseMenuFromNavigation", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "museumFoundHandler:", name:"MuseumFound", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "helpPopupHandler:", name:"ShowHelpPopup", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeHelpPopupHandler:", name:"CloseHelpPopup", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMapPopupHandler:", name:"ShowMapPopup", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMapView:", name:"CloseNavigationView", object: nil)
 
+        
         // get locationServices
         locationServices.initLocationServices()
     }
     
+    
+    /**
+    * Beacons have found a museum
+    */
+    func museumFoundHandler(notification: NSNotification){
+        /*println("found the museum " + applicationModel.activeMuseum!.museum_title)
+        */
+        // show info to the user
+        let notification = UILocalNotification()
+        
+        /* Time and timezone settings */
+        notification.fireDate = NSDate(timeIntervalSinceNow: 10.0)
+        notification.timeZone = NSCalendar.currentCalendar().timeZone
+        notification.alertBody = "Je bent nu in het " + applicationModel.activeMuseum!.museum_title
+        
+        /* Action settings */
+        notification.hasAction = true
+        notification.alertAction = "View"
+        
+        /* Badge settings */
+        notification.userInfo = ["Key 1" : "Value 1", "Key 2" : "Value 2"]
+        
+        /* Schedule the notification */
+        UIApplication.sharedApplication().scheduleLocalNotification(notification)
+    }
 
+    
     /**
     * Handle navigation
     */
@@ -81,15 +125,15 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
             println(notification.userInfo)
             
             var myTarget: String = (info["menu"] as String)
+            var isPopup:Bool = false
             
             switch myTarget
             {
                 case "teaser":
                     targetController = teaserViewController
+                    locationServices.getNearestMuseum()
                 case "exhibit":
                     targetController = exhibitViewController
-                case "help":
-                    targetController = helpViewController
                 case "favourites":
                     targetController = favouritesViewController
                 case "settings":
@@ -117,9 +161,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
             /**
             * Animation: Position the content
             */
-            applicationModel.currentViewController = targetController
-            
-            var yPos = screenSize.height - 322
+            var yPos = screenSize.height - 212
             tar?.frame = CGRect(x: 0, y: +self.screenSize.height-yPos, width: screenSize.width, height: screenSize.height)
             tar?.alpha = 0.5
 
@@ -139,7 +181,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                         self.menuViewController?.view.removeFromSuperview()
                 })
                 
-                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
 
             }else{
             
@@ -152,13 +194,73 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                         self.menuViewController?.view.removeFromSuperview()
                 })
             
-                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
+            NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
             }
             
         } else {
             println("no valid data")
         }
     }
+    
+    
+    func showMapPopupHandler(notification:NSNotification){
+        
+        visualEffectView.frame = view.bounds
+        targetController?.view.addSubview(visualEffectView)
+        
+        // dispatch event
+        
+        map = DIrectionsOverlayViewController(nibName: "DIrectionsOverlayViewController", bundle: nil)
+        map?.view.frame = CGRect(x: 50, y: 50, width: screenSize.width-100, height: screenSize.height-100)
+        
+        map!.view.layer.shadowColor = UIColor.blackColor().CGColor
+        map!.view.layer.shadowOffset = CGSizeMake(5, 5)
+        map!.view.layer.shadowRadius = 5
+        
+        targetController!.addChildViewController(map!)
+        targetController!.view.addSubview(map!.view)
+    }
+    
+    func closeMapView(notification:NSNotification){
+        map?.view.removeFromSuperview()
+        map?.removeFromParentViewController()
+        visualEffectView.removeFromSuperview()
+
+    }
+    
+    
+    /**
+    * Show the het  function
+    */
+    func helpPopupHandler(notification:NSNotification){
+        
+        if(!helpCreated){
+            helpCreated = true
+            visualEffectView.frame = view.bounds
+            targetController?.view.addSubview(visualEffectView)
+            targetController!.view.addSubview(helpViewController!.view)
+            
+            helpViewController?.view.frame = CGRect(x: (screenSize.width-helpViewController!.view.frame.width)/2, y: (screenSize.height-helpViewController!.view.frame.height)/2, width: helpViewController!.view.frame.width, height: helpViewController!.view.frame.height)
+        
+            targetController!.addChildViewController(helpViewController!)
+        }else{
+            helpViewController?.view.removeFromSuperview()
+            helpViewController?.removeFromParentViewController()
+            visualEffectView.removeFromSuperview()
+            
+            helpCreated = false
+        }
+    }
+    
+    /**
+    * Close the help popup
+    */
+    func closeHelpPopupHandler(notification:NSNotification){
+        helpViewController?.view.removeFromSuperview()
+        helpViewController?.removeFromParentViewController()
+        visualEffectView.removeFromSuperview()
+    }
+    
     
     /**
     * Animation: Scroll the content frame down when opening the menu
@@ -167,16 +269,19 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         println("showing menu")
         
         var myView = targetController?.view
-        var yPos = screenSize.height - 322
-        
+        var yPos = screenSize.height - 212
+
         UIView.animateWithDuration(0.4, delay: 0, options: nil, animations: {
             myView?.frame = CGRect(x:0, y:+self.screenSize.height-yPos, width:self.screenSize.width, height:self.screenSize.height)
             myView?.alpha = 0.5
             return
         }, completion: { finished in
 
+        
+            return
         })
     }
+    
     
     /**
     * Animation: Bring the target frame back up
@@ -224,6 +329,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                 
                 // load data
                 dataServices.loadData()
+                
             }
             
             // show views once data has loaded
@@ -234,13 +340,16 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                 
                 if(applicationModel.firstLogin == true){
                     navigationController?.pushViewController(signOnViewController!, animated: false)
-                    NSNotificationCenter.defaultCenter().postNotificationName("HideMenuButton", object: nil, userInfo:  eventData)
 
                 }else{
-                    navigationController?.pushViewController(teaserViewController!, animated: false)
+                    eventData["menu"] = "teaser"
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+                    NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
                 }
                 
                 targetController = navigationController?.visibleViewController
+            }else{
+
             }
             
         } else {
@@ -248,6 +357,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
             println("Netwerkverbinding: \(applicationModel.networkConnection)")
         }
     }
+    
     
     /**
     * Hide status bar
