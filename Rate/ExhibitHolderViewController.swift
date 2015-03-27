@@ -14,7 +14,9 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     let applicationModel = ApplicationData.sharedModel()
     var eventData = Dictionary<String, String>()
     let screenSize: CGRect = UIScreen.mainScreen().bounds
-
+    var rooms:[ExhibitStageViewController] = []
+    var feedbackScreenSlot:ExhibitFeedbackScreenViewController?
+    
     var pageIndex : Int = 0
     var titleText : String = ""
     var imageFile : String = ""
@@ -27,7 +29,62 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showFeedbackPanel:", name:"ShowFeedbackPanel", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeFeedbackPanel:", name:"CloseFeedbackPanel", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "beaconChangedHandler:", name:"BeaconsChanged", object: nil)
 
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollDownHandler:", name:"ScrollExhibitDown", object: nil)
+
+    }
+    
+    func scrollDownHandler(ns:NSNotification){
+        
+        
+        
+        if(exhibitScrollView!.contentOffset.y > 0){
+            // scroll to point
+            exhibitScrollView!.setContentOffset(CGPointMake(0, 0), animated: true)
+            
+        }else{
+            // scroll to point
+            exhibitScrollView!.setContentOffset(CGPointMake(0, screenSize.height - 64), animated: true)
+        
+        }
+    }
+    
+    
+    func beaconChangedHandler(ns:NSNotification){
+        
+        if(applicationModel.developer){
+            // show beacon info
+//            betaText?.text = "room ID " + applicationModel.nearestBeacon!.mercury_room_id + " " + applicationModel.nearestBeacon!.mercury_beacon_device_id
+        }
+        
+        // go to the right room
+        ///scrollToRoom(applicationModel.nearestRoom!.mercury_room_order.toInt()!)
+    }
+    
+    
+    func scrollToRoom(tag:Int){
+        
+        if(feedbackScreenSlot?.view.tag == tag){
+            
+            exhibitScrollView!.setContentOffset(CGPointMake(0, feedbackScreenSlot!.view!.frame.origin.y), animated: true)
+
+        }else{
+
+            for room in applicationModel.selectedExhibit!.roomData{
+                if(room.mercury_room_order.toInt() == tag){
+                    var scrollPos = (Int(screenSize.height) * tag)
+                    var wageConversionFloat = CGFloat(scrollPos)
+                    
+                    if(room.mercury_room_type == "intro"){
+                        exhibitScrollView!.setContentOffset(CGPointMake(0, 0), animated: true)
+
+                    }else{
+                        exhibitScrollView!.setContentOffset(CGPointMake(0, wageConversionFloat), animated: true)
+                    }
+                }
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,78 +106,132 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     
     func createExhibition(){
         
+        
+        
         // current exhibi (this should be handled by the beacons)
-        var myExhibit = applicationModel.museumData[0].exhibitData[pageIndex]
-        var scrollHeight = CGFloat((myExhibit.roomData.count)+2)
+        var myExhibit = applicationModel.selectedExhibit
+        
+        
+        var scrollHeight = CGFloat((myExhibit!.roomData.count)+1)
         
         
         // create the scrollview
         exhibitScrollView = UIScrollView()
-        exhibitScrollView?.contentSize = CGSize(width:screenSize.width, height: screenSize.height*scrollHeight)
         exhibitScrollView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-        exhibitScrollView?.bounces = false
-        exhibitScrollView?.pagingEnabled = true
+        exhibitScrollView?.bounces = true
+        exhibitScrollView?.pagingEnabled = false
         exhibitScrollView?.delegate = self
         
         view.addSubview(exhibitScrollView!)
+        
+        
+        var totalHeight:CGFloat = 0
         
         // rooms
         var looper:Int = 0;
         
         // Create room views
-        for room in myExhibit.roomData  {
-            var yPos = screenSize.height*CGFloat(looper)
-            if(looper >= 1){
-                yPos = screenSize.height*CGFloat(looper+1)
-            }
+        var yPos:CGFloat = 0
+
+        for room in myExhibit!.roomData  {
             
-            // Create the overview screen
-            if(looper == 1){
+            var dataViewController = ExhibitStageViewController(nibName: "ExhibitStageViewController", bundle: nil)
+                dataViewController.exhibitModel = myExhibit
+                dataViewController.roomModel = room
+            
+            switch(room.mercury_room_type){
                 
+            case "intro":
+                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
+                dataViewController.view.tag = room.mercury_room_order.toInt()!
+                
+                exhibitScrollView!.addSubview(dataViewController.view)
+                self.addChildViewController(dataViewController)
+                
+                totalHeight = totalHeight + screenSize.height * 2
+                yPos = yPos + screenSize.height
+                
+                /*
                 var overviewViewController = ExhibitOverviewController(nibName: "ExhibitOverviewController", bundle:nil)
                 overviewViewController.exhibitModel = myExhibit
-                overviewViewController.view.frame = CGRect(x: 0, y:screenSize.height*CGFloat(looper), width: screenSize.width, height: screenSize.height)
+                overviewViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
+                */
+                //yPos = yPos //+ screenSize.height
+
                 
-                exhibitScrollView!.addSubview(overviewViewController.view)
-                self.addChildViewController(overviewViewController)
-            }
-            
-            // Create a new view controller and pass suitable data.
-            var dataViewController = ExhibitStageViewController(nibName: "ExhibitStageViewController", bundle: nil)
-            dataViewController.exhibitModel = myExhibit
-            dataViewController.roomModel = room
-            dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
-            
-            exhibitScrollView!.addSubview(dataViewController.view)
-            self.addChildViewController(dataViewController)
-            
-            looper++
-            
-            // Create ending view
-            if(looper == myExhibit.roomData.count){
+               // exhibitScrollView!.addSubview(overviewViewController.view)
+               // self.addChildViewController(overviewViewController)
                 
-                // create the feedback screen
+                
+                looper++
+                
+                break;
+                
+            case "room":
+                var frameHeight:CGFloat = CGFloat(400) * (CGFloat(room.mediaData.count) / CGFloat(3)) + 300
+                var screenHeight = screenSize.height
+            
+                if(frameHeight < screenSize.height){
+                    frameHeight = screenSize.height
+                }
+                
+                
+                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: frameHeight + screenSize.height)
+            
+                dataViewController.view.backgroundColor = UIColor.whiteColor()
+                
+                
+                exhibitScrollView!.addSubview(dataViewController.view)
+                self.addChildViewController(dataViewController)
+                
+                totalHeight = totalHeight + frameHeight + screenSize.height
+                yPos = yPos + frameHeight + screenSize.height
+
+                
+                break;
+                
+            case "exit":
                 var feedbackScreen = ExhibitFeedbackScreenViewController(nibName: "ExhibitFeedbackScreenViewController", bundle: nil)
                 feedbackScreen.exhibitModel = myExhibit
-                feedbackScreen.view.frame = CGRect(x: 0, y:yPos+screenSize.height, width: screenSize.width, height: screenSize.height)
+                feedbackScreen.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
                 feedbackScreen.view.backgroundColor = UIColor.yellowColor()
+                feedbackScreen.view.tag = room.mercury_room_order.toInt()!
                 
                 exhibitScrollView!.addSubview(feedbackScreen.view)
                 self.addChildViewController(feedbackScreen)
+                
+                feedbackScreenSlot = feedbackScreen
+                
+                
+                totalHeight = totalHeight + screenSize.height
+                
+                
+                break;
+                
+            default:
+                println("no label found")
             }
+            
+            
+            
+            looper++
         }
+        
+        
+        exhibitScrollView?.contentSize = CGSize(width:screenSize.width, height: totalHeight)
+
     }
-    
+
     func scrollViewDidEndDecelerating(scrollView: UIScrollView){
         if(exhibitScrollView!.contentOffset.y >= screenSize.height){
             eventData["showToolBar"] = "true"
             eventData["menuTitle"] = "true"
-            eventData["menuTitleString"] = applicationModel.museumData[0].museum_title + ": " + applicationModel.museumData[0].exhibitData[pageIndex].exhibit_title
+            eventData["menuTitleString"] = applicationModel.nearestMuseum!.museum_title + ": " + applicationModel.selectedExhibit!.exhibit_title
             
             NSNotificationCenter.defaultCenter().postNotificationName("ToggleMenuBar", object: nil, userInfo:  eventData)
         }else{
             eventData["showToolBar"] = "false"
-            eventData["menuTitle"] = "false"
+            eventData["menuTitle"] = "-welfalse"
             eventData["menuTitleString"] = ""            
             NSNotificationCenter.defaultCenter().postNotificationName("ToggleMenuBar", object: nil, userInfo:  eventData)
         }

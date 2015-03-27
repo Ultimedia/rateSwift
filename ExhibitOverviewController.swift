@@ -44,10 +44,12 @@ class ExhibitOverviewController: UIViewController {
     */
     func createUI(){
         
+        
+    
         view.backgroundColor = UIColor.whiteColor()
         
         // subtitle
-        overviewTitleLabel = UILabel(frame: CGRect(x:0, y: 80, width: screenSize.width, height: 100))
+        overviewTitleLabel = UILabel(frame: CGRect(x:0, y: 80, width: screenSize.width, height: 120))
         overviewTitleLabel!.numberOfLines = 3
         overviewTitleLabel!.lineBreakMode = .ByWordWrapping
         overviewTitleLabel!.text = exhibitModel?.overviewTitle_Dutch
@@ -57,7 +59,7 @@ class ExhibitOverviewController: UIViewController {
         
         
         // description
-        descriptionLabel = UILabel(frame: CGRect(x: 20, y: 240, width: screenSize.width, height: screenSize.height - 200))
+        descriptionLabel = UILabel(frame: CGRect(x: 20, y: 200, width: screenSize.width, height: screenSize.height - 200))
         descriptionLabel!.numberOfLines = 8
         descriptionLabel!.lineBreakMode = .ByWordWrapping
         descriptionLabel!.text = exhibitModel?.overviewInfo_Dutch
@@ -69,6 +71,11 @@ class ExhibitOverviewController: UIViewController {
         // ipad layout update
         if(deviceFunctionService.deviceType == "ipad"){
             descriptionLabel?.frame = CGRect(x: (screenSize.width/2)-200, y: 40, width: 400, height: 300)
+        }else{
+            
+            overviewTitleLabel?.frame = CGRect(x:0, y: 80, width: screenSize.width, height: 120)
+            descriptionLabel?.frame = CGRect(x: 20, y: 200, width: screenSize.width, height: screenSize.height - 200)
+
         }
         
         view.addSubview(overviewTitleLabel!)
@@ -81,12 +88,14 @@ class ExhibitOverviewController: UIViewController {
     * Draw overview grid
     */
     func drawOverView(){
-        var myExhibit = applicationData.museumData[0].exhibitData[0].roomData
+        
+        
+        var myExhibit = exhibitModel?.roomData
         var iconWidth:Int = 140
         var iconHeight:Int = 140
         var spacing:Int = 10
-        var roomCount = myExhibit.count
-        var numberOfRows:Int = roomCount
+        var roomCount = myExhibit?.count
+        var numberOfRows:Int = roomCount!
         var numberOfColumns:Int = 4
         var counter = 0
         
@@ -103,7 +112,7 @@ class ExhibitOverviewController: UIViewController {
                     var t:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
                     t.frame = CGRect(x: j*(iconWidth + spacing), y: (i*(iconWidth+spacing)+iconWidth)-140, width: iconWidth, height: iconHeight)
                     
-                    if(myExhibit[counter].mercury_room_type == "intro"){
+                    if(exhibitModel?.roomData[counter].mercury_room_type == "intro"){
                         t.backgroundColor = UIColor.yellowColor()
                     }else{
                         t.backgroundColor = UIColor.redColor()
@@ -113,7 +122,7 @@ class ExhibitOverviewController: UIViewController {
                     t.addTarget(self, action: "overviewAction:", forControlEvents: UIControlEvents.TouchUpInside)
 
                     var viewLabel:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: iconWidth, height: iconHeight))
-                        viewLabel.text = myExhibit[counter].mercury_room_title
+                        viewLabel.text = exhibitModel?.roomData[counter].mercury_room_title
                         viewLabel.textAlignment = NSTextAlignment.Center
                     t.addSubview(viewLabel)
 

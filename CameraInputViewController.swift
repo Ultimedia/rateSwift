@@ -44,7 +44,6 @@ class CameraInputViewController: UIViewController, UIImagePickerControllerDelega
         
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         {
-            println("Button capture")
             
             cameraUI = UIImagePickerController()
             cameraUI.delegate = self

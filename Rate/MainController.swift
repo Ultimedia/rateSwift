@@ -8,8 +8,10 @@
 import CoreLocation
 import UIKit
 import CoreData
+import CoreBluetooth
 
-class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate {
+
+class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewControllerDelegate, UIScrollViewDelegate, CBPeripheralManagerDelegate {
     
     // Class specific data
     var firstRun:Bool = true
@@ -34,20 +36,28 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     var favouritesViewController:FavouritesViewController?
     var settingsViewController:SettingsViewController?
     var signOnViewController:SignOnScreenViewController?
+    var welcomeViewController:WelcomeViewController?
     var loadingViewControler:LoadingViewController?
+    var museumOverviewController:MuseumOverviewViewController?
     var menuViewController:UIViewController?
     var connectionFound = false
     var targetController:UIViewController?
     var map:DIrectionsOverlayViewController?
 
-    
-    
+    var manager: CBPeripheralManager?
+
+
     // Effects
     var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.manager = CBPeripheralManager()
+
+        
+        println("app running")
         
         // detect our device type
         deviceFunctionService.detectDevice()
@@ -58,19 +68,22 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         //initiate viewControllers
         helpViewController = HelpViewController(nibName: "HelpViewController", bundle: nil)
         exhibitViewController = ExhibitViewController(nibName: "ExhibitViewController", bundle: nil)
-        teaserViewController = TeaserViewController(nibName: "TeaserViewController", bundle: nil)
         favouritesViewController = FavouritesViewController(nibName: "FavouritesViewController", bundle: nil)
-        settingsViewController = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
         signOnViewController = SignOnScreenViewController(nibName: "SignOnScreenViewController", bundle: nil)
         loadingViewControler = LoadingViewController(nibName: "LoadingViewController", bundle: nil)
         map = DIrectionsOverlayViewController(nibName: "DIrectionsOverlayViewController", bundle: nil)
+        welcomeViewController = WelcomeViewController(nibName: "WelcomeViewController", bundle: nil)
 
+        
+        
 
         // show loading screen
         navigationController?.pushViewController(loadingViewControler!, animated: false)
         
         // Check connection in a timed function
         var dataTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("checkDataConnection"), userInfo: nil, repeats: true)
+        
+        var nearestMuseumTimer = NSTimer.scheduledTimerWithTimeInterval(30, target: self, selector: Selector("cheackNearestMuseum"), userInfo: nil, repeats: true)
         
         // Bind custom events to handle page flow from this controller
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuChangedHandler:", name:"MenuChangedHandler", object: nil)
@@ -81,11 +94,57 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeHelpPopupHandler:", name:"CloseHelpPopup", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMapPopupHandler:", name:"ShowMapPopup", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeMapView:", name:"CloseNavigationView", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "errorDialog:", name:"ErrorDialog", object: nil)
 
         
         // get locationServices
         locationServices.initLocationServices()
+        
+        
+        self.manager = CBPeripheralManager(delegate: self, queue: nil)
+
+
     }
+
+
+    func errorDialog(ns:NSNotification){
+
+        println("hier")
+        
+        var errorMessage:String = ""
+        if let info = ns.userInfo {
+            errorMessage =  info["errorString"] as String
+        }
+        
+        var alert = UIAlertController(title: "Fout", message: errorMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Sluit", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    /**
+    * Detect bluetooth
+    */
+    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager!) {
+        
+        if peripheral.state == CBPeripheralManagerState.PoweredOn {
+            println("bluetooth")
+            applicationModel.bluetooth = true
+            
+        NSNotificationCenter.defaultCenter().postNotificationName("BluetoothOnline", object: nil, userInfo:  nil)
+
+        }
+        else if peripheral.state == CBPeripheralManagerState.PoweredOff {
+           // self.manager.stopAdvertising()
+            applicationModel.bluetooth = false
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("BluetoothOffline", object: nil, userInfo:  nil)
+            
+            eventData["menu"] = "error"
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+        }
+    }
+    
     
     
     /**
@@ -124,22 +183,77 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         if let info = notification.userInfo {
             println(notification.userInfo)
             
+            if((info["menu"] as String) != "error"){
+                applicationModel.lastPage = info["menu"] as? String
+            }
+            
+            
+            if(applicationModel.currentTarget != info["menu"] as? String){
+            
             var myTarget: String = (info["menu"] as String)
+            applicationModel.currentTarget = myTarget
+
             var isPopup:Bool = false
+            
             
             switch myTarget
             {
                 case "teaser":
+                    teaserViewController = TeaserViewController(nibName: "TeaserViewController", bundle: nil)
                     targetController = teaserViewController
                     locationServices.getNearestMuseum()
+                    applicationModel.localExhibitSelected = false
+                
+                    eventData["icon"] = "teaser"
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
+
+                    eventData["icon"] = "settings"
+                    NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
+
+
+                
+                case "overview":
+                    museumOverviewController = MuseumOverviewViewController(nibName: "MuseumOverviewViewController", bundle: nil)
+
+                    targetController = museumOverviewController
+                    applicationModel.localExhibitSelected = false
+                
+                    eventData["icon"] = "teaser"
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
+                
+                    
+                    eventData["icon"] = "hidden"
+                    NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
+                
+
+                
+                
                 case "exhibit":
                     targetController = exhibitViewController
+                    
+                    eventData["icon"] = "exhibitGrid"
+                    NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
+                
+                    eventData["icon"] = "exhibit"
+                    NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
+                
                 case "favourites":
                     targetController = favouritesViewController
+                
                 case "settings":
+                    settingsViewController = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
                     targetController = settingsViewController
+                
+                case "error":
+                    
+                NSNotificationCenter.defaultCenter().postNotificationName("HideBar", object: nil, userInfo:  nil)
+
+                    targetController = welcomeViewController
+                
                 case "sign":
                     targetController = signOnViewController
+                    NSNotificationCenter.defaultCenter().postNotificationName("HideBar", object: nil, userInfo:  nil)
+
                     initialSetup = true
                 default:
                     println("none")
@@ -197,6 +311,8 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
             NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
             }
             
+            }
+            
         } else {
             println("no valid data")
         }
@@ -211,7 +327,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         // dispatch event
         
         map = DIrectionsOverlayViewController(nibName: "DIrectionsOverlayViewController", bundle: nil)
-        map?.view.frame = CGRect(x: 50, y: 50, width: screenSize.width-100, height: screenSize.height-100)
+        map?.view.frame = CGRect(x: 20, y: 70, width: screenSize.width-40, height: screenSize.height-100)
         
         map!.view.layer.shadowColor = UIColor.blackColor().CGColor
         map!.view.layer.shadowOffset = CGSizeMake(5, 5)
@@ -220,12 +336,12 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         targetController!.addChildViewController(map!)
         targetController!.view.addSubview(map!.view)
     }
+
     
     func closeMapView(notification:NSNotification){
         map?.view.removeFromSuperview()
         map?.removeFromParentViewController()
         visualEffectView.removeFromSuperview()
-
     }
     
     
@@ -266,7 +382,6 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     * Animation: Scroll the content frame down when opening the menu
     */
     func showMenu(notification: NSNotification){
-        println("showing menu")
         
         var myView = targetController?.view
         var yPos = screenSize.height - 212
@@ -315,36 +430,55 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
     }
     
     
+    func locationPermission(ns:NSNotification){
+    /*    println("ja")
+        
+        var alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Click", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)*/
+    }
+    
+    
     /**
     * Check network connection
     */
     func checkDataConnection(){
         
+        //println("local data")
+        //println(applicationModel.firstLogin)
+        
         // first check if we have a connection
         if Reachability.isConnectedToNetwork() {
             applicationModel.networkConnection = true
-        
+        NSNotificationCenter.defaultCenter().postNotificationName("DataConnectionOnline", object: nil, userInfo:  nil)
+
             if(!connectionFound){
                 connectionFound = true
                 
                 // load data
                 dataServices.loadData()
-                
             }
             
             // show views once data has loaded
             if(dataServices.dataLoaded && firstRun){
                 
+                
                 // toggle the first run
                 firstRun = false
                 
                 if(applicationModel.firstLogin == true){
+                    
+                    println("pushing signonviewcontroller")
+        
+                    // pushing signon viewController to the navigation stack
                     navigationController?.pushViewController(signOnViewController!, animated: false)
-
+    
                 }else{
+                    
+                    println("eeeee")
                     eventData["menu"] = "teaser"
-                    NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
-                    NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuButton", object: nil, userInfo:  nil)
                 }
                 
                 targetController = navigationController?.visibleViewController
@@ -355,14 +489,30 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         } else {
             applicationModel.networkConnection = false
             println("Netwerkverbinding: \(applicationModel.networkConnection)")
-        }
+        
+            eventData["menu"] = "error"
+            
+            
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+            
+            NSNotificationCenter.defaultCenter().postNotificationName("DataConnectionOffline", object: nil, userInfo:  nil)
+                }
     }
     
+    
+    func cheackNearestMuseum(){
+        println("check")
+        
+        
+        locationServices.getNearestMuseum()
+    }
     
     /**
     * Hide status bar
     */
+    /*
     override func prefersStatusBarHidden() -> Bool {
         return true
-    }
+    }*/
 }

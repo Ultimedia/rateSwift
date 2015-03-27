@@ -10,6 +10,7 @@ import Foundation
 
 class MuseumModel: NSObject, Printable {
     let museum_id:String
+    let museum_cover:String
     let museum_title:String
     let museum_address:String
     let museum_description:String
@@ -27,10 +28,9 @@ class MuseumModel: NSObject, Printable {
 
     
     
-    //let exhibits:Array
-    
-    init(museum_id: String?, museum_title: String?, museum_address: String?, museum_description: String?, museum_website: String?, museum_twitter: String?, museum_facebook: String?, museum_visible: String?, museum_open: String?, exhibitData:Array<ExhibitModel>) {
+    init(museum_id: String?, museum_cover:String?, museum_title: String?, museum_address: String?, museum_description: String?, museum_website: String?, museum_twitter: String?, museum_facebook: String?, museum_visible: String?, museum_open: String?, exhibitData:Array<ExhibitModel>) {
         self.museum_id = museum_id ?? ""
+        self.museum_cover = museum_cover ?? ""
         self.museum_title = museum_title ?? ""
         self.museum_address = museum_address ?? ""
         self.museum_description = museum_description ?? ""

@@ -13,12 +13,12 @@ class MenuViewController: UIViewController {
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     var eventData = Dictionary<String, String>()
+    let applicationModel = ApplicationData.sharedModel()
+
 
     @IBOutlet weak var startLabel: UIButton!
-    @IBOutlet weak var exhibitLabel: UIButton!
     @IBOutlet weak var favLabel: UIButton!
     @IBOutlet weak var settingsLabel: UIButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,18 +26,16 @@ class MenuViewController: UIViewController {
         // Do any additional setup after loading the view.
         createUI()
         
-        view.backgroundColor = UIColor.blackColor()
-        view.alpha = 0
+        view.backgroundColor = applicationModel.UIColorFromRGB(0x6a6a6a)
+        view.alpha = 1
 
         // we found a museum / exhibit so update the menu
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "museumFoundHandler:", name:"MuseumFound", object: nil)
 
-        
-        exhibitLabel.hidden = false
     }
     
+    
     func museumFoundHandler(notification: NSNotification){
-        exhibitLabel.hidden = false
         
     }
     
@@ -62,7 +60,7 @@ class MenuViewController: UIViewController {
     }
     
     @IBAction func closeMenu(sender: AnyObject) {
-        NSNotificationCenter.defaultCenter().postNotificationName("CloseMenuFromNavigation", object: nil, userInfo:  eventData)
+    NSNotificationCenter.defaultCenter().postNotificationName("CloseMenuFromNavigation", object: nil, userInfo:  eventData)
 
         UIView.animateWithDuration(0.4, animations: {
             
@@ -70,7 +68,7 @@ class MenuViewController: UIViewController {
             // if you want, you could just enter 270
             // but I prefer to enter the math as a reminder of what's happenings
             self.view.frame = CGRect(x: 0, y: -self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height)
-            self.view.alpha = 0
+                self.view.alpha = 1
             },
             
             completion: { finished in if(finished) {

@@ -19,6 +19,9 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     // applicationModel
     let applicationModel = ApplicationData.sharedModel()    
     var eventData = Dictionary<String, String>()
+    var exhibitListViewController:ExhibitListViewController?
+    
+    var gridAdded:Bool = false
     
     // data
     var museumModel:[MuseumModel] = []
@@ -42,9 +45,60 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
         pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height + 50);
         
+        //64
+        
         addChildViewController(pageViewController!)
         view.addSubview(pageViewController!.view)
         pageViewController!.didMoveToParentViewController(self)
+        
+        eventData["icon"] = "exhibitGrid"
+        NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gridToggle:", name:"GridToggle", object: nil)
+        
+        // exhibit list view controller
+        exhibitListViewController = ExhibitListViewController(nibName: nil, bundle: nil)
+        exhibitListViewController!.view.frame = CGRect(x: 0, y: 60, width: screenSize.width, height: 150)
+        exhibitListViewController!.view.backgroundColor = applicationModel.UIColorFromRGB(0x785dc8)
+        exhibitListViewController!.view.hidden = true
+
+    }
+    
+    /**
+    * Grid Toggle
+    */
+    func gridToggle(ns:NSNotification){
+
+        
+        if(!gridAdded){
+            gridAdded = true
+            view.addSubview(exhibitListViewController!.view)
+        }
+        
+        if(exhibitListViewController!.view.hidden){
+            exhibitListViewController!.view.hidden = false
+            
+            exhibitListViewController!.view.frame.origin.y = -exhibitListViewController!.view.frame.height
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.exhibitListViewController!.view.frame.origin.y = 60
+
+                return
+                }, completion: { finished in
+                    // the animation is complete
+            })
+            
+        }else{
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.exhibitListViewController!.view.frame.origin.y = -60
+                
+                return
+                }, completion: { finished in
+                    // the animation is complete
+                    self.exhibitListViewController!.view.hidden = true
+
+            })
+        }
     }
     
     
@@ -105,11 +159,11 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         return 0
     }
     
-    
+    /*
     /**
     * Hide status bar
     */
     override func prefersStatusBarHidden() -> Bool {
         return true
-    }
+    }*/
 }

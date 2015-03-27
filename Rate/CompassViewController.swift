@@ -21,21 +21,14 @@ class CompassViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = UIColor.clearColor()
-        /*
-        // Create a new CircleView
-        var circleView = CompassView(frame: CGRectMake((view.frame.width-100)/2, (view.frame.height-100)/2-20, 100, 100))
-        //var circleView:CompassView = CompassView(frame: CGRectMake((view.frame.width-100)/2, (view.frame.height-100)/2-20, 100, 100))
-        view.addSubview(circleView)
-        
-        // Animate the drawing of the circle over the course of 1 second
-        circleView.animateCircle(5.0)
-        */
 
         mapKit.layer.cornerRadius = self.mapKit.frame.size.width / 2
         mapKit.clipsToBounds = true
-        mapKit.layer.borderWidth = 3.0
+        mapKit.layer.borderWidth = 5.0
         mapKit.layer.borderColor = UIColor.whiteColor().CGColor
         mapKit.alpha = 0
+
+        compasLabel.hidden = true
     }
     
     func updateMapkit(){
@@ -46,15 +39,6 @@ class CompassViewController: UIViewController {
         
         mapKit.setRegion(region, animated: true)
         
-    }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-    
-        println("open map view")
-
-        NSNotificationCenter.defaultCenter().postNotificationName("ShowMapPopup", object: nil, userInfo:  nil)
-
-    
     }
     
 

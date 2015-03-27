@@ -40,7 +40,8 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     var overlay:UIImageView?
     var footer:UIImageView?
     
-
+    // Effects
+    var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
     
     var userModel:UserModel?
 
@@ -65,11 +66,15 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         
         // update the interface
         createUI()
+        
+        
     }
 
 
     func createUI(){
 
+        NSNotificationCenter.defaultCenter().postNotificationName("HideBar", object: nil, userInfo:  nil)
+        
         var tileView:UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height))
         
         // description
@@ -78,10 +83,11 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         welcomeLabel!.numberOfLines = 1
         welcomeLabel!.lineBreakMode = .ByWordWrapping
         welcomeLabel!.text = "Welkom"
-        welcomeLabel!.font =  UIFont (name: "Avenir-Black", size: 70)
+        welcomeLabel!.font =  UIFont (name: "AvenirNext-DemiBold", size: 50)
         welcomeLabel!.textColor = UIColor.whiteColor()
         welcomeLabel!.textAlignment = NSTextAlignment.Center
 
+        
         // description
         descriptionLabel = UILabel()
         descriptionLabel!.frame = CGRect(x: 0, y: 240, width: tileView.frame.width, height: 80)
@@ -91,6 +97,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         descriptionLabel!.font = UIFont (name: "HelveticaNeue-Medium", size: 20)
         descriptionLabel!.textColor = applicationModel.UIColorFromRGB(0xcccccc)
         
+        
         // signbutton
         signButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
         signButton!.setTitle("Aanmelden zonder account", forState: UIControlState.Normal)
@@ -98,6 +105,8 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         signButton!.addTarget(self, action: "signUpAction:", forControlEvents: UIControlEvents.TouchUpInside)
         signButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         signButton!.titleLabel?.textAlignment = NSTextAlignment.Center
+        
+        
         
         // signbutton
         twitterButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
@@ -108,12 +117,16 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         twitterButton!.titleLabel?.textAlignment = NSTextAlignment.Center
         twitterButton!.backgroundColor = applicationModel.UIColorFromRGB(0xd14f53)
         
+        
         // add a holder view
         if(deviceFunctionService.deviceType == "ipad"){
             fbl.frame = CGRectMake(0, 280,  400, 50);
+        }else{
+            fbl.frame = CGRectMake(0, screenSize.height - 240,  screenSize.width, 80);
         }
 
-        
+        var facebookLabel:UILabel = UILabel()
+
         for dd in fbl.subviews
         {
             if (dd.isKindOfClass(UIButton)){
@@ -128,16 +141,35 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
                 var uiLabel = dd as UILabel
                     uiLabel.backgroundColor = applicationModel.UIColorFromRGB(0x4acec5)
                     uiLabel.textColor = UIColor.whiteColor()
-                    uiLabel.text = "Aanmelden met Facebook"
+                    uiLabel.text = ""
                     uiLabel.layer.shadowOpacity = 0
                     uiLabel.layer.shadowRadius = 0
                 
+                
+                    facebookLabel.backgroundColor = applicationModel.UIColorFromRGB(0x4acec5)
+                    facebookLabel.textColor = UIColor.whiteColor()
+                    facebookLabel.text = "Aanmelden met Facebook"
+                    facebookLabel.textAlignment = NSTextAlignment.Center
+                    facebookLabel.userInteractionEnabled = false
+                
                 if(deviceFunctionService.deviceType == "ipad"){
                     uiLabel.frame = CGRectMake(0, 0,  400, 50);
+                }else{
+                    uiLabel.frame = CGRectMake(0, 0,  screenSize.width, 80);
                 }
+                
             }
         }
         
+
+        
+        
+        backgroundImage = UIImage(named: "loginBackground")
+        backgroundImageView = UIImageView(frame: view.bounds)
+        backgroundImageView?.image = backgroundImage
+        backgroundImageView?.center = view.center
+        backgroundImageView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        backgroundImageView?.contentMode = UIViewContentMode.ScaleAspectFill
         
         if(deviceFunctionService.deviceType == "ipad"){
             
@@ -148,21 +180,22 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             signButton!.frame = CGRect(x: 0, y: screenSize.height - 80, width:screenSize.width, height: 80)
             twitterButton!.frame = CGRect(x: 0, y: tileView.frame.height - 150, width: tileView.frame.width, height: 50)
             descriptionLabel!.frame = CGRect(x: (screenSize.width - 500)/2, y:335, width: 500, height: 200)
+            facebookLabel.frame = CGRectMake(0, 280,  400, 50);
 
+        }else{
+            signButton!.frame = CGRect(x: 0, y: screenSize.height - 80, width:screenSize.width, height: 80)
             
-            backgroundImage = UIImage(named: "loginBackground")
-            backgroundImageView = UIImageView(frame: view.bounds)
-            backgroundImageView?.image = backgroundImage
-            backgroundImageView?.center = view.center
-            backgroundImageView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-            backgroundImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+            twitterButton!.frame = CGRect(x: 0, y: screenSize.height - 160, width: screenSize.width, height: 80)
+            
+            descriptionLabel!.frame = CGRect(x: 0, y:welcomeLabel!.frame.origin.y + 60, width: screenSize.width, height: 140)
 
-            
-            //fbl.frame = CGRect(x:(tileView.frame.width-218)/2, y: 250, width: 218, height: 50)
-            
-            view.addSubview(backgroundImageView!)
-    
+            descriptionLabel!.textAlignment = NSTextAlignment.Center
+            facebookLabel.frame = CGRectMake(0, screenSize.height - 240,  screenSize.width, 80);
+
+
         }
+        
+        view.addSubview(backgroundImageView!)
 
         overlay = UIImageView(frame: CGRectMake(0, 0, screenSize.width, screenSize.height-80))
         overlay!.backgroundColor = UIColor.blackColor()
@@ -180,7 +213,8 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         view.addSubview(signButton!)
         tileView.addSubview(twitterButton!)
         tileView.addSubview(fbl)
-        
+        tileView.addSubview(facebookLabel)
+
         tileView.alpha = 0
         UIView.animateWithDuration(0.8, delay: 0, options: .CurveEaseInOut, animations: {
             tileView.alpha = 1
@@ -189,6 +223,8 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             return
             }, completion: { finished in
         })
+    
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -201,7 +237,6 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     * Facebook Login
     */
     func signUpAction(sender: AnyObject) {
-        
         applicationModel.localAccount = true
         loginComplete()
     }
@@ -256,6 +291,10 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
                         self.userModel = UserModel(user_id: "0", user_name:twitterAccount.userFullName, user_image: "Image", user_twitterhandle: twitterAccount.username, user_facebookid: "", user_active: "1")
 
                         
+                        println(twitterAccount.userFullName)
+                        
+                        
+                        
                         // create user object
                         self.loginComplete()
                     }
@@ -297,6 +336,8 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             // user authenticated, hide the login screen from now on
             applicationModel.defaults.setObject(false, forKey: "firstLogin")
             applicationModel.defaults.setObject(false, forKey: "localAccount")
+            
+            println("setting stuff")
         }
         
         // Store the model of our current user
@@ -306,10 +347,28 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         applicationModel.defaults.synchronize()
 
         
-        // Go the the intro screen
-        eventData["menu"] = "teaser"
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
-        self.dismissViewControllerAnimated(false, completion: nil)
+        visualEffectView.alpha = 0
+        visualEffectView.frame = view.bounds
+        view.addSubview(visualEffectView)
+        
+        println("next screen")
+        
+        
+        UIView.animateWithDuration(0.5, delay: 0, options: nil, animations: {
+            // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+            self.visualEffectView.alpha = 1
+            
+            return
+            }, completion: { finished in
+                // the animation is complete
+                
+                // Go the the intro screen
+                self.eventData["menu"] = "teaser"
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  self.eventData)
+                self.dismissViewControllerAnimated(false, completion: nil)
+                self.visualEffectView.removeFromSuperview()
+        })
+
     }
     
     

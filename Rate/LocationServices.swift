@@ -11,6 +11,7 @@ import UIKit
 import CoreData
 import Foundation
 import CoreLocation
+import CoreBluetooth
 
 
 class LocationSevices: NSObject, CLLocationManagerDelegate {
@@ -35,10 +36,25 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
     var locationPermission:Bool = false;
     var beaconFound:Bool = false;
     var closestBeacon:CLBeacon?
-    
+    var lastBeacon:BeaconModel?
     var location:CLPlacemark!
     var distances: [Double]?
     var museumsDic = [MuseumModel :Double]()
+    var beaconCheck:CLBeacon?
+    var userLocationFound:Bool = false
+    var sortedMuseums:[MuseumModel]!
+    var te:[MuseumModel]!
+    var musArray = Array<MuseumModel>()
+    var teee:AnyObject?
+    
+    // Beacon change validation
+    var minBeaconResponder:Int = 3
+    var beaconResponder = 0
+
+    
+    // distance var (the distance required for the app to look foor beacons)
+    var distanceVar:Double = 100
+    var beaconSearching:Bool = false
 
     /**
     * Setup beacons
@@ -53,9 +69,18 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
             println("no location permission :(")
             locationPermission = false
             locationManager.requestWhenInUseAuthorization()
+            
+            applicationModel.location = false
+            NSNotificationCenter.defaultCenter().postNotificationName("LocationPermissionFalse", object: nil, userInfo:  nil)
+
+            
         }else{
             locationPermission = true
             println("locationpermission")
+            
+            applicationModel.location = true
+            NSNotificationCenter.defaultCenter().postNotificationName("LocationPermissionTrue", object: nil, userInfo:  nil)
+
             
             // Start monitoring the beacon region
             locationManager.startRangingBeaconsInRegion(region)
@@ -65,20 +90,37 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    /*
+    func peripheralManagerDidUpdateState(peripheral: CBPeripheralManager!) {
+        println(__FUNCTION__)
+        if peripheral.state == CBPeripheralManagerState.PoweredOn {
+            println("Broadcasting...")
+            //start broadcasting
+            myBTManager!.startAdvertising(_broadcastBeaconDict)
+        } else if peripheral.state == CBPeripheralManagerState.PoweredOff {
+            println("Stopped")
+            myBTManager!.stopAdvertising()
+        } else if peripheral.state == CBPeripheralManagerState.Unsupported {
+            println("Unsupported")
+        } else if peripheral.state == CBPeripheralManagerState.Unauthorized {
+            println("This option is not allowed by your application")
+        }
+    }
+    */
+    
     
     /**
     * Find the nearest museum
     */
     func getNearestMuseum(){
-        //et distance = fromLocation.distanceFromLocation(toLocation)
-
-        println("musuem zoeken")
         
-        var counter:Int = 0
-        var geocoder = CLGeocoder()
-        // see which musuem is closest
-        var baboon = true
-        for museum in applicationModel.museumData{
+        if(userLocationFound){
+        
+            var counter:Int = 0
+            var geocoder = CLGeocoder()
+            // see which musuem is closest
+            var baboon = true
+            for museum in applicationModel.museumData{
             
             // get the lat long from museum
             var address = museum.museum_address
@@ -98,36 +140,74 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
                     
                     var userLoc = CLLocation(latitude: self.userLocation["lat"]!, longitude: self.userLocation["lon"]!)
                     
-                    
-                    
                     museum.museum_dis = museum.musuem_loc!.distanceFromLocation(userLoc)
                     museum.museum_dis = museum.museum_dis! / 1000.0
                     self.museumsDic[museum] = museum.museum_dis
                     
-                    
-                    
                     counter++
+                    
+                    
+                    
+                    
+
                     
                     // last iteration
                     if(counter == self.applicationModel.museumData.count){
+                        
+            
+                        self.musArray = Array<MuseumModel>()
+                        
                         var museumModelCount:Int = 0
                         for (k,v) in (Array(self.museumsDic).sorted {$0.1 < $1.1}) {
 
-
+                            self.musArray.append(k)
+                            
                             if(museumModelCount == 0){
 
                                 // now return this beast
-                                self.applicationModel.nearestMuseum = k
-                            NSNotificationCenter.defaultCenter().postNotificationName("NearestMusuemChanged", object: nil, userInfo:  nil)
+                                if(self.applicationModel.nearestMuseum != k){
+                                    self.applicationModel.nearestMuseum = k
+                                NSNotificationCenter.defaultCenter().postNotificationName("NearestMusuemChanged", object: nil, userInfo:  nil)
+                                }
+                                
+                                // should we start checking for beacons? (do this only if we are really close to the museum
+                                if(self.applicationModel.nearestMuseum?.museum_dis < self.distanceVar){
+                                    
+                                    // now search for beacons
+                                    //self.beaconSearching = true
+                                    
+                                    
+                                    
+                                }else{
+                                    
+                                    //println("museum gevonden maar nog ver")
+                                    
+                                    // don't search for beacons (we're not close enough to the museum)
+                                    self.beaconSearching = false
+                                }
+                                
                             }
+                            
+                            
                             museumModelCount++
+                            
+                            if(museumModelCount == self.museumsDic.count){
+                                
+                                // now dispatch an
+                                NSNotificationCenter.defaultCenter().postNotificationName("MuseumListCompletedHandler", object: nil, userInfo:  nil)
+
+                            }
                         }
+                        
                     }
-                    
                 }else{
+                    
+                    println("can't map this location")
+                    println(address)
                     
                 }
             })
+        }
         }
     }
 
@@ -138,65 +218,128 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
     * Handle iBeacon events
     */
     func locationManager(manager: CLLocationManager!, didRangeBeacons beacons: [AnyObject]!, inRegion region: CLBeaconRegion!) {
+    
         
+        
+        if(beaconSearching){
+            
         // strip the beacons that have an unknown proximity
         let knownBeacons = beacons.filter{ $0.proximity != CLProximity.Unknown }
-        
         var latestMinor:Int = 0
         var currentMuseumId:Int = 0
+        var beaconCollection:Array<BeaconModel>
+        var exhibitCollection = Array<ExhibitModel>()
+        var counter:Int = 0
         
-        // proceed if we have beacons in range
-        // first element in array is the closest beacon
-        if (knownBeacons.count > 0) {
-        
-            //get closest beacon
-            closestBeacon  = knownBeacons[0] as? CLBeacon
             
-            // gotoArtwork
-            var minor:Int = Int(closestBeacon!.minor)
-            var te:String = String(minor)
+        // once the selected exhibit is eanbled we hav eto do things differently
+        if(applicationModel.localExhibitSelected){
+
+            println("selected yes")
             
-            // check if this beacon matches one of the beacons in the  database
-            if(applicationModel.beaconData.count > 0 && latestMinor != closestBeacon?.minor){
+            // get the exhibit id
+            var myExhibitId = applicationModel.selectedExhibit?.exhibit_id
+            
+            if (knownBeacons.count > 0) {
                 
-                var lastBeacon:BeaconModel?
-
-                // check our beacons
-                for beacon in applicationModel.beaconData{
+                
+                //get closest beacon
+                closestBeacon = knownBeacons[0] as? CLBeacon
+                
+                // gotoArtwork
+                var minor:Int = Int(closestBeacon!.minor)
+                
+                // check if this beacon matches one of the beacons in the  database
+                if(applicationModel.beaconData.count > 0 && latestMinor != closestBeacon?.minor){
                     
-                    // see if this beacon mathces one of the beacons in the system
-                    if(closestBeacon?.minor == (beacon.mercury_beacon_device_id.toInt())){
-                        
-                        
-                        if(lastBeacon == nil || lastBeacon?.mercury_museum_id != beacon.mercury_museum_id){
-                        
-                            currentMuseumId = beacon.mercury_museum_id.toInt()!
-                            latestMinor = closestBeacon?.minor as Int
-
+                    // check our beacons
+                    for beacon in applicationModel.beaconData{
+                    
+                        // see if this beacon mathces one of the beacons in the system
+                        if(minor == (beacon.mercury_beacon_device_id.toInt())){
                             
-                            // get the museum we're in
-                            for museum in applicationModel.museumData{
-                            
-                                if(beacon.mercury_museum_id == museum.museum_id){
-                                    applicationModel.activeMuseum = museum as MuseumModel
+                            if(lastBeacon?.mercury_museum_id.toInt() != beacon.mercury_museum_id.toInt() && beacon.mercury_exhibit_id == applicationModel.selectedExhibit?.exhibit_id){
                                 
-                                    NSNotificationCenter.defaultCenter().postNotificationName("MuseumFound", object: nil, userInfo:  nil)
-
-                                    // now get the exhibiton
-                                    for exhibit in museum.exhibitData{
-                                        if(exhibit.exhibit_id == beacon.mercury_exhibit_id){
-                                            applicationModel.activeExhibition = exhibit
-                                            
-                                        }
+                                lastBeacon = beacon
+                                applicationModel.nearestBeacon = beacon
+                                
+                                
+                                
+                                for room in applicationModel.selectedExhibit!.roomData{
+                                    if(room.mercury_room_id == beacon.mercury_room_id){
+                                        applicationModel.nearestRoom = room
                                     }
                                 }
+                                
+                                
+                                // an extra check
+                                if(beaconResponder >= minBeaconResponder){
+                                
+                                    beaconResponder = 0
+                                    
+                                    // now tell the app we have the beacon in hands
+                                    NSNotificationCenter.defaultCenter().postNotificationName("BeaconsChanged", object: nil, userInfo:  nil)
+                                    
+                                }
+                                
+                            }else{
+                                beaconResponder++
                             }
                         }
                     }
-                    lastBeacon = beacon
+                }
+            }
+            
+        }else{
+            
+        // proceed if we have beacons in range
+        // first element in array is the closest beacon
+        if (knownBeacons.count > 0) {
+    
+    
+            //get closest beacon
+            closestBeacon = knownBeacons[0] as? CLBeacon
+            
+            // Loop through the beacons
+            for clBeacon in knownBeacons{
+                
+                var dminor:Int = Int(clBeacon.minor)
+            
+                // map beacons
+                for beacon in applicationModel.beaconData{
+                    if(dminor == (beacon.mercury_beacon_device_id.toInt())){
+
+                        latestMinor = closestBeacon?.minor as Int
+                        
+                        
+                        
+                        for exhibit in applicationModel.selectedMuseum!.exhibitData{
+                            
+                            if(exhibit.exhibit_id == beacon.mercury_exhibit_id){
+                                exhibitCollection.append(exhibit)
+                            }
+                        }
+                    }
+                }
+                
+                counter++
+                
+                // last one
+                if(counter == knownBeacons.count && exhibitCollection.count != 0){
+                    //println(exhibitCollection)
+                    applicationModel.nearestExhibit = exhibitCollection[0]
+                    applicationModel.activeExhibits = exhibitCollection
+                    
+                    
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("BeaconsDetected", object: nil, userInfo:  nil)
+                    
+                    beaconResponder = 0
+                    }
                 }
             }
         }
+    }
     }
     
     
@@ -208,7 +351,6 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
     }
     
     
-    
     /**
     * Get location of the device
     */
@@ -218,10 +360,11 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
             
         userLocation["lat"] = newLocation.coordinate.latitude
         userLocation["lon"] = newLocation.coordinate.longitude
+    
+        userLocationFound = true
+            
     }
     
-    
-
     
     /**
     * Error

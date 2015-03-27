@@ -23,6 +23,9 @@ class DIrectionsOverlayViewController: UIViewController {
         map.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
         
         let span = MKCoordinateSpanMake(0.1, 0.1)
+        
+        println(applicationModel.nearestMuseum!.museum_coordinate)
+        
         let region = MKCoordinateRegion(center: applicationModel.nearestMuseum!.museum_coordinate!, span: span)
         
         let annotation = MKPointAnnotation()
@@ -33,6 +36,44 @@ class DIrectionsOverlayViewController: UIViewController {
         map.addAnnotation(annotation)
         map.setRegion(region, animated: true)
         map.showsUserLocation = true
+        
+        
+        // Annotations
+        var annotations:[MKPointAnnotation] = []
+        
+        // Loop counter
+        var counter:Int = 1
+        
+        // lets add museums (museum overview table)
+        for museum in applicationModel.museumData{
+            
+            var geocoder = CLGeocoder()
+            var address = museum.museum_address
+            geocoder.geocodeAddressString(address, {(placemarks, error)->Void in
+                if let placemark = placemarks?[0] as? CLPlacemark {
+                    
+                    let location = CLLocationCoordinate2D(
+                        latitude: placemark.location.coordinate.latitude,
+                        longitude: placemark.location.coordinate.longitude
+                    )
+                    
+                    var annotation = MKPointAnnotation()
+                    annotation.setCoordinate(location)
+                    annotation.title = "Roatan"
+                    annotation.subtitle = "Honduras"
+                    self.map?.addAnnotation(annotation)
+                    
+                    annotations.append(annotation)
+                    
+                }else{
+                    
+                }
+                
+                println(error)
+            })
+            
+            counter++
+        }
     }
 
     override func didReceiveMemoryWarning() {

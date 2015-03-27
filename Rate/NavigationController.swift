@@ -52,15 +52,22 @@ class NavigationController: UINavigationController {
 
         // Bar background
         barView = UIView()
-        barView?.frame = CGRect(x: 0, y: -70, width: screenSize.width, height: 70)
-        barView?.backgroundColor = UIColor.blackColor()
-        barView?.alpha = 0.9
+        barView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 64)
+        barView?.backgroundColor = UIColor.whiteColor()
+        barView?.alpha = 0.96
         
-        barLabel = UILabel(frame: CGRect(x: 20, y: 0, width: screenSize.width, height: 70))
-        barLabel!.numberOfLines = 3
-        barLabel!.lineBreakMode = .ByWordWrapping
+        var border = CALayer()
+        var width = CGFloat(1)
+        border.borderColor = applicationModel.UIColorFromRGB(0xbdbeb8).CGColor
+        border.frame = CGRect(x: 0, y: barView!.frame.size.height - width, width:  barView!.frame.size.width, height: barView!.frame.size.height)
+
+        border.borderWidth = width
+        barView!.layer.addSublayer(border)
+        barView!.layer.masksToBounds = true
+        barLabel = UILabel(frame: CGRect(x: 0, y: 7, width: screenSize.width, height: 64))
+        barLabel!.numberOfLines = 1
         barLabel!.text = "Exhibit"
-        barLabel!.font =  UIFont (name: "HelveticaNeue-Light", size: 23)
+        barLabel!.font =  UIFont (name: "AvenirNext-DemiBold", size: 18)
         barLabel!.textColor = UIColor.whiteColor()
         barLabel?.textAlignment = NSTextAlignment.Center
         barLabel?.alpha = 0
@@ -75,10 +82,25 @@ class NavigationController: UINavigationController {
             menuButton?.addTarget(self, action: "showMenu:", forControlEvents: UIControlEvents.TouchUpInside)
             menuButton?.setTitle("", forState: UIControlState.Normal)
             menuButton?.titleLabel?.textAlignment = .Left
-            menuButton?.frame = CGRectMake(20, 20, 40, 30)
+            menuButton?.frame = CGRectMake(10, 22, 40, 30)
             menuButton?.setImage(menuImage, forState: .Normal)
             menuButton?.alpha = 0
         view.addSubview(menuButton!)
+        
+        
+    
+        /*
+        let menuImage = UIImage(named: "hamburger-ico") as UIImage?
+        menuButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
+        menuButton?.addTarget(self, action: "showMenu:", forControlEvents: UIControlEvents.TouchUpInside)
+        menuButton?.setTitle("", forState: UIControlState.Normal)
+        menuButton?.titleLabel?.textAlignment = .Left
+        menuButton?.frame = CGRectMake(20, 20, 40, 30)
+        menuButton?.setImage(menuImage, forState: .Normal)
+        menuButton?.alpha = 0
+        view.addSubview(menuButton!)
+        */
+    
         
         
         // Help image button
@@ -98,10 +120,18 @@ class NavigationController: UINavigationController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuBackgroundToggle:", name:"BackgroundMenu", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideMenuButton:", name:"HideMenuButton", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showMenuButton:", name:"ShowMenuButton", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showBar:", name:"ToggleMenuBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showBar:", name:"ShowBar", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideBar:", name:"HideBar", object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "toggleBar:", name:"ToggleBar", object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setTitle:", name:"SetTitle", object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuIcon:", name:"MenuIcon", object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "rightIcon:", name:"RightIcon", object: nil)
     }
    
-    
     func hideMenuButton(notification:NSNotification){
         menuButton?.alpha = 0
         helpButton?.alpha = 0
@@ -118,14 +148,134 @@ class NavigationController: UINavigationController {
     }
     
     
+    func showBar(notif:NSNotification){
+        barView?.alpha = 1
+    }
+    
+    func hideBar(notif:NSNotification){
+        println("verberg de bar")
+        
+        
+        helpButton?.hidden = true
+        barView?.hidden = true
+        menuButton?.hidden = true
+    }
+    
+    func rightIcon(notif:NSNotification){
+        helpButton?.hidden = false
+        barView?.hidden = false
+        menuButton?.hidden = false
+        
+        
+        if let toggle = notif.userInfo {
+            var target:String = (toggle["icon"] as String)
+            
+            switch(target){
+                
+                case "hidden":
+                    helpButton?.hidden = true
+                break;
+                
+                case "exhibitGrid":
+                    let exhibitGridImage = UIImage(named: "exhibitGrid") as UIImage?
+                    helpButton?.setImage(exhibitGridImage, forState: .Normal)
+                    helpButton?.tag = 2
+                    helpButton?.hidden = false
+                    
+                break;
+                
+                
+            case "settings":
+                let helpIcon = UIImage(named: "help-ico") as UIImage?
+                helpButton!.setImage(helpIcon, forState: .Normal)
+                helpButton!.hidden = false
+                helpButton!.tag = 1
+                
+                break;
+                
+            case "list":
+                let listIcon = UIImage(named: "list-icon") as UIImage?
+                helpButton!.setImage(listIcon, forState: .Normal)
+                helpButton!.hidden = false
+                helpButton!.tag = 4
+                
+                
+                
+                break;
+                
+            
+            default:
+                //
+                break;
+            }
+            //
+        }
+    }
+    
+    
+
+    
+    
+    
+    
+    func menuIcon(notif:NSNotification){
+        helpButton?.hidden = false
+        barView?.hidden = false
+        menuButton?.hidden = false
+        
+        
+        if let toggle = notif.userInfo {
+            var target:String = (toggle["icon"] as String)
+            
+            switch(target){
+                case "logout":
+                    let backImage = UIImage(named: "back-button") as UIImage?
+                        menuButton?.setImage(backImage, forState: .Normal)
+                        menuButton?.tag = 1
+                        menuButton?.hidden = false
+                break;
+            
+                case "teaser":
+                    
+                    let homeImage = UIImage(named: "homeButton") as UIImage?
+                    menuButton?.setImage(homeImage, forState: .Normal)
+                    menuButton?.tag = 2
+                    menuButton?.hidden = false
+                break;
+                
+                case "exhibit":
+                    
+                    let exhibitImage = UIImage(named: "list-icon") as UIImage?
+                    menuButton?.setImage(exhibitImage, forState: .Normal)
+                    menuButton?.tag = 3
+                    menuButton?.hidden = false
+                    
+                    
+                break;
+                
+                case "hidden":
+                    menuButton?.hidden = true
+                break;
+                
+                default:
+                    //
+                break;
+            }
+            //
+        }
+    }
+    
+    
     /**
     * Show the menu background
     */
-    func showBar(notification:NSNotification){
-        if let info = notification.userInfo {
+    //func showBar(notification:NSNotification){
+        /*if let info = notification.userInfo {
             var eventInfo: String = (info["showToolBar"] as String)
             var exhibit:String = (info["menuTitle"] as String)
             var exhibitTitle:String = (info["menuTitleString"] as String)
+            
+            println(exhibitTitle)
             
             if(eventInfo == "true" && self.barView?.frame.origin.y < 0){
                 
@@ -134,7 +284,7 @@ class NavigationController: UINavigationController {
                     barLabel!.text = exhibitTitle
                 }else{
                     
-                    barLabel!.alpha = 0
+                    barLabel!.alpha = 1
                 }
                 
                 self.barView?.frame = CGRect(x: 0, y: -70, width: screenSize.width, height: 70)
@@ -155,8 +305,8 @@ class NavigationController: UINavigationController {
                         
                 })
             }
-        }
-    }
+        }*/
+    //}
     
     
     func toggleMenu(notification: NSNotification){
@@ -179,7 +329,6 @@ class NavigationController: UINavigationController {
                         }, completion: { finished in
 
                     })
-            
             })
             
         
@@ -203,6 +352,10 @@ class NavigationController: UINavigationController {
                 
             }
         }
+    }
+    
+    func hideMenu(){
+       println("yes")
     }
 
     
@@ -245,27 +398,95 @@ class NavigationController: UINavigationController {
     
     func showMenu(sender:UIBarButtonItem){
         
-        menuViewController = MenuViewController(nibName: "MenuViewController", bundle: nil)
-        self.addChildViewController(menuViewController!)
-        self.view.addSubview(menuViewController!.view)
-        var myView = menuViewController?.view
-            myView?.frame = CGRect(x:0, y:(-screenSize.height), width:screenSize.width, height:212)
-
-        UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
-            myView!.alpha = 100
-            myView?.frame = CGRect(x:0, y:0, width:self.screenSize.width, height:212)
-        }, completion: { finished in
-                println("Basket doors opened!")
-        })
         
-        NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuHandler", object: nil)
+        
+        
+        switch(sender.tag){
+            
+            case 1:
+            
+                eventData["menu"] = "sign"
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+                
+            break;
+            
+            
+            case 2:
+                
+                eventData["menu"] = "teaser"
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+            break;
+            
+            case 3:
+            
+                
+                eventData["menu"] = "overview"
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+                
+            break;
+            
+            
+            default:
+            
+                menuViewController = MenuViewController(nibName: "MenuViewController", bundle: nil)
+                self.addChildViewController(menuViewController!)
+                self.view.addSubview(menuViewController!.view)
+                var myView = menuViewController?.view
+                myView?.frame = CGRect(x:0, y:(-screenSize.height), width:screenSize.width, height:212)
+                
+                UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
+                    myView!.alpha = 100
+                    myView?.frame = CGRect(x:0, y:64, width:self.screenSize.width, height:212)
+                    }, completion: { finished in
+                        println("Basket doors opened!")
+                })
+                
+                NSNotificationCenter.defaultCenter().postNotificationName("ShowMenuHandler", object: nil)
 
+                
+            break;
+        
+        }
+        
+
+    }
+    
+    
+    func setTitle(noti:NSNotification){
+     
+        if let text = noti.userInfo {
+            var title:String = (text["title"] as String)
+            
+            barLabel?.text = title
+            barLabel?.alpha = 1
+            barLabel?.textColor = applicationModel.UIColorFromRGB(0x999999)
+            
+        }
+    
     }
     
 
     func showHelp(sender:UIBarButtonItem){
-        NSNotificationCenter.defaultCenter().postNotificationName("ShowHelpPopup", object: nil, userInfo:  nil)
 
+        switch(sender.tag){
+            case 1:
+            
+                eventData["menu"] = "settings"
+                NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+            
+            break;
+            case 2:
+            
+                NSNotificationCenter.defaultCenter().postNotificationName("GridToggle", object: nil, userInfo:  nil)
+            break;
+            
+
+            
+            default:
+
+                println("default")
+                break;
+        }
     }
     
     
