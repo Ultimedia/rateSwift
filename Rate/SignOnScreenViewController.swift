@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import SwifteriOS
 import Accounts
 import Social
 
 
 class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
 
-    var swifter: Swifter
+    //var swifter: Swifter
     var eventData = Dictionary<String, String>()
     let useACAccount = true
 
@@ -46,7 +45,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     var userModel:UserModel?
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        self.swifter = Swifter(consumerKey: "htbga9HzSGVe82aUd1DUA07wx", consumerSecret: "pYnAob3OJYVpPK8CNnnN6ZC917if1vqIEURY74xkXaVvPnrbnh")
+        //self.swifter = Swifter(consumerKey: "htbga9HzSGVe82aUd1DUA07wx", consumerSecret: "pYnAob3OJYVpPK8CNnnN6ZC917if1vqIEURY74xkXaVvPnrbnh")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -132,13 +131,13 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             if (dd.isKindOfClass(UIButton)){
                 println("button")
                 
-                var fbButton = dd as UIButton
+                var fbButton = dd as! UIButton
                     fbButton.backgroundColor = applicationModel.UIColorFromRGB(0x4acec5)
             }
             if (dd.isKindOfClass(UILabel)){
                 println("button")
                 
-                var uiLabel = dd as UILabel
+                var uiLabel = dd as! UILabel
                     uiLabel.backgroundColor = applicationModel.UIColorFromRGB(0x4acec5)
                     uiLabel.textColor = UIColor.whiteColor()
                     uiLabel.text = ""
@@ -264,7 +263,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     * Twitter Login
     */
     func twitterAction(sender: AnyObject) {
-        let failureHandler: ((NSError) -> Void) = {
+       /* let failureHandler: ((NSError) -> Void) = {
             error in
             self.alertWithTitle("Error", message: error.localizedDescription)
         }
@@ -312,7 +311,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
                 
                 },failure: failureHandler
             )
-        }
+        }*/
     }
 
     
@@ -331,7 +330,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             applicationModel.defaults.setObject(true, forKey: "localAccount")
         }else{
             // add credentials to the database
-            dataServices.postUserData(userModel!)
+            //dataServices.postUserData(userModel!)
             
             // user authenticated, hide the login screen from now on
             applicationModel.defaults.setObject(false, forKey: "firstLogin")

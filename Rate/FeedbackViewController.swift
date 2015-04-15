@@ -107,11 +107,11 @@ class FeedbackViewController: UIViewController {
         view.addSubview(descriptionLabel!)
         
         // buttons
-        var twButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        var fbButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        var inButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        var cmButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
-        var wrButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        var twButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        var fbButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        var inButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        var cmButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+        var wrButton:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
 
         twButton.frame = CGRect(x: 45, y: 100, width: 50, height: 50)
         fbButton.frame = CGRect(x: 100, y: 100, width: 50, height: 50)

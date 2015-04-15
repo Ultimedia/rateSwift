@@ -29,7 +29,7 @@ class DIrectionsOverlayViewController: UIViewController {
         let region = MKCoordinateRegion(center: applicationModel.nearestMuseum!.museum_coordinate!, span: span)
         
         let annotation = MKPointAnnotation()
-        annotation.setCoordinate(applicationModel.nearestMuseum!.museum_coordinate!)
+        //annotation.setCoordinate(applicationModel.nearestMuseum!.museum_coordinate!)
         annotation.title =  applicationModel.nearestMuseum!.museum_title
         annotation.subtitle = applicationModel.nearestMuseum?.museum_open
         
@@ -49,7 +49,7 @@ class DIrectionsOverlayViewController: UIViewController {
             
             var geocoder = CLGeocoder()
             var address = museum.museum_address
-            geocoder.geocodeAddressString(address, {(placemarks, error)->Void in
+            geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error)->Void in
                 if let placemark = placemarks?[0] as? CLPlacemark {
                     
                     let location = CLLocationCoordinate2D(
@@ -58,7 +58,7 @@ class DIrectionsOverlayViewController: UIViewController {
                     )
                     
                     var annotation = MKPointAnnotation()
-                    annotation.setCoordinate(location)
+                    //annotation.setCoordinate(location)
                     annotation.title = "Roatan"
                     annotation.subtitle = "Honduras"
                     self.map?.addAnnotation(annotation)

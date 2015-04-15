@@ -9,13 +9,13 @@
 import UIKit
 
 class ExhibitStageViewController: UIViewController {
-
+    
     
     // use this to pass on the model
     var roomModel:RoomModel? = nil
     var exhibitModel:ExhibitModel? = nil
     let applicationModel = ApplicationData.sharedModel()
-
+    
     // data?
     var label: UILabel?
     
@@ -29,7 +29,7 @@ class ExhibitStageViewController: UIViewController {
     var exhibitionTitleLabel: UILabel?
     var descriptionLabel: UILabel?
     var roomTitle: UILabel?
-    var commentButton: UIButton?    
+    var commentButton: UIButton?
     var coverPaddingView:UIView?
     var scrollDown:UIView?
     var scrollDownButton:UIButton?
@@ -43,7 +43,7 @@ class ExhibitStageViewController: UIViewController {
     
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
-
+    var lastYpos:CGFloat = 0
     
     
     // Singleton Models
@@ -51,8 +51,8 @@ class ExhibitStageViewController: UIViewController {
     
     // Feedback viewController
     var feedbackViewController:FeedbackViewController?
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -65,8 +65,8 @@ class ExhibitStageViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-    
-        // close feedback 
+        
+        // close feedback
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeFeedbackPanel:", name:"CloseFeedbackPanel", object: nil)
         
         // initialise the feedback view controller
@@ -127,7 +127,7 @@ class ExhibitStageViewController: UIViewController {
             museumLabel!.textColor = UIColor.whiteColor()
             museumLabel!.lineBreakMode = NSLineBreakMode.ByWordWrapping
             museumLabel!.sizeToFit()
-
+            
             
             
             // subtitle
@@ -161,7 +161,7 @@ class ExhibitStageViewController: UIViewController {
             readButton!.layer.borderColor = UIColor.whiteColor().CGColor
             readButton!.layer.borderWidth = 3
             readButton!.backgroundColor = UIColor.clearColor()
-
+            
             
             let scrollImage = UIImage(named: "scroll-down-button") as UIImage?
             scrollDownButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
@@ -173,7 +173,7 @@ class ExhibitStageViewController: UIViewController {
             scrollDownButton!.frame = CGRectMake((screenSize.width/2)-(30/2), screenSize.height - 45, 30, 30)
             scrollDownButton!.backgroundColor = UIColor.clearColor()
             scrollDownButton!.setImage(scrollImage, forState: .Normal)
-
+            
             
             
             // Debug data
@@ -185,7 +185,7 @@ class ExhibitStageViewController: UIViewController {
             
             // ipad layout update
             if(deviceFunctionService.deviceType == "ipad"){
-
+                
                 // exhibit blue background
                 logoLabel!.frame = CGRect(x: 80, y: 130, width: 120, height: 30)
                 
@@ -202,26 +202,26 @@ class ExhibitStageViewController: UIViewController {
                 readButton!.frame = CGRectMake(80, exhibitionTitleLabel!.frame.origin.y + exhibitionTitleLabel!.frame.height + 20, 180, 60)
                 
             }else{
-
+                
                 // exhibit blue background
                 logoLabel!.frame = CGRect(x: 30, y: 130, width: 120, height: 30)
                 museumLabel!.font =  UIFont(name: "Futura-Medium", size: 30)
-
+                
                 
                 // museum title
                 museumLabel!.frame = CGRect(x: 30, y: 134, width: screenSize.width - 60, height: screenSize.height)
                 museumLabel?.sizeToFit()
-
+                
                 
                 // what is this?
                 exhibitionTitleLabel!.frame = CGRect(x: 30, y: museumLabel!.frame.origin.y + museumLabel!.frame.height + 10, width: coverPaddingView!.frame.width - 60, height: 100)
                 exhibitionTitleLabel?.sizeToFit()
-
+                
                 // description (just hide it)
                 descriptionLabel!.frame = CGRect(x: 0, y: exhibitionTitleLabel!.frame.height + exhibitionTitleLabel!.frame.origin.y, width: coverPaddingView!.frame.width, height: CGFloat.max)
                 descriptionLabel!.sizeToFit()
-            
-
+                
+                
                 readButton!.frame = CGRectMake(30, exhibitionTitleLabel!.frame.origin.y + exhibitionTitleLabel!.frame.height + 20, 180, 60)
                 
             }
@@ -245,12 +245,12 @@ class ExhibitStageViewController: UIViewController {
             
             // Twitter button
             if(exhibitModel?.exhibit_twitter_enabled == "1"){
-
+                
                 let twitterImage = UIImage(named:"twitter-share-icon") as UIImage?
                 twitterButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
                 twitterButton!.setTitle("", forState: UIControlState.Normal)
                 twitterButton!.frame = CGRectMake(screenSize.width - 100, screenSize.height - 140, 40, 40)
-
+                
                 if(deviceFunctionService.deviceType == "iphone"){
                     twitterButton!.frame = CGRectMake(screenSize.width - 70, screenSize.height - 140, 40, 40)
                 }
@@ -259,12 +259,12 @@ class ExhibitStageViewController: UIViewController {
                 twitterButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 twitterButton?.backgroundColor = UIColor.clearColor()
                 twitterButton!.setImage(twitterImage, forState: .Normal)
-
+                
                 view.addSubview(twitterButton!)
             }
             
             let facebookImage = UIImage(named:"facebook-share-icon") as UIImage?
-
+            
             facebookButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
             facebookButton!.setTitle("Facebook", forState: UIControlState.Normal)
             
@@ -287,33 +287,33 @@ class ExhibitStageViewController: UIViewController {
             */
             /*
             if(exhibitModel?.exhibit_twitter_enabled == "1"){
-                
-                // Twitter button
-                twitterButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-                twitterButton!.setTitle("Twitter", forState: UIControlState.Normal)
-                twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
-                twitterButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                twitterButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                twitterButton?.backgroundColor = UIColor.blueColor()
-                
-                view.addSubview(twitterButton!)
+            
+            // Twitter button
+            twitterButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
+            twitterButton!.setTitle("Twitter", forState: UIControlState.Normal)
+            twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
+            twitterButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            twitterButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            twitterButton?.backgroundColor = UIColor.blueColor()
+            
+            view.addSubview(twitterButton!)
             }
             
             
             if(exhibitModel?.exhibit_facebook_enabled == "1"){
-                facebookButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-                facebookButton!.setTitle("Facebook", forState: UIControlState.Normal)
-                
-                if(exhibitModel?.exhibit_twitter_enabled == "1"){
-                    facebookButton!.frame = CGRectMake(210, screenSize.height - 70, 100, 30)
-                }else{
-                    twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
-                }
-                facebookButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-                facebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-                facebookButton?.backgroundColor = UIColor.blueColor()
-                
-                view.addSubview(facebookButton!)
+            facebookButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
+            facebookButton!.setTitle("Facebook", forState: UIControlState.Normal)
+            
+            if(exhibitModel?.exhibit_twitter_enabled == "1"){
+            facebookButton!.frame = CGRectMake(210, screenSize.height - 70, 100, 30)
+            }else{
+            twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
+            }
+            facebookButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
+            facebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            facebookButton?.backgroundColor = UIColor.blueColor()
+            
+            view.addSubview(facebookButton!)
             }
             */
             
@@ -333,6 +333,8 @@ class ExhibitStageViewController: UIViewController {
         println("draw content grid")
         
         
+        
+        
         var items:Int = 12
         
         var gridCols:CGFloat = 1
@@ -349,54 +351,85 @@ class ExhibitStageViewController: UIViewController {
         var mediaCount = roomModel?.mediaData.count
         var numberOfRows:Int = mediaCount!
         var counter = 0
-    
+        
         var frameHeight:CGFloat = CGFloat(gridItemHeight) * (CGFloat(mediaCount!) / CGFloat(gridCols))
+        
+        
+        
+        
         
         // creating grid frame
         var gridFrame:UIView = UIView()
-            gridFrame.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height * 2)
-            gridFrame.backgroundColor = applicationModel.UIColorFromRGB(0xddded6)
-            view.addSubview(gridFrame)
+        var gridFrameHeight = screenSize.height
         
-        var socialMediaFrame:UIView = UIView()
-            socialMediaFrame.frame = CGRect(x: 0, y: screenSize.height * 2, width: screenSize.width, height: screenSize.height * 2)
-            socialMediaFrame.backgroundColor = applicationModel.UIColorFromRGB(0xe5e6de)
-            view.addSubview(socialMediaFrame)
-        
+        var marginTop = 0
+        marginTop =  40
+
         var gridFrameHeading:UIView = UIView()
-            gridFrameHeading.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 140)
-            gridFrameHeading.backgroundColor = applicationModel.UIColorFromRGB(0xe9eae2)
+        gridFrameHeading.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 140)
+        gridFrameHeading.backgroundColor = applicationModel.UIColorFromRGB(0xe9eae2)
         
-            gridFrame.addSubview(gridFrameHeading)
+        gridFrame.addSubview(gridFrameHeading)
+        
+        
+        
+        if(deviceFunctionService.deviceType != "ipad"){
+            //gridFrameHeight = (CGFloat(400) + 40)
+            //(Int(gridItemHeight) + (spacing * 2))+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop)) *
+            
+            gridFrameHeight = (CGFloat(gridItemHeight) + (CGFloat(spacing) * 2) + gridFrameHeading.frame.height) * CGFloat(exhibitModel!.roomData.count)
+        }else{
+         
+            gridFrameHeight = 10000
+
+            
+        }
+        
+        gridFrame.frame = CGRect(x: 0, y: lastYpos, width: screenSize.width, height: gridFrameHeight)
+        
+        gridFrame.backgroundColor = applicationModel.UIColorFromRGB(0xddded6)
+        view.addSubview(gridFrame)
+        
+        
+        
+        /*var socialMediaFrame:UIView = UIView()
+        socialMediaFrame.frame = CGRect(x: 0, y: gridFrame.frame.origin.y + gridFrameHeight, width: screenSize.width, height: 300)
+        socialMediaFrame.backgroundColor = applicationModel.UIColorFromRGB(0xe5e6de)
+        view.addSubview(socialMediaFrame)
+        
+        */
+        
+
+        
         
         var infoNumber:UILabel = UILabel(frame: CGRect(x: 80, y: 20, width: 100, height: 100))
-            infoNumber.text = "02."
-            infoNumber.textAlignment = NSTextAlignment.Left
-            infoNumber.numberOfLines = 1
-            infoNumber.sizeToFit()
-            infoNumber.font =  UIFont (name: "AvenirNext-UltraLight", size: 60)
-            infoNumber.sizeToFit()
-            view.addSubview(infoNumber)
+        infoNumber.text = "02."
+        infoNumber.textAlignment = NSTextAlignment.Left
+        infoNumber.numberOfLines = 1
+        infoNumber.sizeToFit()
+        infoNumber.font =  UIFont (name: "AvenirNext-UltraLight", size: 60)
+        infoNumber.sizeToFit()
+        view.addSubview(infoNumber)
         
         var numberDescription:UILabel = UILabel(frame: CGRect(x: 80, y: infoNumber.frame.origin.y + infoNumber.frame.height - 10, width: 400,  height: 100))
-            numberDescription.text = "OVER DEZE RUIMTE"
-            numberDescription.textAlignment = NSTextAlignment.Left
-            numberDescription.numberOfLines = 0
-            numberDescription.sizeToFit()
-            numberDescription.font =  UIFont (name: "AvenirNext-Medium", size: 12)
-            numberDescription.sizeToFit()
-            view.addSubview(numberDescription)
+        numberDescription.text = "OVER DEZE RUIMTE"
+        numberDescription.textAlignment = NSTextAlignment.Left
+        numberDescription.numberOfLines = 0
+        numberDescription.sizeToFit()
+        numberDescription.font =  UIFont (name: "AvenirNext-Medium", size: 12)
+        numberDescription.sizeToFit()
+        view.addSubview(numberDescription)
         
         var infoText:UILabel = UILabel()
-            infoText.frame = CGRect(x: numberDescription.frame.width + 100, y: 20, width: screenSize.width - numberDescription.frame.width - 70 - 80, height: 100)
-            infoText.font =  UIFont (name: "Avenir-Book", size: 16)
-            infoText.numberOfLines = 4
-            infoText.text = "Thomas Hobbes wos nen Iengelschn filosôof die olgemêen wierd gezien lyk êen van de groundleggers van de moderne polletieke filosofie. Zyn bekendste werk es zyn in 1651 uutgekommn boek Leviathan"
-            view.addSubview(infoText)
+        infoText.frame = CGRect(x: numberDescription.frame.width + 100, y: 20, width: screenSize.width - numberDescription.frame.width - 70 - 80, height: 100)
+        infoText.font =  UIFont (name: "Avenir-Book", size: 16)
+        infoText.numberOfLines = 4
+        infoText.text = "Thomas Hobbes wos nen Iengelschn filosôof die olgemêen wierd gezien lyk êen van de groundleggers van de moderne polletieke filosofie. Zyn bekendste werk es zyn in 1651 uutgekommn boek Leviathan"
+        view.addSubview(infoText)
         
         
         
-    
+        
         // description
         descriptionLabel = UILabel(frame: CGRect(x: 0, y: 160, width: screenSize.width, height: 100))
         descriptionLabel!.numberOfLines = 8
@@ -421,7 +454,7 @@ class ExhibitStageViewController: UIViewController {
         
         var gridCollection = Array<MediaTileViewController>()
         var mediaIterate = Array<MediaTileViewController>()
-
+        
         
         for var i = 0; i < numberOfRows; ++i {
             
@@ -432,67 +465,91 @@ class ExhibitStageViewController: UIViewController {
                     
                     // create the right celltype
                     var t:MediaTileViewController = MediaTileViewController()
-
+                    
                     var tView:Int = 0
                     
-                    var marginTop = 0
-                        marginTop =  40
                     
                     var wider:Bool = false
-                
+                    
                     if(deviceFunctionService.deviceType != "ipad"){
                         marginTop = 20
                         gridItemWidth = screenSize.width - 30
                     }
                     
                     
-                        if(roomModel!.mediaData[counter].mercury_room_media_type == "editiorial" && deviceFunctionService.deviceType == "ipad"){
+                    if(roomModel!.mediaData[counter].mercury_room_media_type == "editiorial" && deviceFunctionService.deviceType == "ipad"){
                         
-                            t.viewWidth = Int(gridItemWidth) * 2 + spacing
+                        t.viewWidth = Int(gridItemWidth) * 2 + spacing
+                        
+                        wider = true
+                        
+                    }else{
+                        t.viewWidth = Int(gridItemWidth)
+                    }
+                    t.viewHeight = Int(gridItemHeight)
+                    t.mediaModel = roomModel!.mediaData[counter]
+                    
+                    if(wider){
+                        
+                        // devidable by three?
+                        if ((counter+1) % 3 == 0 && roomModel!.mediaData[counter].mercury_room_media_type == "editiorial" && deviceFunctionService.deviceType == "ipad"){
                             
-                            wider = true
+                            // now we have to swap the elements
+                            mediaIterate.append(gridCollection[counter-1])
+                            
+                            // now remove the misplaced element
+                            gridCollection[counter-1].view.hidden = true
+                            
+                            gridCollection[counter-1].removeFromParentViewController()
+                            
+                            // swap the wide container
+                            t.view.frame = CGRect(x: (j-1)*(Int(gridItemWidth) + spacing) + 16, y: (i*(Int(gridItemHeight)+(spacing * 2))+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop, width: Int(gridItemWidth) * 2, height: Int(gridItemHeight))
                             
                         }else{
-                            t.viewWidth = Int(gridItemWidth)
+                            
+                            
+                            
+                            t.view.frame = CGRect(x: (j-1)*(Int(gridItemWidth) + spacing) + 16, y: (i*(Int(gridItemHeight)+(spacing * 2))+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop, width: Int(gridItemWidth) * 2, height: Int(gridItemHeight))
+                        
+                        
+                        
                         }
-                        t.viewHeight = Int(gridItemHeight)
-                        t.mediaModel = roomModel!.mediaData[counter]
-                    
-                        if(wider){
 
-                            // devidable by three?
-                            if ((counter+1) % 3 == 0 && roomModel!.mediaData[counter].mercury_room_media_type == "editiorial" && deviceFunctionService.deviceType == "ipad"){
-                                
-                                // now we have to swap the elements
-                                mediaIterate.append(gridCollection[counter-1])
-                                
-                                // now remove the misplaced element 
-                                gridCollection[counter-1].view.hidden = true
-
-                                gridCollection[counter-1].removeFromParentViewController()
-                                
-                                // swap the wide container 
-                                t.view.frame = CGRect(x: (j-1)*(Int(gridItemWidth) + spacing) + 16, y: (i*(Int(gridItemHeight)+(spacing * 2))+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop, width: Int(gridItemWidth) * 2, height: Int(gridItemHeight))
-
-                            }else{
-                                t.view.frame = CGRect(x: (j-1)*(Int(gridItemWidth) + spacing) + 16, y: (i*(Int(gridItemHeight)+(spacing * 2))+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop, width: Int(gridItemWidth) * 2, height: Int(gridItemHeight))
-
-                            }
-                            
-                            
-                            println("aaaaaaa")
-                            println(gridItemWidth)
-                            
-                        }else{
-                            t.view.frame = CGRect(x: j*(Int(gridItemWidth) + spacing) + 16, y: (i*(Int(gridItemHeight)+spacing)+Int(gridItemHeight)) - 0 - Int(gridItemHeight) + 180 + marginTop, width: Int(gridItemWidth), height: Int(gridItemHeight))
-                            
-                            println("dddddd")
-                            println(gridItemWidth)
+                        
+                    }else{
+                        println("total height")
+                        
+                        var myHeight = (Int(gridItemHeight) + (spacing * 2) + marginTop)
+                        
+                        println(myHeight)
+                        var nPos = myHeight * i
+                        println(nPos)
+                        
+                       
+                        
+                        println("ik heb genoeg")
+                        
+                        
+                        t.view.frame = CGRect(x: j*(Int(gridItemWidth) + spacing), y: 170 + nPos, width: Int(gridItemWidth), height: Int(gridItemHeight))
+                        
+  
+                        if(deviceFunctionService.deviceType != "ipad"){
+                            t.view.frame = CGRect(x: 20, y: 170 + nPos, width: Int(gridItemWidth), height: Int(gridItemHeight))
 
                         }
+                        
+                        //myHeight =
+
+                        
+                        
+                        //
+                    
+                    }
                     
                     
-                    println(Int(gridItemWidth))
+                    
+                    
+                    
                     gridFrame.addSubview(t.view)
                     
                     // add this
@@ -501,9 +558,11 @@ class ExhibitStageViewController: UIViewController {
                 }
                 counter++
             }
+            
+            
         }
         
-        
+        /*
         // social media content
         var socialNumber:UILabel = UILabel(frame: CGRect(x: 0, y: 40, width: screenSize.width, height: 50))
         socialNumber.text = "02."
@@ -521,7 +580,7 @@ class ExhibitStageViewController: UIViewController {
         socialText.text = "DOOR DE BEZOEKERS"
         socialMediaFrame.addSubview(socialText)
         
-
+        
         
         // socialGrid
         var socialItemsCount:Int = 10
@@ -531,18 +590,25 @@ class ExhibitStageViewController: UIViewController {
         
         
         for var i = 0; i < numberOfRows; ++i {
-
+            
             var e:SocialGridItemViewController = SocialGridItemViewController()
-                e.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-                view.addSubview(e.view)
+            e.view.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+            view.addSubview(e.view)
             
         }
+        */
+        
+        println("liefje")
+        println(gridFrame.frame.height)
+        
+        lastYpos = gridFrame.frame.origin.y + gridFrame.frame.height
+
     }
     
     
     func readMore(send:UIButton){
         NSNotificationCenter.defaultCenter().postNotificationName("ReadMore", object: nil, userInfo:  nil)
-
+        
     }
     
     func scrollDown(sender:UIButton){
@@ -550,7 +616,7 @@ class ExhibitStageViewController: UIViewController {
     }
     
     func showCommentPanel(sender:UIButton!){
-     
+        
         
         // alternative layout for ipad
         if(deviceFunctionService.deviceType == "ipad"){
@@ -563,12 +629,12 @@ class ExhibitStageViewController: UIViewController {
             feedbackViewController?.view.backgroundColor = UIColor.whiteColor()
             feedbackViewController?.exhibitModel = exhibitModel
             feedbackViewController?.roomModel = roomModel
-        
+            
             overlay = UIImageView(frame: CGRectMake(0, 0, screenSize.width, screenSize.height));
             overlay!.backgroundColor = UIColor.blackColor()
             overlay!.alpha = 0;
             
-
+            
             // Add Sub views
             self.addChildViewController(feedbackViewController!)
             view.addSubview(overlay!)
@@ -595,6 +661,6 @@ class ExhibitStageViewController: UIViewController {
     }
     
     
-
+    
 }
 

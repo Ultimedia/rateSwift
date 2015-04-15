@@ -17,6 +17,11 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     var rooms:[ExhibitStageViewController] = []
     var feedbackScreenSlot:ExhibitFeedbackScreenViewController?
     
+    // Singleton Models
+    let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
+
+    
+    
     var pageIndex : Int = 0
     var titleText : String = ""
     var imageFile : String = ""
@@ -106,12 +111,8 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     
     func createExhibition(){
         
-        
-        
         // current exhibi (this should be handled by the beacons)
         var myExhibit = applicationModel.selectedExhibit
-        
-        
         var scrollHeight = CGFloat((myExhibit!.roomData.count)+1)
         
         
@@ -126,6 +127,7 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         
         
         var totalHeight:CGFloat = 0
+        
         
         // rooms
         var looper:Int = 0;
@@ -151,32 +153,38 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 totalHeight = totalHeight + screenSize.height * 2
                 yPos = yPos + screenSize.height
                 
-                /*
-                var overviewViewController = ExhibitOverviewController(nibName: "ExhibitOverviewController", bundle:nil)
-                overviewViewController.exhibitModel = myExhibit
-                overviewViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
-                */
-                //yPos = yPos //+ screenSize.height
-
-                
-               // exhibitScrollView!.addSubview(overviewViewController.view)
-               // self.addChildViewController(overviewViewController)
-                
-                
                 looper++
                 
                 break;
                 
             case "room":
                 var frameHeight:CGFloat = CGFloat(400) * (CGFloat(room.mediaData.count) / CGFloat(3)) + 300
-                var screenHeight = screenSize.height
             
+                var screenHeight = screenSize.height
                 if(frameHeight < screenSize.height){
                     frameHeight = screenSize.height
                 }
                 
                 
-                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: frameHeight + screenSize.height)
+                if(deviceFunctionService.deviceType != "ipad"){
+                    
+                    
+                    // do room height + heading height
+                    frameHeight = 460 * CGFloat(room.mediaData.count) + 140
+                    
+                    // add socialgrid height (need to calculate this dynamically)
+                    frameHeight = frameHeight + screenSize.height
+                }
+                
+   
+                println("items")
+                println(room.mediaData.count)
+
+                println("frameheight")
+                println(frameHeight)
+                
+                
+                dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: frameHeight)
             
                 dataViewController.view.backgroundColor = UIColor.whiteColor()
                 
@@ -184,8 +192,8 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 exhibitScrollView!.addSubview(dataViewController.view)
                 self.addChildViewController(dataViewController)
                 
-                totalHeight = totalHeight + frameHeight + screenSize.height
-                yPos = yPos + frameHeight + screenSize.height
+                totalHeight = totalHeight + frameHeight
+                yPos = yPos + frameHeight
 
                 
                 break;
@@ -238,7 +246,7 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     }
     
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView!,
+    func scrollViewDidEndDragging(scrollView: UIScrollView,
         willDecelerate decelerate: Bool){
     }
     

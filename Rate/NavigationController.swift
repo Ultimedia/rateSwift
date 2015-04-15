@@ -125,7 +125,7 @@ class NavigationController: UINavigationController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "toggleBar:", name:"ToggleBar", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setTitle:", name:"SetTitle", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setTitleFunc:", name:"SetTitle", object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuIcon:", name:"MenuIcon", object: nil)
 
@@ -168,7 +168,7 @@ class NavigationController: UINavigationController {
         
         
         if let toggle = notif.userInfo {
-            var target:String = (toggle["icon"] as String)
+            var target:String = (toggle["icon"] as! String)
             
             switch(target){
                 
@@ -225,7 +225,7 @@ class NavigationController: UINavigationController {
         
         
         if let toggle = notif.userInfo {
-            var target:String = (toggle["icon"] as String)
+            var target:String = (toggle["icon"] as! String)
             
             switch(target){
                 case "logout":
@@ -332,7 +332,7 @@ class NavigationController: UINavigationController {
             })
             
         
-            var myTarget: String = (info["menu"] as String)
+            var myTarget: String = (info["menu"] as! String)
             eventData["menu"] = myTarget
 
             NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
@@ -344,7 +344,7 @@ class NavigationController: UINavigationController {
         println("toggle menu background")
         
         if let toggle = notification.userInfo {
-            var myTarget:Bool = (toggle["toggle"] as Bool)
+            var myTarget:Bool = (toggle["toggle"] as! Bool)
             
             if(myTarget == true){
 
@@ -452,10 +452,10 @@ class NavigationController: UINavigationController {
     }
     
     
-    func setTitle(noti:NSNotification){
+    func setTitleFunc(noti:NSNotification){
      
         if let text = noti.userInfo {
-            var title:String = (text["title"] as String)
+            var title:String = (text["title"] as! String)
             
             barLabel?.text = title
             barLabel?.alpha = 1

@@ -296,7 +296,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         eventData["title"] = "ONTDEK MUSEA"
         NSNotificationCenter.defaultCenter().postNotificationName("SetTitle", object: nil, userInfo:  eventData)
         
-        toTop = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        toTop = UIButton.buttonWithType(UIButtonType.System) as? UIButton
         toTop!.tintColor = UIColor.whiteColor()
         toTop!.setTitle("Overzicht", forState: UIControlState.Normal)
         toTop!.frame = CGRectMake(0, 60, screenSize.width, 50)
@@ -309,7 +309,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
 
         
     
-        compassButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        compassButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
         compassButton!.tintColor = UIColor.whiteColor()
         compassButton!.setTitle("", forState: UIControlState.Normal)
         compassButton!.frame = CGRectMake(compassView!.view.frame.origin.x, compassView!.view.frame.origin.y, compassView!.view.frame.width, compassView!.view.frame.height)
@@ -434,19 +434,12 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         }*/
     }
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView!,
-        willDecelerate decelerate: Bool){
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView){
 
-    }
-    
     func getNearestMuseum(){
         
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView!) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
     func handleGestureTouch(gestureRecognizer: UITapGestureRecognizer){
@@ -559,9 +552,9 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         var string = NSString(string: conversion!)
         
         //logoLabel?.text = applicationModel.nearestMuseum?.museum_title
-        subtitleLabel?.text = "Je bent op " + string + "Km van " + applicationModel.nearestMuseum!.museum_title + ", zodra je in het museum bent zal de app je begeleiden"
+        subtitleLabel?.text = "Je bent op " + (string as String) + "Km van " + applicationModel.nearestMuseum!.museum_title + ", zodra je in het museum bent zal de app je begeleiden"
         
-        compassView?.compasLabel.text = string + "Km"
+        compassView?.compasLabel.text = (string as String) + "Km"
         compassView?.updateMapkit()
         compassView?.view.hidden = false
         
@@ -657,7 +650,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
 
 extension Double {
     func format(f: String) -> String {
-        return NSString(format: "%\(f)f", self)
+        return NSString(format: "%\(f)f", self) as String
     }
 }
 

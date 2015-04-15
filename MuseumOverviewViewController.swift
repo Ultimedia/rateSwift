@@ -120,7 +120,7 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! UICollectionViewCell
         cell.backgroundColor = UIColor.clearColor()
         
         var imageCaption:UIView = UIView()

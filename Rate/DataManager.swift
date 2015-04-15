@@ -47,8 +47,11 @@ class DataManager: NSObject {
         getBeaconData { (beaconData) -> Void in
             let json = JSON(data: beaconData)
             
+            
+            println("hierrrr")
+            
             // get all beacons involved
-            if let beaconArray = json["beacons"].arrayValue {
+            let beaconArray = json["beacons"].arrayValue
                 var beaconData = [BeaconModel]()
                 
                 for beacon in beaconArray{
@@ -65,9 +68,10 @@ class DataManager: NSObject {
                     var beaconModel = BeaconModel(mercury_beacon_id: mercury_beacon_id, mercury_beacon_identifier:mercury_beacon_identifier , mercury_beacon_device_id:mercury_beacon_device_id , mercury_exhibit_id:mercury_exhibit_id , mercury_beacon_uuid:mercury_beacon_uuid, mercury_room_id:mercury_room_id, mercury_media_id:mercury_media_id, mercury_museum_id:mercury_museum_id)
                     
                     self.applicationModel.beaconData.append(beaconModel)
+                    
                 }
-            }
         }
+        
         
         
         // Fetch userData from JSON
@@ -75,7 +79,7 @@ class DataManager: NSObject {
             let json = JSON(data: userData)
             
             // get all museums involved
-            if let userArray = json["users"].arrayValue {
+            let userArray = json["users"].arrayValue
                 var userData = [UserModel]()
                 
                 for user in userArray {
@@ -90,7 +94,7 @@ class DataManager: NSObject {
                     
                     self.applicationModel.userData.append(userModel)
                 }
-            }
+
             
             let mySelf = DataManager.dataManager()
                 mySelf.userLoaded = true
@@ -104,7 +108,7 @@ class DataManager: NSObject {
             let json = JSON(data: museumData)
             
             // get all museums involved
-            if let museumArray = json["museums"].arrayValue {
+            let museumArray = json["museums"].arrayValue
                 var museumData = [MuseumModel]()
                 
                 for museum in museumArray {
@@ -122,7 +126,7 @@ class DataManager: NSObject {
                     
                     // get all exhibits in that museum
                     var exhibitData = [ExhibitModel]()
-                    if let exhibitArray = museum["exhibits"].arrayValue {
+                    let exhibitArray = museum["exhibits"].arrayValue
                         
                         for exhibit in exhibitArray {
                             
@@ -141,7 +145,7 @@ class DataManager: NSObject {
 
                             // get all beacons inside an exhibit
                             var beaconData = [BeaconModel]()
-                            if let beaconArray = exhibit["beacons"].arrayValue {
+                            let beaconArray = exhibit["beacons"].arrayValue
                                 
                                 for beacon in beaconArray{
                                     
@@ -158,12 +162,11 @@ class DataManager: NSObject {
                                     
                                     beaconData.append(beaconModel)
                                 }
-                            }
                             
                             
                             // get all rooms inside an exhibit
                             var roomData = [RoomModel]()
-                            if let roomArray = exhibit["rooms"].arrayValue {
+                            let roomArray = exhibit["rooms"].arrayValue
                                 
                                 for room in roomArray{
                                     
@@ -178,7 +181,7 @@ class DataManager: NSObject {
                                     
                                     // get all media inside this room
                                     var mediaData = [RoomMediaModel]()
-                                    if let roomMediaArray = room["roomMedia"].arrayValue {
+                                    let roomMediaArray = room["roomMedia"].arrayValue
                                         
                                         for media in roomMediaArray{
                                             let mercury_room_media_id:String? = media["mercury_room_media_id"].stringValue
@@ -192,11 +195,11 @@ class DataManager: NSObject {
             
                                             mediaData.append(mediaModel)
                                         }
-                                    }
+                                
                                     
                                     // get all social data inside this room
                                     var socialData = [RoomSocialModel]()
-                                    if let roomSocialArray = room["socialData"].arrayValue{
+                                    let roomSocialArray = room["socialData"].arrayValue
                                         
                                         for social in roomSocialArray{
                                             let mercury_room_social_id:String? = social["mercury_room_social_id"].stringValue
@@ -209,7 +212,7 @@ class DataManager: NSObject {
                                             
                                             socialData.append(socialModel)
                                         }
-                                    }
+                        
                                     
                                     
                                     var roomModel = RoomModel(mercury_room_id: mercury_room_id, mercury_room_exhibit_id: mercury_room_exhibit_id, mercury_room_type: mercury_room_type, mercury_room_title: mercury_room_title, mercury_room_description: mercury_room_description, mercury_room_order: mercury_room_order,mediaData: mediaData, socialData: socialData, mercury_room_beacon_id: mercury_room_beacon_id)
@@ -217,7 +220,7 @@ class DataManager: NSObject {
                                     roomData.append(roomModel)
                                 }
                                 
-                            }
+    
                             
                             var exhibitModel = ExhibitModel(exhibit_id:exhibit_id , exhibit_museum_id:exhibit_museum_id , exhibit_title:exhibit_title , exhibit_description:exhibit_description , exhibit_hash:exhibit_hash , exhibit_twitter:exhibit_twitter , exhibit_facebook:exhibit_facebook , exhibit_subtitle:exhibit_subtitle , exhibit_cover_image:exhibit_cover_image, exhibit_twitter_enabled: exhibit_twitter_enabled, exhibit_facebook_enabled:exhibit_facebook_enabled, exhibit_website:exhibit_website, roomData: roomData, beaconData: beaconData)
                             
@@ -225,13 +228,11 @@ class DataManager: NSObject {
                         }
                         
                         var exhibits: Array? = exhibitData
-                    }
                     
                     var museumModel = MuseumModel(museum_id: museum_id,museum_cover:museum_cover, museum_title: museum_title, museum_address: museum_address, museum_description: museum_description, museum_website: museum_website, museum_twitter: museum_twitter, museum_facebook: museum_facebook, museum_visible: museum_visible, museum_open: museum_open, exhibitData:exhibitData)
                     
                     // now push everything to the main applicationModel
                     self.applicationModel.museumData.append(museumModel)
-                }
             }
             
             

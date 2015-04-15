@@ -67,14 +67,14 @@ class CameraInputViewController: UIViewController, UIImagePickerControllerDelega
     
     
     
-    
+    /*
     func imagePickerController(picker:UIImagePickerController!, didFinishPickingMediaWithInfo info:NSDictionary)
     {
         if(picker.sourceType == UIImagePickerControllerSourceType.Camera)
         {
             // Access the uncropped image from info dictionary
-            var imageToSave: UIImage = info.objectForKey(UIImagePickerControllerOriginalImage) as UIImage
-            var imageToSave1: UIImage = info[UIImagePickerControllerOriginalImage] as UIImage //same but with different way
+            var imageToSave: UIImage = info.objectForKey(UIImagePickerControllerOriginalImage) as! UIImage
+            var imageToSave1: UIImage = info[UIImagePickerControllerOriginalImage] as! UIImage //same but with different way
             
             UIImageWriteToSavedPhotosAlbum(imageToSave, nil, nil, nil)
             
@@ -87,7 +87,7 @@ class CameraInputViewController: UIViewController, UIImagePickerControllerDelega
             
         }
         
-    }
+    }*/
     
     
     

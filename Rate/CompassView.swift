@@ -14,7 +14,7 @@ class CompassView: UIView {
     
     
     
-    override init(frame: CGRect) {
+  /*  override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
         
@@ -36,7 +36,7 @@ class CompassView: UIView {
         layer.addSublayer(circleLayer)
         
         
-    }
+    }*/
     
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

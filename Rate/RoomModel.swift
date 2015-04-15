@@ -16,8 +16,8 @@ class RoomModel: NSObject, Printable {
     let mercury_room_description:String
     let mercury_room_order:String
     let mercury_room_beacon_id:String
-    let mediaData = Array<RoomMediaModel>()
-    let socialData = Array<RoomSocialModel>()
+    var mediaData = Array<RoomMediaModel>()
+    var socialData = Array<RoomSocialModel>()
     
     init(mercury_room_id: String?, mercury_room_exhibit_id: String?, mercury_room_type: String?, mercury_room_title: String?, mercury_room_description: String?, mercury_room_order: String?, mediaData:Array<RoomMediaModel>, socialData:Array<RoomSocialModel>, mercury_room_beacon_id:String?) {
         self.mercury_room_id = mercury_room_id ?? ""

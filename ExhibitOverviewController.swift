@@ -109,7 +109,7 @@ class ExhibitOverviewController: UIViewController {
             for var j = 0; j<numberOfColumns; j++ {
     
                 if(counter < roomCount){
-                    var t:UIButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+                    var t:UIButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
                     t.frame = CGRect(x: j*(iconWidth + spacing), y: (i*(iconWidth+spacing)+iconWidth)-140, width: iconWidth, height: iconHeight)
                     
                     if(exhibitModel?.roomData[counter].mercury_room_type == "intro"){

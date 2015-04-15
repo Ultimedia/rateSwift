@@ -42,7 +42,7 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         let startingViewController: ExhibitHolderViewController = viewControllerAtIndex(0)!
         let viewControllers: NSArray = [startingViewController]
         
-        pageViewController!.setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+        pageViewController!.setViewControllers(viewControllers as [AnyObject], direction: .Forward, animated: true, completion: nil)
         pageViewController!.view.frame = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height + 50);
         
         //64
@@ -68,10 +68,13 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     */
     func gridToggle(ns:NSNotification){
 
-        
         if(!gridAdded){
             gridAdded = true
             view.addSubview(exhibitListViewController!.view)
+            
+            // now create the thumbs
+            println(applicationModel.selectedExhibit)
+            
         }
         
         if(exhibitListViewController!.view.hidden){
@@ -104,7 +107,7 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?
     {
-        var index = (viewController as ExhibitHolderViewController).pageIndex
+        var index = (viewController as! ExhibitHolderViewController).pageIndex
         
         if (index == 0) || (index == NSNotFound) {
             return nil
@@ -118,7 +121,7 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?
     {
-        var index = (viewController as ExhibitHolderViewController).pageIndex
+        var index = (viewController as! ExhibitHolderViewController).pageIndex
         
         if index == NSNotFound {
             return nil

@@ -126,7 +126,7 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
             var address = museum.museum_address
             
             geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(address, {(placemarks, error)->Void in
+            geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error)->Void in
                 
                 
                 if let placemark = placemarks?[0] as? CLPlacemark {
@@ -309,7 +309,7 @@ class LocationSevices: NSObject, CLLocationManagerDelegate {
                 for beacon in applicationModel.beaconData{
                     if(dminor == (beacon.mercury_beacon_device_id.toInt())){
 
-                        latestMinor = closestBeacon?.minor as Int
+                        latestMinor = closestBeacon?.minor as! Int
                         
                         
                         

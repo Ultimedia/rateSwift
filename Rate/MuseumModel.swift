@@ -23,7 +23,7 @@ class MuseumModel: NSObject, Printable {
     var museum_coordinate:CLLocationCoordinate2D?
     var museum_dis:Double?
     
-    let exhibitData = Array<ExhibitModel>()
+    var exhibitData = Array<ExhibitModel>()
     
 
     

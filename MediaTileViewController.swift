@@ -20,10 +20,18 @@ class MediaTileViewController: UIViewController {
 
     var viewWidth:Int? = 0
     var viewHeight:Int? = 0
+    var viewWidthFloat:CGFloat? = 0
+    var viewHeightFloat:CGFloat? = 0
 
+    
     
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
+    
+    
+    let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,10 +76,16 @@ class MediaTileViewController: UIViewController {
             quoteLabel!.text = mediaModel?.mercury_room_media_caption
             quoteLabel!.textColor = UIColor.whiteColor()
             quoteLabel!.font =  UIFont(name: "Futura-Medium", size: 23)
+            quoteLabel!.alpha = 0.9
             quoteLabel!.textAlignment = NSTextAlignment.Center
-            quoteLabel!.frame = CGRect(x: 10, y: 10, width: viewWidth! - 20, height: viewHeight! - 20)
-            quoteLabel?.sizeToFit()
+            quoteLabel!.frame = CGRect(x: 10, y: viewHeight! - 40, width: viewWidth! - 20, height: 40)
             view.addSubview(quoteLabel!)
+            
+            // quoteframe
+            var quoteFrame:UIView = UIView()
+                quoteFrame.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
+            //view.addSubview(quoteFrame)
+
             
             break;
             
@@ -83,7 +97,6 @@ class MediaTileViewController: UIViewController {
                     mediaImageView?.frame = CGRect(x: viewWidth! / 2, y: 0, width: viewWidth! / 2, height: viewHeight!)
                     mediaImageView?.image = UIImage(data: data!)
              
-                    view.addSubview(mediaImageView!)
                 }
             }
             
@@ -114,6 +127,18 @@ class MediaTileViewController: UIViewController {
                 view.addSubview(editText)
             
             
+            if(deviceFunctionService.deviceType != "ipad"){
+                println("hondjes")
+                
+                mediaImageView?.frame = CGRect(x: 0, y: 0, width: viewWidth!, height: viewHeight! / 2)
+                editText.frame = CGRect(x: 10, y: authorLabel.frame.origin.y + editText.frame.height + 10, width: view.frame.width, height: CGFloat(viewHeight! / 2))
+
+            }else{
+                
+            }
+            
+            view.addSubview(mediaImageView!)
+
             
             descriptionLabel!.text = mediaModel?.mercury_room_media_caption
             view.addSubview(descriptionLabel!)
@@ -157,9 +182,11 @@ class MediaTileViewController: UIViewController {
             
             var authorLabel:UILabel = UILabel()
                 authorLabel.backgroundColor = applicationModel.UIColorFromRGB(0x222222)
-                authorLabel.frame = CGRect(x:(authorLabel.frame.width / 2), y: quoteBack.frame.origin.y - 20, width: 200, height: 70)
+                authorLabel.frame = CGRect(x:(authorLabel.frame.width / 2), y: quoteBack.frame.origin.y - 20, width: CGFloat(400), height: 70)
                 authorLabel.text = "Steve Jobs"
                 authorLabel.sizeToFit()
+                authorLabel.frame.origin.x = (CGFloat(viewWidth!) / 2) - (authorLabel.frame.width / 2)
+                authorLabel.textAlignment = NSTextAlignment.Center
                 authorLabel.textColor = UIColor.whiteColor()
                 authorLabel.text = mediaModel!.mercury_room_media_caption.uppercaseString
                 authorLabel.font =  UIFont(name: "AvenirNext-DemiBold", size: 20)

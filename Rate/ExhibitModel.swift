@@ -22,9 +22,9 @@ class ExhibitModel: NSObject, Printable {
     let exhibit_cover_image:String
     let exhibit_twitter_enabled:String
     let exhibit_facebook_enabled:String
-    let roomData = Array<RoomModel>()
+    var roomData = Array<RoomModel>()
     var myRoom:RoomModel?
-    let beaconData = Array<BeaconModel>()
+    var beaconData = Array<BeaconModel>()
 
     // Default Texts
     let overviewInfo_Dutch = "Begeef je door de exhibitie, deze app zal je automatisch begeleiden. Hieronder vind je een overzicht met de verschillende ruimtes die de worden geactiveerd"

@@ -109,7 +109,7 @@ class SettingsViewController: UIViewController {
         NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
         
         
-        signoutButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        signoutButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
         signoutButton?.tintColor = UIColor.whiteColor()
         signoutButton!.setTitle("Afmelden", forState: UIControlState.Normal)
         signoutButton!.frame = CGRect(x: 0, y: screenSize.height - 70, width: screenSize.width, height: 70)

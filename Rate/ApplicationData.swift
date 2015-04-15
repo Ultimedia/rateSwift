@@ -72,11 +72,11 @@ class ApplicationData: NSObject {
         
         // did the user sign in?
         if let firstNameIsNotNill = defaults.objectForKey("firstLogin") as? Bool {
-            firstLogin = defaults.objectForKey("firstLogin") as Bool
+            firstLogin = defaults.objectForKey("firstLogin") as! Bool
         }
         
         if let localAccountIsNotNill = defaults.objectForKey("localAccount") as? Bool {
-            localAccount = defaults.objectForKey("localAccount") as Bool
+            localAccount = defaults.objectForKey("localAccount") as! Bool
         }
         
         println("locccaaal")
@@ -149,10 +149,10 @@ public extension UIDevice {
         var identifier = ""
         let mirror = reflect(machine)
         for i in 0..<reflect(machine).count {
-            if mirror[i].1.value as Int8 == 0 {
+            if mirror[i].1.value as! Int8 == 0 {
                 break
             }
-            identifier.append(UnicodeScalar(UInt8(mirror[i].1.value as Int8)))
+            identifier.append(UnicodeScalar(UInt8(mirror[i].1.value as! Int8)))
         }
         if let readableIdentifier = deviceList[identifier] {
             return readableIdentifier

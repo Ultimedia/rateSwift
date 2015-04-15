@@ -113,7 +113,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         
         var errorMessage:String = ""
         if let info = ns.userInfo {
-            errorMessage =  info["errorString"] as String
+            errorMessage =  info["errorString"] as! String
         }
         
         var alert = UIAlertController(title: "Fout", message: errorMessage, preferredStyle: UIAlertControllerStyle.Alert)
@@ -183,14 +183,14 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         if let info = notification.userInfo {
             println(notification.userInfo)
             
-            if((info["menu"] as String) != "error"){
+            if((info["menu"] as! String) != "error"){
                 applicationModel.lastPage = info["menu"] as? String
             }
             
             
             if(applicationModel.currentTarget != info["menu"] as? String){
             
-            var myTarget: String = (info["menu"] as String)
+            var myTarget: String = (info["menu"] as! String)
             applicationModel.currentTarget = myTarget
 
             var isPopup:Bool = false
