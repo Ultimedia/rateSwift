@@ -38,6 +38,7 @@ class DIrectionsOverlayViewController: UIViewController {
         map.showsUserLocation = true
         
         
+        
         // Annotations
         var annotations:[MKPointAnnotation] = []
         
@@ -58,9 +59,9 @@ class DIrectionsOverlayViewController: UIViewController {
                     )
                     
                     var annotation = MKPointAnnotation()
-                    //annotation.setCoordinate(location)
-                    annotation.title = "Roatan"
-                    annotation.subtitle = "Honduras"
+                    annotation.coordinate = location
+                    annotation.title =  museum.museum_title
+                    annotation.subtitle = museum.museum_address
                     self.map?.addAnnotation(annotation)
                     
                     annotations.append(annotation)

@@ -20,14 +20,21 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     let applicationModel = ApplicationData.sharedModel()    
     var eventData = Dictionary<String, String>()
     var exhibitListViewController:ExhibitListViewController?
-    
+    var exhibitListScroll:UIScrollView?
+    var panelView:UIScrollView?
+
     var gridAdded:Bool = false
+    var panelAdded:Bool = false
+
+    var museumInfoPanel:UIView?
+    
     
     // data
     var museumModel:[MuseumModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = UIColor.blackColor()
@@ -54,14 +61,81 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         eventData["icon"] = "exhibitGrid"
         NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "gridToggle:", name:"GridToggle", object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "readMoreHandler:", name:"ReadMore", object: nil)
+
         // exhibit list view controller
         exhibitListViewController = ExhibitListViewController(nibName: nil, bundle: nil)
         exhibitListViewController!.view.frame = CGRect(x: 0, y: 60, width: screenSize.width, height: 150)
         exhibitListViewController!.view.backgroundColor = applicationModel.UIColorFromRGB(0x785dc8)
         exhibitListViewController!.view.hidden = true
 
+        
+        exhibitListScroll = UIScrollView()
+        exhibitListScroll!.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 150)
+
+        exhibitListScroll!.contentSize = CGSize(width: screenSize.width, height: 150)
+        exhibitListScroll!.backgroundColor = applicationModel.UIColorFromRGB(0x5225d3)
+        exhibitListViewController!.view.addSubview(exhibitListScroll!)
+        
+        
+        panelView = UIScrollView()
+        panelView!.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 340)
+        
+        panelView!.contentSize = CGSize(width: screenSize.width, height: 340)
+        panelView!.backgroundColor = UIColor.whiteColor()
+        view.addSubview(panelView!)
+        
+        
+        var panelLine:UIView = UIView(frame:CGRect(x: 0, y: 0, width: screenSize.width, height: 3))
+            panelLine.backgroundColor = applicationModel.UIColorFromRGB(0x653dc9)
+        panelView!.addSubview(panelLine)
+        
+        var panelTitle:UILabel = UILabel(frame: CGRect(x: 40, y: 20, width: 300, height: 60))
+            panelTitle.text = "OVER DEZE EXHBITIE"
+            panelTitle.font = UIFont.boldSystemFontOfSize(33)
+            panelTitle.textColor = applicationModel.UIColorFromRGB(0x242424)
+            panelTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
+        panelView!.addSubview(panelTitle)
+
     }
+    
+    /**
+    * Read More Panel
+    */
+    func readMoreHandler(ns:NSNotification){
+        
+        if(!panelAdded){
+            
+            panelAdded = true
+            
+            panelView!.frame.origin.y = screenSize.height
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.panelView!.frame.origin.y = self.screenSize.height - self.panelView!.frame.height
+                
+                return
+                }, completion: { finished in
+                    // the animation is complete
+            })
+            
+            
+            
+        }else{
+            panelAdded = false
+            
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.panelView!.frame.origin.y = self.screenSize.height + self.panelView!.frame.height
+                
+                return
+                }, completion: { finished in
+                    // the animation is complete
+            })
+            
+        }
+        
+    }
+    
     
     /**
     * Grid Toggle
@@ -72,9 +146,40 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
             gridAdded = true
             view.addSubview(exhibitListViewController!.view)
             
-            // now create the thumbs
-            println(applicationModel.selectedExhibit)
+            var xPos:CGFloat = 20
+            var counter:Int = 0
+            var roomWidth:CGFloat = 0
             
+            // now create the thumbs
+            for room in applicationModel.selectedExhibit!.roomData{
+                
+
+                if(room.mercury_room_type == "room"){
+                    
+                    println("ik voeg em toe")
+                    
+                    let roomButton = UIButton()
+                    roomButton.setTitle("Ruimte" + String(counter), forState: .Normal)
+                    roomButton.setTitleColor(applicationModel.UIColorFromRGB(0x222325), forState: .Normal)
+                    roomButton.frame = CGRect(x: xPos, y: 12, width: 200, height: 130)
+                    roomButton.addTarget(self, action: "selectRoom:", forControlEvents: .TouchUpInside)
+                    roomButton.tag = counter
+                    roomButton.backgroundColor = UIColor.whiteColor()
+                    
+                    self.view.addSubview(roomButton)
+                    
+                    
+                    xPos = xPos + roomButton.frame.width + CGFloat(10)
+                    exhibitListScroll!.addSubview(roomButton)
+
+                }
+                
+                counter++
+            }
+            
+            
+            exhibitListScroll!.contentSize = CGSize(width: xPos, height: 150)
+
         }
         
         if(exhibitListViewController!.view.hidden){
@@ -102,6 +207,16 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
 
             })
         }
+    }
+    
+    
+    func selectRoom(sender: UIButton!) {
+        
+        println(sender.tag)
+        
+        eventData["roomID"] = String(sender.tag)
+        NSNotificationCenter.defaultCenter().postNotificationName("ScrollToRoom", object: nil, userInfo:  eventData)
+
     }
     
     

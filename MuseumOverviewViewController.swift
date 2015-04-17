@@ -22,6 +22,8 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
     
     var exhibitThumbs = Array<TeaserThumbViewController>()
     var eventData = Dictionary<String, String>()
+    
+    var infoView:UIView?
 
     
     // applicationModel
@@ -30,13 +32,15 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
     var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
     var collectionView: UICollectionView?
 
+    // Location Services
+    let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
+
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.whiteColor()
         println("museum id")
@@ -55,19 +59,28 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
             if((data?.length) != nil){
                 coverImageView?.image = UIImage(data: data!)
                 coverImageView?.contentMode = .ScaleAspectFit
-                coverImageView?.frame = CGRect(x: 0, y: 64, width: screenSize.width, height: 200)
+                coverImageView?.frame = CGRect(x: 0, y: 64, width: screenSize.width, height: 300)
                 coverImageView?.contentMode = UIViewContentMode.ScaleToFill
             }
         }
         
         //scrollView.addSubview(subtitleLabel!)
 
-
+        // infobox
+        infoView = UIView()
+        infoView!.frame = CGRect(x: screenSize.width / 2, y: 64, width: screenSize.width / 2, height: 300)
+        infoView!.backgroundColor = applicationModel.UIColorFromRGB(0xdbdcd4)
+        infoView!.alpha = 1
+        
+        
+        
+        
+        
         
         logoLabel = UILabel(frame: CGRect(x: 20, y: 160, width: 80, height: 60))
         logoLabel!.text = applicationModel.selectedMuseum?.museum_description
         logoLabel!.font = UIFont.boldSystemFontOfSize(22)
-        logoLabel!.textColor = UIColor.whiteColor()
+        logoLabel!.textColor = applicationModel.UIColorFromRGB(0x222325)
         logoLabel!.font =  UIFont (name: "AvenirNext-Medium", size: 18)
         logoLabel!.sizeToFit()
         
@@ -76,7 +89,7 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         subtitleLabel!.numberOfLines = 4
         subtitleLabel!.lineBreakMode = .ByWordWrapping
         subtitleLabel!.text = applicationModel.selectedMuseum?.museum_title
-        subtitleLabel!.textColor = UIColor.whiteColor()
+        subtitleLabel!.textColor = applicationModel.UIColorFromRGB(0x222325)
         subtitleLabel!.font =  UIFont (name: "AvenirNext-Medium", size: 36)
         
         
@@ -88,8 +101,11 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         descriptionLabel!.textColor = UIColor()
         
         view.addSubview(coverImageView!)
+        view.addSubview(infoView!)
+
         view.addSubview(logoLabel!)
         view.addSubview(subtitleLabel!)
+
         //scrollView!.addSubview(descriptionLabel!)
     
         
@@ -102,14 +118,46 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "beaconsDetected:", name:"BeaconsDetected", object: nil)
 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 40, left: 0, bottom: 40, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         layout.itemSize = CGSize(width: screenSize.width, height: 240)
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 260, width: screenSize.width, height: screenSize.height - 260), collectionViewLayout: layout)
+        
+        if(deviceFunctionService.deviceType == "ipad"){
+            
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            
+            layout.itemSize = CGSize(width: (screenSize.width / 2) - 4, height: 240)
+            layout.minimumInteritemSpacing = 5
+            
+            infoView!.frame = CGRect(x: screenSize.width / 2, y: 64, width: screenSize.width / 2, height: 300)
+            
+            
+            logoLabel!.frame = CGRect(x: 20, y: 160, width: 80, height: 60)
+            subtitleLabel!.frame = CGRect(x: screenSize.width / 2 + 30, y: 60, width: screenSize.width / 2 - 60, height: 100)
+            logoLabel!.frame = CGRect(x: screenSize.width / 2 + 30, y: 160, width: screenSize.width / 2 - 60, height: 60)
+
+            
+            
+        }else{
+            
+        }
+        
+        
+        
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 240, width: screenSize.width, height: screenSize.height - 260), collectionViewLayout: layout)
         collectionView!.dataSource = self
         collectionView!.delegate = self
         collectionView!.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(collectionView!)
+        
+
+        if(deviceFunctionService.deviceType == "ipad"){
+
+
+            collectionView!.frame = CGRect(x: 0, y: 400, width: screenSize.width, height: screenSize.height - 260 - 200)
+        }
+        
+        
     }
     
     

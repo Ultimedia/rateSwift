@@ -56,8 +56,7 @@ class MediaTileViewController: UIViewController {
         descriptionLabel!.textAlignment = NSTextAlignment.Center
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = applicationModel.UIColorFromRGB(0xffeca1)
-        
+        view.backgroundColor = UIColor.clearColor()
         
         switch(mediaModel!.mercury_room_media_type){
             case "image":
@@ -100,8 +99,11 @@ class MediaTileViewController: UIViewController {
                 }
             }
             
-            view.backgroundColor = UIColor.whiteColor()
             
+            var backView:UIView = UIView()
+                backView.frame = CGRect(x: 0, y: 0, width: viewWidth!, height: viewHeight!)
+                backView.backgroundColor = UIColor.whiteColor()
+                view.addSubview(backView)
             
             var editLabel:UILabel = UILabel()
                 editLabel.frame = CGRect(x: 10, y: 10, width: viewWidth! / 2 - 20, height: 50)

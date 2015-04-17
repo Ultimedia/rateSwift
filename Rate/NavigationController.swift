@@ -104,7 +104,7 @@ class NavigationController: UINavigationController {
         
         
         // Help image button
-        let helpIcon = UIImage(named: "help-ico") as UIImage?
+        let helpIcon = UIImage(named: "settings-ico") as UIImage?
             helpButton = UIButton.buttonWithType(UIButtonType.Custom) as? UIButton
             helpButton?.addTarget(self, action: "showHelp:", forControlEvents: UIControlEvents.TouchUpInside)
             helpButton?.setTitle("", forState: UIControlState.Normal)
@@ -185,23 +185,15 @@ class NavigationController: UINavigationController {
                 break;
                 
                 
-            case "settings":
-                let helpIcon = UIImage(named: "help-ico") as UIImage?
-                helpButton!.setImage(helpIcon, forState: .Normal)
-                helpButton!.hidden = false
-                helpButton!.tag = 1
+                case "settings":
+                    let helpIcon = UIImage(named: "settings-ico") as UIImage?
+                    helpButton!.setImage(helpIcon, forState: .Normal)
+                    helpButton!.hidden = false
+                    helpButton!.tag = 1
                 
                 break;
                 
-            case "list":
-                let listIcon = UIImage(named: "list-icon") as UIImage?
-                helpButton!.setImage(listIcon, forState: .Normal)
-                helpButton!.hidden = false
-                helpButton!.tag = 4
-                
-                
-                
-                break;
+
                 
             
             default:
@@ -250,8 +242,18 @@ class NavigationController: UINavigationController {
                     menuButton?.tag = 3
                     menuButton?.hidden = false
                     
-                    
                 break;
+                
+                case "help":
+                    
+                    let helpIcon = UIImage(named: "help-ico") as UIImage?
+                    menuButton?.setImage(helpIcon, forState: .Normal)
+                    menuButton?.tag = 4
+                    menuButton?.hidden = false
+                
+                break;
+                
+                
                 
                 case "hidden":
                     menuButton?.hidden = true
@@ -422,6 +424,14 @@ class NavigationController: UINavigationController {
                 
                 eventData["menu"] = "overview"
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
+                
+            break;
+            
+            
+            case 4:
+            
+                NSNotificationCenter.defaultCenter().postNotificationName("ShowHelpCarousel", object: nil, userInfo:  nil)
+
                 
             break;
             

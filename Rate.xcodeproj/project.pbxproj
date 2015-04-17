@@ -68,6 +68,8 @@
 		6C7EE7231A3840590083999C /* ExhibitFoundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7EE7211A3840590083999C /* ExhibitFoundViewController.xib */; };
 		6C8699041A309EDB005BEC05 /* HelpPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8699021A309EDB005BEC05 /* HelpPopupView.swift */; };
 		6C8699051A309EDB005BEC05 /* HelpPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8699031A309EDB005BEC05 /* HelpPopupView.xib */; };
+		6C8968671AE153290017AC22 /* SocialToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */; };
+		6C8968681AE153290017AC22 /* SocialToolbarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */; };
 		6CA1D6D81A271DDF00AF80C0 /* DeviceFunctionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */; };
 		6CA1D6E11A2721BA00AF80C0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */; };
 		6CA1D6E21A2721BA00AF80C0 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CA1D6E01A2721BA00AF80C0 /* LoadingViewController.xib */; };
@@ -191,6 +193,8 @@
 		6C7EE7211A3840590083999C /* ExhibitFoundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitFoundViewController.xib; sourceTree = "<group>"; };
 		6C8699021A309EDB005BEC05 /* HelpPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpPopupView.swift; sourceTree = "<group>"; };
 		6C8699031A309EDB005BEC05 /* HelpPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpPopupView.xib; sourceTree = "<group>"; };
+		6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialToolbarViewController.swift; sourceTree = "<group>"; };
+		6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialToolbarViewController.xib; sourceTree = "<group>"; };
 		6C9997161A233C4C00961EAC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFunctionServices.swift; sourceTree = "<group>"; };
 		6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -267,6 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				6C198D931A1CED06003F2A21 /* ExhibitStageViewController.swift */,
+				6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */,
+				6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */,
 				6CE116491A289077004B9DC1 /* ExhibitOverviewController.swift */,
 				6CA23B951A5C2F9C000D43F9 /* GradientView.swift */,
 				6CE116511A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift */,
@@ -582,6 +588,7 @@
 				6CC01B721A1F331C00DBB952 /* FavouritesViewController.xib in Resources */,
 				6CC01B771A1F364200DBB952 /* SettingsViewController.xib in Resources */,
 				6CE116541A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib in Resources */,
+				6C8968681AE153290017AC22 /* SocialToolbarViewController.xib in Resources */,
 				6CE114561A36ECB400A553B7 /* TwitterInputViewController.xib in Resources */,
 				6CA23B901A5BF56A000D43F9 /* TeaserCollectionCell.xib in Resources */,
 			);
@@ -630,6 +637,7 @@
 				6C4712F11A25CD77002C355D /* RoomSocialModel.swift in Sources */,
 				6CE114611A36F54300A553B7 /* InstagramInputViewController.swift in Sources */,
 				6CC2B0041AC5AC8C00AFCA28 /* SocialGridItemViewController.swift in Sources */,
+				6C8968671AE153290017AC22 /* SocialToolbarViewController.swift in Sources */,
 				6C315B6D1A1CA33400EAEBC0 /* MainController.swift in Sources */,
 				6C7C24111A275ED200E735DD /* MyAnnotation.swift in Sources */,
 				6CA23B8A1A4DE4EE000D43F9 /* TeaserThumbViewController.swift in Sources */,
@@ -799,6 +807,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -811,6 +820,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -818,6 +828,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

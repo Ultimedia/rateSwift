@@ -64,6 +64,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     var museumList = Array<MuseumListComponentViewController>()
     var toTop:UIButton?
     var infoView:UIView?
+    var infoTitle:UILabel?
     var compassButton:UIButton?
     
     // Effects
@@ -102,7 +103,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         scrollView = UIScrollView()
         scrollView!.contentSize = CGSize(width:screenSize.width, height: screenSize.height*2)
         scrollView!.frame = CGRect(x: 0, y: 240, width: screenSize.width, height: screenSize.height - 240)
-        scrollView!.bounces = false
+        scrollView!.bounces = true
         scrollView!.backgroundColor = UIColor.clearColor()
         scrollView!.pagingEnabled = true
         scrollView!.delegate = self
@@ -117,6 +118,15 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         infoView!.backgroundColor = UIColor.whiteColor()
         infoView!.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         infoView!.hidden = true
+        
+        infoTitle = UILabel(frame: CGRect(x: 20, y: 150, width: 80, height: 60))
+        infoTitle!.text = "Test test"
+        infoTitle!.font = UIFont.boldSystemFontOfSize(33)
+        infoTitle!.textColor = applicationModel.UIColorFromRGB(0x242424)
+        infoTitle!.font =  UIFont (name: "DINAlternate-Bold", size: 18)
+        infoView!.addSubview(infoTitle!)
+        
+        
         
         logoLabel = UILabel(frame: CGRect(x: 20, y: 150, width: 80, height: 60))
         logoLabel!.text = "MUSEA IN JOUW BUURT"
@@ -286,8 +296,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         
         exhibitHolder?.addSubview(exhibitHolderTitle!)
 
-        eventData["icon"] = "hidden"
-        NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
         
         // resetting when we load the page
         applicationModel.localExhibitSelected = false
@@ -352,22 +360,26 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         spinner!.stopAnimating()
         spinner!.hidden = true
         
-        
+        var starting:Bool = true
         var muCount:Int = 0
         for musuemd in locationServices.musArray{
             
             // println("index is \(index)")
             if(muCount < 9){
+        
                 var museum:MuseumListComponentViewController = MuseumListComponentViewController(nibName: "MuseumListComponentViewController", bundle: nil)
                 
                 
                 if(deviceFunctionService.deviceType == "ipad"){
                     museum.view.frame = CGRect(x: 100, y: yPos, width: (screenSize.width) - 200, height: 95)
-                }else{
-                    museum.view.frame = CGRect(x: 100, y: yPos, width: (screenSize.width/100) * 80, height: 95)
-                }
-                
+                    museum.listWidth = (screenSize.width) - 200
 
+                
+                }else{
+                    museum.view.frame = CGRect(x: 10, y: yPos, width: screenSize.width - 20, height: 95)
+                    museum.listWidth = screenSize.width - 20
+
+                }
                 
                 museum.titleField?.text = musuemd.museum_title
                 museum.listCount.text = String(muCount + 1)
@@ -376,17 +388,24 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                 museum.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleGestureTouch:"))
                 
                 museumList.append(museum)
+        
+                if(starting){
+                    starting = false
+                    museum.starting = true
+                }
+                
                 
                 var distance = round(musuemd.museum_dis!)
                 if(distance < locationServices.distanceVar){
-                    
                     museum.activeDot?.hidden = false
+                    println("show activedots")
                     
-                    
+                }else{
+                    museum.view.alpha = 0.4
                 }
                 
                 let name: String = distance.description
-                museum.distanceField.text = name
+                museum.distanceField.text = name + "Km"
                 
                 // if mobile
                 if(deviceFunctionService.deviceType == "ipad"){
@@ -400,7 +419,12 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                 
                 yPos = yPos + museum.view.frame.height
                 muCount++
+                
+                museum.reposition()
             }
+            
+            
+            scrollView!.contentSize = CGSize(width:screenSize.width, height: CGFloat(95 * muCount) + 200)
         }
         
     }
@@ -445,13 +469,13 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     func handleGestureTouch(gestureRecognizer: UITapGestureRecognizer){
 
         // handle the taps
-        println("taaaaaaggggg")
-        println(gestureRecognizer.view?.tag)
-        
         var selectedMuseum:MuseumListComponentViewController = museumList[gestureRecognizer.view!.tag]
             println(selectedMuseum.museumModel?.exhibitData)
         
             applicationModel.selectedMuseum = selectedMuseum.museumModel
+        
+        
+        if(selectedMuseum.activeDot?.hidden == false){
        
         
             eventData["title"] = selectedMuseum.museumModel?.museum_title
@@ -470,6 +494,8 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         //
         applicationModel.localExhibitSelected = false
         locationServices.beaconSearching = true
+            
+        }
     
     }
 
@@ -479,9 +505,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     func buttonAction(sender:UIButton!)
     {
         var scrollImage:UIImage
-        
-        
-        
         if(scrollView!.contentOffset.y > 0){
             // scroll to point
             scrollView!.setContentOffset(CGPointMake(0, 0), animated: true)
@@ -546,8 +569,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     */
     func nearestMusuemChanged(ns: NSNotification){
         
-        println("ik ben hier")
-    
         var conversion = applicationModel.nearestMuseum!.museum_dis?.format(".2")
         var string = NSString(string: conversion!)
         
@@ -558,8 +579,9 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         compassView?.updateMapkit()
         compassView?.view.hidden = false
         
+        // don't need this feature
         if(applicationModel.nearestMuseum!.museum_dis < locationServices.distanceVar){
-            
+            /*
             let url = NSURL(string: ( applicationModel.nearestMuseum!.museum_cover))
             
             if((url) != nil && url != ""){
@@ -585,7 +607,8 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
             imageView?.center = view.center
             imageView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
             imageView?.contentMode = UIViewContentMode.ScaleAspectFill
-            }
+            
+            }*/
             
         }else{
             

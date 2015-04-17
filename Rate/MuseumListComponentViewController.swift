@@ -29,6 +29,9 @@ class MuseumListComponentViewController: UIViewController {
     var titleField:UILabel?
     var museumModel:MuseumModel?
     var activeDot:UIView?
+    var starting:Bool?
+    var listWidth:CGFloat?
+    
     
     // applicationModel
     let applicationModel = ApplicationData.sharedModel()
@@ -64,7 +67,7 @@ class MuseumListComponentViewController: UIViewController {
         distanceField!.frame = CGRect(x: 10, y: 23, width: view.frame.width - 20, height: 50)
         distanceField!.numberOfLines = 0
         distanceField!.lineBreakMode = .ByWordWrapping
-        distanceField!.font =  UIFont (name: "AvenirNext-UltraLight", size: 34)
+        distanceField!.font =  UIFont (name: "AvenirNext-UltraLight", size: 28)
         distanceField!.textColor = UIColor.whiteColor()
         distanceField!.textAlignment = NSTextAlignment.Right
         distanceField!.text = "100"
@@ -79,19 +82,35 @@ class MuseumListComponentViewController: UIViewController {
         
         // if mobile
         if(deviceFunctionService.deviceType == "ipad"){
-            
+    
         }else{
-            
             view.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 80 )
-            
+
             distanceLabel.frame = CGRectMake( 100, 200, distanceLabel.frame.size.width, distanceLabel.frame.size.height ); // set new position exactly
-            
-            //line.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 10)
-            
         }
+        
+        
         
         view.addSubview(liner!)
         
+    }
+    
+    func reposition(){
+        if(deviceFunctionService.deviceType == "ipad"){
+            
+            var myX = screenSize.width - 200
+            
+            activeDot!.frame = CGRect(x: liner!.frame.origin.x + liner!.frame.width - 12, y: 10, width: 12, height: 12)
+            
+        }else{
+            liner!.frame =  CGRect(x: 10, y: 0, width: listWidth!, height: 1)
+            distanceField!.frame = CGRect(x: 10, y: 23, width: listWidth!, height: 50)
+    
+        
+            if((starting) != nil){
+                liner!.hidden = true
+            }
+        }
     }
     
     

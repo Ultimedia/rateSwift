@@ -204,14 +204,13 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                     locationServices.getNearestMuseum()
                     applicationModel.localExhibitSelected = false
                 
-                    eventData["icon"] = "teaser"
+                    eventData["icon"] = "help"
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
 
                     eventData["icon"] = "settings"
                     NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
 
 
-                
                 case "overview":
                     museumOverviewController = MuseumOverviewViewController(nibName: "MuseumOverviewViewController", bundle: nil)
 
@@ -225,8 +224,6 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                     eventData["icon"] = "hidden"
                     NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
                 
-
-                
                 
                 case "exhibit":
                     targetController = exhibitViewController
@@ -237,8 +234,10 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
                     eventData["icon"] = "exhibit"
                     NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
                 
+                
                 case "favourites":
                     targetController = favouritesViewController
+        
                 
                 case "settings":
                     settingsViewController = SettingsViewController(nibName: "SettingsViewController", bundle: nil)
@@ -327,7 +326,7 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         // dispatch event
         
         map = DIrectionsOverlayViewController(nibName: "DIrectionsOverlayViewController", bundle: nil)
-        map?.view.frame = CGRect(x: 20, y: 70, width: screenSize.width-40, height: screenSize.height-100)
+        map?.view.frame = CGRect(x: 5, y: 70, width: screenSize.width - 10, height: screenSize.height-77)
         
         map!.view.layer.shadowColor = UIColor.blackColor().CGColor
         map!.view.layer.shadowOffset = CGSizeMake(5, 5)
@@ -335,6 +334,17 @@ class MainController: UIViewController, CLLocationManagerDelegate, UIPageViewCon
         
         targetController!.addChildViewController(map!)
         targetController!.view.addSubview(map!.view)
+        
+        map!.view.frame = CGRect(x: 5, y: screenSize.height, width: screenSize.width - 10, height: screenSize.height-77)
+
+        UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
+            self.map!.view.frame = CGRect(x: 5, y: 70, width: self.screenSize.width - 10, height: self.screenSize.height-77)
+            
+            return
+            }, completion: { finished in
+
+        })
+        
     }
 
     

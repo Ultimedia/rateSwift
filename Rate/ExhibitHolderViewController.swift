@@ -20,10 +20,12 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     // Singleton Models
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
 
-    
-    
+    var socialMenubar:SocialToolbarViewController?
+    var roomsBox = []
+
     var pageIndex : Int = 0
     var titleText : String = ""
+    var socialBar:Bool = false
     var imageFile : String = ""
     
     override func viewDidLoad() {
@@ -35,32 +37,27 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showFeedbackPanel:", name:"ShowFeedbackPanel", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeFeedbackPanel:", name:"CloseFeedbackPanel", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "beaconChangedHandler:", name:"BeaconsChanged", object: nil)
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollToRoomhandler:", name:"ScrollToRoom", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollDownHandler:", name:"ScrollExhibitDown", object: nil)
 
     }
     
+    
     func scrollDownHandler(ns:NSNotification){
-        
-        
-        
         if(exhibitScrollView!.contentOffset.y > 0){
             // scroll to point
             exhibitScrollView!.setContentOffset(CGPointMake(0, 0), animated: true)
-            
         }else{
             // scroll to point
             exhibitScrollView!.setContentOffset(CGPointMake(0, screenSize.height - 64), animated: true)
-        
         }
     }
     
     
     func beaconChangedHandler(ns:NSNotification){
-        
         if(applicationModel.developer){
             // show beacon info
-//            betaText?.text = "room ID " + applicationModel.nearestBeacon!.mercury_room_id + " " + applicationModel.nearestBeacon!.mercury_beacon_device_id
+            // betaText?.text = "room ID " + applicationModel.nearestBeacon!.mercury_room_id + " " applicationModel.nearestBeacon!.mercury_beacon_device_id
         }
         
         // go to the right room
@@ -127,9 +124,6 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         
         
         var totalHeight:CGFloat = 0
-        
-        
-        // rooms
         var looper:Int = 0;
         
         // Create room views
@@ -147,17 +141,19 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: screenSize.height)
                 dataViewController.view.tag = room.mercury_room_order.toInt()!
                 
+                
                 exhibitScrollView!.addSubview(dataViewController.view)
                 self.addChildViewController(dataViewController)
                 
                 totalHeight = totalHeight + screenSize.height * 2
                 yPos = yPos + screenSize.height
                 
-                looper++
                 
                 break;
                 
             case "room":
+
+                
                 var frameHeight:CGFloat = CGFloat(400) * (CGFloat(room.mediaData.count) / CGFloat(3)) + 300
             
                 var screenHeight = screenSize.height
@@ -173,21 +169,31 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                     frameHeight = 460 * CGFloat(room.mediaData.count) + 140
                     
                     // add socialgrid height (need to calculate this dynamically)
-                    frameHeight = frameHeight + screenSize.height
+                    
+                    
+                }else{
+                    
+                    println((CGFloat(room.mediaData.count) / 3))
+                    
+                    
+                    // content grid
+                    frameHeight = ((CGFloat(room.mediaData.count) / 3) * 420) + CGFloat(140) + 40
+                    // social media grid
+                    frameHeight = frameHeight + 500
+                    
+                    //frameHeight = frameHeight + 1000
+                    
                 }
                 
    
-                println("items")
-                println(room.mediaData.count)
-
-                println("frameheight")
-                println(frameHeight)
-                
                 
                 dataViewController.view.frame = CGRect(x: 0, y:yPos, width: screenSize.width, height: frameHeight)
-            
                 dataViewController.view.backgroundColor = UIColor.whiteColor()
+                dataViewController.view.tag = looper
+                dataViewController.roomID = looper
                 
+                println("looper")
+                println(looper)
                 
                 exhibitScrollView!.addSubview(dataViewController.view)
                 self.addChildViewController(dataViewController)
@@ -196,6 +202,9 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 yPos = yPos + frameHeight
 
                 
+                rooms.append(dataViewController)
+                
+
                 break;
                 
             case "exit":
@@ -210,9 +219,7 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 
                 feedbackScreenSlot = feedbackScreen
                 
-                
                 totalHeight = totalHeight + screenSize.height
-                
                 
                 break;
                 
@@ -220,14 +227,50 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 println("no label found")
             }
             
-            
-            
+            	
             looper++
+
         }
         
-        
-        exhibitScrollView?.contentSize = CGSize(width:screenSize.width, height: totalHeight)
 
+        exhibitScrollView?.contentSize = CGSize(width:screenSize.width, height: totalHeight)
+        
+        
+        
+        socialMenubar = SocialToolbarViewController(nibName: "SocialToolbarViewController", bundle: nil)
+        socialMenubar!.view.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 120)
+        socialMenubar!.view.hidden = true
+        view.addSubview(socialMenubar!.view)
+
+    }
+    
+    func scrollToRoomhandler(ns:NSNotification){
+        
+        if let roomId = ns.userInfo {
+
+            var evtData:String = (roomId["roomID"] as! String)
+            var roomSave:Int = evtData.toInt()!
+            
+            var selectedRoom = self.view.viewWithTag(roomSave)
+            
+            for room in rooms{
+                
+
+                
+                if(room.view.tag == roomSave){
+                    
+                    exhibitScrollView!.setContentOffset(CGPointMake(0, room.view.frame.origin.y - 60), animated: true)
+                }
+            }
+            
+            
+            
+            
+            // scrollTo
+            //
+
+        }
+        
     }
 
     func scrollViewDidEndDecelerating(scrollView: UIScrollView){
@@ -248,6 +291,41 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(scrollView: UIScrollView,
         willDecelerate decelerate: Bool){
+            println("scrolllie")
+            
+            // show social tools
+            if(scrollView.contentOffset.y > screenSize.height - 100){
+                
+                if(!socialBar){
+                
+                    
+                socialMenubar!.view.hidden = false
+                socialMenubar!.view.frame = CGRect(x: 0, y: screenSize.height - 20, width: screenSize.width, height: 120)
+                UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
+                    self.socialMenubar!.view.frame = CGRect(x: 0, y: self.screenSize.height - 120, width: self.screenSize.width, height: 120)
+                    self.socialBar = true
+                    return
+                    }, completion: { finished in
+                        
+                })
+                }
+                
+                
+                
+                
+                
+            }else{
+                UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
+                    self.socialMenubar!.view.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: 120)
+                    
+                    return
+                    }, completion: { finished in
+                        self.socialBar = false
+                })
+                
+            // hide social tools
+                
+            }
     }
     
     
