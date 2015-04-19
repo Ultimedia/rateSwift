@@ -547,18 +547,38 @@ class ExhibitStageViewController: UIViewController {
         
         // socialGrid
         var socialItemsCount:Int = 10
-        var socialHeight = 100
-        var socialWidth = 100
+        var socialHeight = 160
+        var socialWidth = 160
         var socialSpacing:Int = 20
-        var socialYPos = socialText.frame.origin.y + 40
-        var socialXPos = 18
+        var socialYPos = socialText.frame.origin.y + 70
+        var socialXPos = 50
         
         for var i = 0; i < numberOfRows; ++i {
             
             var e:SocialGridItemViewController = SocialGridItemViewController()
-            e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: 100, height: 100)
+            e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: 160, height: 160)
             socialMediaFrame.addSubview(e.view)
             
+            
+            //Mooie tentoonstelling in #netwerk
+            
+            e.view.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(45 * CGFloat(M_PI/180), 0, 0, 1))
+            
+            var socialTitle = UILabel()
+            socialTitle.frame = CGRect(x: 0, y: 0, width: 160, height: 160)
+            socialTitle.text = "Mooie tentoonstelling in Netwerk"
+            socialTitle.font = UIFont.boldSystemFontOfSize(33)
+            socialTitle.textColor = UIColor.whiteColor()
+            socialTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
+            socialTitle.textAlignment = NSTextAlignment.Center
+            socialTitle.numberOfLines = 5
+            
+            e.view.addSubview(socialTitle)
+            socialTitle.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(-45 * CGFloat(M_PI/180), 0, 0, 1))
+            
+            
+            socialXPos = socialXPos + socialWidth + 70
+
         }
         
 

@@ -27,11 +27,8 @@ class MediaTileViewController: UIViewController {
     
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
-    
-    
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
 
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,13 +74,12 @@ class MediaTileViewController: UIViewController {
             quoteLabel!.font =  UIFont(name: "Futura-Medium", size: 23)
             quoteLabel!.alpha = 0.9
             quoteLabel!.textAlignment = NSTextAlignment.Center
-            quoteLabel!.frame = CGRect(x: 10, y: viewHeight! - 40, width: viewWidth! - 20, height: 40)
+            quoteLabel!.frame = CGRect(x: 10, y: viewHeight! - 60, width: viewWidth! - 20, height: 40)
             view.addSubview(quoteLabel!)
             
             // quoteframe
             var quoteFrame:UIView = UIView()
                 quoteFrame.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
-            //view.addSubview(quoteFrame)
 
             
             break;
@@ -98,7 +94,6 @@ class MediaTileViewController: UIViewController {
              
                 }
             }
-            
             
             var backView:UIView = UIView()
                 backView.frame = CGRect(x: 0, y: 0, width: viewWidth!, height: viewHeight!)
@@ -130,7 +125,6 @@ class MediaTileViewController: UIViewController {
             
             
             if(deviceFunctionService.deviceType != "ipad"){
-                println("hondjes")
                 
                 mediaImageView?.frame = CGRect(x: 0, y: 0, width: viewWidth!, height: viewHeight! / 2)
                 editText.frame = CGRect(x: 10, y: authorLabel.frame.origin.y + editText.frame.height + 10, width: view.frame.width, height: CGFloat(viewHeight! / 2))
@@ -210,8 +204,20 @@ class MediaTileViewController: UIViewController {
         default:
             println("charli")
         }
-    
+        
+
+
     }
+    
+    
+
+    
+    func highlightElement(sender:UIButton!){
+        
+        println("jaaa")
+        
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

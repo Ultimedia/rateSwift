@@ -28,6 +28,12 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     var socialBar:Bool = false
     var imageFile : String = ""
     
+    var museumInfoPanel:UIView?
+    var panelView:UIScrollView?
+    var panelAdded:Bool = false
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +45,10 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "beaconChangedHandler:", name:"BeaconsChanged", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollToRoomhandler:", name:"ScrollToRoom", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollDownHandler:", name:"ScrollExhibitDown", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "readMoreHandler:", name:"ReadMore", object: nil)
 
+        
+        
     }
     
     
@@ -121,6 +130,25 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         exhibitScrollView?.delegate = self
         
         view.addSubview(exhibitScrollView!)
+        
+        panelView = UIScrollView()
+        panelView!.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 340)
+        panelView!.contentSize = CGSize(width: screenSize.width, height: 340)
+        panelView!.backgroundColor = UIColor(white: 1, alpha: 0.8)
+        view.addSubview(panelView!)
+        
+        
+        var panelLine:UIView = UIView(frame:CGRect(x: 0, y: 0, width: screenSize.width, height: 3))
+        panelLine.backgroundColor = applicationModel.UIColorFromRGB(0x653dc9)
+        panelView!.addSubview(panelLine)
+        
+        var panelTitle:UILabel = UILabel(frame: CGRect(x: 40, y: 20, width: 300, height: 60))
+        panelTitle.text = "OVER DEZE EXHBITIE"
+        panelTitle.font = UIFont.boldSystemFontOfSize(33)
+        panelTitle.textColor = applicationModel.UIColorFromRGB(0x242424)
+        panelTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
+        panelView!.addSubview(panelTitle)
+        
         
         
         var totalHeight:CGFloat = 0
@@ -244,6 +272,46 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
 
     }
     
+    
+    /**
+    * Read More Panel
+    */
+    func readMoreHandler(ns:NSNotification){
+        
+        if(!panelAdded){
+            
+            panelAdded = true
+            
+            panelView!.frame.origin.y = screenSize.height
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.panelView!.frame.origin.y = self.screenSize.height - self.panelView!.frame.height
+                
+                return
+                }, completion: { finished in
+                    // the animation is complete
+            })
+            
+            
+            
+        }else{
+            panelAdded = false
+            
+            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
+                self.panelView!.frame.origin.y = self.screenSize.height + self.panelView!.frame.height
+                
+                return
+                }, completion: { finished in
+                    // the animation is complete
+            })
+            
+        }
+        
+    }
+    
+    
+    
     func scrollToRoomhandler(ns:NSNotification){
         
         if let roomId = ns.userInfo {
@@ -286,12 +354,46 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
             eventData["menuTitleString"] = ""            
             NSNotificationCenter.defaultCenter().postNotificationName("ToggleMenuBar", object: nil, userInfo:  eventData)
         }
+        
+        
+        // hide social bar
+        if(scrollView.contentOffset.y < screenSize.height){
+            if(socialBar){
+                
+                UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
+                    self.socialMenubar!.view.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: 120)
+                    
+                    return
+                    }, completion: { finished in
+                        self.socialBar = false
+                })
+                
+            }
+            
+        }
+        
     }
     
     
     func scrollViewDidEndDragging(scrollView: UIScrollView,
         willDecelerate decelerate: Bool){
-            println("scrolllie")
+            
+            // hide infoPanel
+            if(scrollView.contentOffset.y > screenSize.height - (screenSize.height / 2)){
+                if(panelAdded){
+                    
+                    println("hiding panel")
+                    
+                    UIView.animateWithDuration(0.3, delay: 0, options: nil, animations: {
+                        self.panelView!.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: 340)
+                        return
+                        }, completion: { finished in
+                            self.panelAdded = false
+                            
+                            
+                    })
+                }
+            }
             
             // show social tools
             if(scrollView.contentOffset.y > screenSize.height - 100){
@@ -311,7 +413,7 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                 }
                 
                 
-                
+
                 
                 
             }else{
@@ -330,6 +432,8 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     
     
     func scrollViewDidScroll(scrollView: UIScrollView){
+        
+        println("did scroll")
         
     }
     

@@ -24,7 +24,6 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
     var panelView:UIScrollView?
 
     var gridAdded:Bool = false
-    var panelAdded:Bool = false
 
     var museumInfoPanel:UIView?
     
@@ -61,7 +60,6 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         eventData["icon"] = "exhibitGrid"
         NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "gridToggle:", name:"GridToggle", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "readMoreHandler:", name:"ReadMore", object: nil)
 
         // exhibit list view controller
         exhibitListViewController = ExhibitListViewController(nibName: nil, bundle: nil)
@@ -78,64 +76,11 @@ class ExhibitViewController: UIViewController, UIPageViewControllerDataSource {
         exhibitListViewController!.view.addSubview(exhibitListScroll!)
         
         
-        panelView = UIScrollView()
-        panelView!.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 340)
-        
-        panelView!.contentSize = CGSize(width: screenSize.width, height: 340)
-        panelView!.backgroundColor = UIColor.whiteColor()
-        view.addSubview(panelView!)
-        
-        
-        var panelLine:UIView = UIView(frame:CGRect(x: 0, y: 0, width: screenSize.width, height: 3))
-            panelLine.backgroundColor = applicationModel.UIColorFromRGB(0x653dc9)
-        panelView!.addSubview(panelLine)
-        
-        var panelTitle:UILabel = UILabel(frame: CGRect(x: 40, y: 20, width: 300, height: 60))
-            panelTitle.text = "OVER DEZE EXHBITIE"
-            panelTitle.font = UIFont.boldSystemFontOfSize(33)
-            panelTitle.textColor = applicationModel.UIColorFromRGB(0x242424)
-            panelTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
-        panelView!.addSubview(panelTitle)
+
 
     }
     
-    /**
-    * Read More Panel
-    */
-    func readMoreHandler(ns:NSNotification){
-        
-        if(!panelAdded){
-            
-            panelAdded = true
-            
-            panelView!.frame.origin.y = screenSize.height
-            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
-                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
-                self.panelView!.frame.origin.y = self.screenSize.height - self.panelView!.frame.height
-                
-                return
-                }, completion: { finished in
-                    // the animation is complete
-            })
-            
-            
-            
-        }else{
-            panelAdded = false
-            
-            UIView.animateWithDuration(0.2, delay: 0, options: nil, animations: {
-                // Place the UIViews we want to animate here (use x, y, width, height, alpha)
-                self.panelView!.frame.origin.y = self.screenSize.height + self.panelView!.frame.height
-                
-                return
-                }, completion: { finished in
-                    // the animation is complete
-            })
-            
-        }
-        
-    }
-    
+
     
     /**
     * Grid Toggle
