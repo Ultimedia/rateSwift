@@ -40,12 +40,11 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         // Do any additional setup after loading the view.
         view.backgroundColor = UIColor.whiteColor()
         println("museum id")
         println(applicationModel.selectedMuseum?.museum_id)
-
+        
         
         // add cover image
         coverImage = UIImage(named:"cover")
@@ -64,8 +63,7 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
             }
         }
         
-        //scrollView.addSubview(subtitleLabel!)
-
+        
         // infobox
         infoView = UIView()
         infoView!.frame = CGRect(x: screenSize.width / 2, y: 64, width: screenSize.width / 2, height: 300)
@@ -73,9 +71,9 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         infoView!.alpha = 1
         
         
-        
-        
-        
+        if(deviceFunctionService.deviceType != "ipad"){
+            infoView!.frame = CGRect(x: 0, y: 64, width: screenSize.width, height: 300)
+        }
         
         logoLabel = UILabel(frame: CGRect(x: 20, y: 160, width: 80, height: 60))
         logoLabel!.text = applicationModel.selectedMuseum?.museum_description
@@ -102,12 +100,9 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         
         view.addSubview(coverImageView!)
         view.addSubview(infoView!)
-
         view.addSubview(logoLabel!)
         view.addSubview(subtitleLabel!)
 
-        //scrollView!.addSubview(descriptionLabel!)
-    
         
         var xPos:Int = 0
         var gap:Int = 20
@@ -118,8 +113,8 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "beaconsDetected:", name:"BeaconsDetected", object: nil)
 
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
-        layout.itemSize = CGSize(width: screenSize.width, height: 240)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+            layout.itemSize = CGSize(width: screenSize.width, height: 240)
         
         if(deviceFunctionService.deviceType == "ipad"){
             
@@ -134,15 +129,13 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
             logoLabel!.frame = CGRect(x: 20, y: 160, width: 80, height: 60)
             subtitleLabel!.frame = CGRect(x: screenSize.width / 2 + 30, y: 60, width: screenSize.width / 2 - 60, height: 100)
             logoLabel!.frame = CGRect(x: screenSize.width / 2 + 30, y: 160, width: screenSize.width / 2 - 60, height: 60)
-
-            
             
         }else{
             
+            
+            
         }
-        
-        
-        
+    
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 240, width: screenSize.width, height: screenSize.height - 260), collectionViewLayout: layout)
         collectionView!.dataSource = self
         collectionView!.delegate = self
@@ -150,14 +143,9 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
         collectionView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(collectionView!)
         
-
         if(deviceFunctionService.deviceType == "ipad"){
-
-
             collectionView!.frame = CGRect(x: 0, y: 400, width: screenSize.width, height: screenSize.height - 260 - 200)
         }
-        
-        
     }
     
     
@@ -217,8 +205,6 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
                 let data = NSData(contentsOfURL: url!)
                 if((data?.length) != nil){
                     imageView.image = UIImage(data: data!)
-
-                   // newImgThumb.contentMode = .ScaleAspectFit
                 }
             }
 
@@ -227,7 +213,6 @@ class MuseumOverviewViewController: UIViewController, UICollectionViewDelegateFl
             cell.addSubview(exhLabel)
             cell.addSubview(exhTag)
             cell.addSubview(exhHours)
-
 
         return cell
     }

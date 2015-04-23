@@ -114,6 +114,8 @@
 		6CE116541A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */; };
 		6CE9E11E1A9235D6009889DE /* MuseumListComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */; };
 		6CE9E11F1A9235D6009889DE /* MuseumListComponentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */; };
+		6CF072291AE6539900ABD59A /* MapsPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF072281AE6539900ABD59A /* MapsPin.swift */; };
+		6CF0722B1AE653E000ABD59A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0722A1AE653E000ABD59A /* MapViewController.swift */; };
 		6CF916A21A31BB4800A78055 /* ExhibitHolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -240,6 +242,8 @@
 		6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitFeedbackScreenViewController.xib; sourceTree = "<group>"; };
 		6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuseumListComponentViewController.swift; sourceTree = "<group>"; };
 		6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MuseumListComponentViewController.xib; sourceTree = "<group>"; };
+		6CF072281AE6539900ABD59A /* MapsPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsPin.swift; sourceTree = "<group>"; };
+		6CF0722A1AE653E000ABD59A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitHolderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -296,6 +300,8 @@
 				6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */,
 				6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */,
 				6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */,
+				6CF0722A1AE653E000ABD59A /* MapViewController.swift */,
+				6CF072281AE6539900ABD59A /* MapsPin.swift */,
 				6C198D8D1A1CECAB003F2A21 /* ExhibitViewController.swift */,
 				6C0839E61AC42402005F3DEB /* ExhibitListViewController.swift */,
 				6C6F913F1A2F397A00B4D4CF /* OverviewTileViewController.swift */,
@@ -652,12 +658,14 @@
 				6C6F91041A2F089400B4D4CF /* BeaconModel.swift in Sources */,
 				6C315B6B1A1CA33400EAEBC0 /* AppDelegate.swift in Sources */,
 				6C6F91411A2F397A00B4D4CF /* OverviewTileViewController.swift in Sources */,
+				6CF072291AE6539900ABD59A /* MapsPin.swift in Sources */,
 				6C315B941A1CAAFE00EAEBC0 /* NavigationController.swift in Sources */,
 				6C198D951A1CED06003F2A21 /* ExhibitStageViewController.swift in Sources */,
 				6CCE311C1A1F912D007682BB /* SignOnScreenViewController.swift in Sources */,
 				6CC01B761A1F364200DBB952 /* SettingsViewController.swift in Sources */,
 				6C4712E91A24CB8A002C355D /* RoomModel.swift in Sources */,
 				6C4712DC1A249724002C355D /* DataManager.swift in Sources */,
+				6CF0722B1AE653E000ABD59A /* MapViewController.swift in Sources */,
 				6C7EE7221A3840590083999C /* ExhibitFoundViewController.swift in Sources */,
 				6C22A6C21A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift in Sources */,
 				6CAEF2861A6E867400A29F42 /* MediaTileViewController.swift in Sources */,

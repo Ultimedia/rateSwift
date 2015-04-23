@@ -48,8 +48,6 @@ class DataManager: NSObject {
             let json = JSON(data: beaconData)
             
             
-            println("hierrrr")
-            
             // get all beacons involved
             let beaconArray = json["beacons"].arrayValue
                 var beaconData = [BeaconModel]()
@@ -200,8 +198,13 @@ class DataManager: NSObject {
                                     // get all social data inside this room
                                     var socialData = [RoomSocialModel]()
                                     let roomSocialArray = room["socialData"].arrayValue
-                                        
+
+                                    
+                                    println(room["socialData"].arrayValue)
+                                    
                                         for social in roomSocialArray{
+                                            println("social data found")
+                                            
                                             let mercury_room_social_id:String? = social["mercury_room_social_id"].stringValue
                                             let mercury_room_id:String? = social["mercury_room_id"].stringValue
                                             let mercury_room_social_type:String? = social["mercury_room_social_type"].stringValue
@@ -213,6 +216,9 @@ class DataManager: NSObject {
                                             socialData.append(socialModel)
                                         }
                         
+                                        println("social social")
+                                        println(socialData)
+                                    
                                     
                                     
                                     var roomModel = RoomModel(mercury_room_id: mercury_room_id, mercury_room_exhibit_id: mercury_room_exhibit_id, mercury_room_type: mercury_room_type, mercury_room_title: mercury_room_title, mercury_room_description: mercury_room_description, mercury_room_order: mercury_room_order,mediaData: mediaData, socialData: socialData, mercury_room_beacon_id: mercury_room_beacon_id)

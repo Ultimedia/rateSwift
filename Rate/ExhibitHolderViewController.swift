@@ -47,8 +47,6 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "scrollDownHandler:", name:"ScrollExhibitDown", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "readMoreHandler:", name:"ReadMore", object: nil)
 
-        
-        
     }
     
     
@@ -137,7 +135,6 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         panelView!.backgroundColor = UIColor(white: 1, alpha: 0.8)
         view.addSubview(panelView!)
         
-        
         var panelLine:UIView = UIView(frame:CGRect(x: 0, y: 0, width: screenSize.width, height: 3))
         panelLine.backgroundColor = applicationModel.UIColorFromRGB(0x653dc9)
         panelView!.addSubview(panelLine)
@@ -149,6 +146,35 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         panelTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
         panelView!.addSubview(panelTitle)
         
+        var textSplit = applicationModel.selectedExhibit?.exhibit_description
+        
+        var textScroll:UIScrollView = UIScrollView()
+            textScroll.frame = CGRect(x: 0, y: 60, width: panelView!.frame.width , height: panelView!.frame.height - 100)
+            textScroll.contentSize = CGSize(width: panelView!.frame.width, height: 800)
+            panelView?.addSubview(textScroll)
+        
+        var panelTextLeft:UILabel = UILabel(frame: CGRect(x:40, y:70, width: screenSize.width - 200, height: panelView!.frame.height - 60))
+            panelTextLeft.text = textSplit
+            panelTextLeft.font = UIFont (name: "HelveticaNeue-Light", size: 16)
+            panelTextLeft.textColor = UIColor.blackColor()
+            panelTextLeft.numberOfLines = 0
+            panelTextLeft.preferredMaxLayoutWidth = screenSize.width / 2 - 30
+            panelTextLeft.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            panelTextLeft.sizeToFit()
+            textScroll.addSubview(panelTextLeft)
+        
+        if(deviceFunctionService.deviceType != "ipad"){
+            panelTextLeft.frame = CGRect(x:40, y:0, width: screenSize.width - 80, height: panelView!.frame.height - 60)
+        }
+        
+        var panelTextRight:UILabel = UILabel(frame: CGRect(x:20 + screenSize.width / 2, y:70, width: screenSize.width / 2 - 50, height: panelView!.frame.height - 60))
+            panelTextRight.text = ""
+            panelTextRight.font = UIFont (name: "HelveticaNeue-Light", size: 16)
+            panelTextRight.textColor = UIColor.blackColor()
+                panelTextRight.numberOfLines = 0
+            panelTextRight.preferredMaxLayoutWidth = screenSize.width / 2 - 30
+            panelTextRight.lineBreakMode = NSLineBreakMode.ByWordWrapping
+            panelTextRight.sizeToFit()
         
         
         var totalHeight:CGFloat = 0
@@ -194,10 +220,10 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                     
                     
                     // do room height + heading height
-                    frameHeight = 460 * CGFloat(room.mediaData.count) + 140
+                    frameHeight = 440 * CGFloat(room.mediaData.count) + 140
                     
                     // add socialgrid height (need to calculate this dynamically)
-                    
+                    frameHeight = frameHeight + 3000
                     
                 }else{
                     
@@ -207,9 +233,7 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
                     // content grid
                     frameHeight = ((CGFloat(room.mediaData.count) / 3) * 420) + CGFloat(140) + 40
                     // social media grid
-                    frameHeight = frameHeight + 500
-                    
-                    //frameHeight = frameHeight + 1000
+                    frameHeight = frameHeight + 1220
                     
                 }
                 
@@ -262,8 +286,6 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
         
 
         exhibitScrollView?.contentSize = CGSize(width:screenSize.width, height: totalHeight)
-        
-        
         
         socialMenubar = SocialToolbarViewController(nibName: "SocialToolbarViewController", bundle: nil)
         socialMenubar!.view.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: 120)
@@ -433,7 +455,6 @@ class ExhibitHolderViewController: UIViewController, UIScrollViewDelegate {
     
     func scrollViewDidScroll(scrollView: UIScrollView){
         
-        println("did scroll")
         
     }
     

@@ -375,7 +375,7 @@ class ExhibitStageViewController: UIViewController {
         view.addSubview(gridFrame)
         
         var socialMediaFrame:UIView = UIView()
-        socialMediaFrame.frame = CGRect(x: 0, y: lastYpos + gridFrameHeight, width: screenSize.width, height: 1000)
+        socialMediaFrame.frame = CGRect(x: 0, y: lastYpos + gridFrameHeight, width: screenSize.width, height: 1220)
         socialMediaFrame.backgroundColor = applicationModel.UIColorFromRGB(0xe5e6de)
         view.addSubview(socialMediaFrame)
         
@@ -387,10 +387,8 @@ class ExhibitStageViewController: UIViewController {
         }else{
             roomString = String(roomID) + "."
         }
+        
         infoNumber.text = roomString
-        
-        
-        
         infoNumber.textAlignment = NSTextAlignment.Left
         infoNumber.numberOfLines = 1
         infoNumber.sizeToFit()
@@ -414,7 +412,7 @@ class ExhibitStageViewController: UIViewController {
         infoText.text = "Thomas Hobbes wos nen Iengelschn filosôof die olgemêen wierd gezien lyk êen van de groundleggers van de moderne polletieke filosofie. Zyn bekendste werk es zyn in 1651 uutgekommn boek Leviathan"
         view.addSubview(infoText)
         
-        
+
         
         
         // description
@@ -427,6 +425,12 @@ class ExhibitStageViewController: UIViewController {
         descriptionLabel!.textAlignment = NSTextAlignment.Center
         descriptionLabel!.hidden = true
         
+        if(deviceFunctionService.deviceType != "ipad"){
+            infoNumber.frame = CGRect(x: 20, y: 10, width: 100, height: 100)
+            numberDescription.frame = CGRect(x: 20, y: infoNumber.frame.origin.y + 40, width: 400,  height: 100)
+            infoText.frame = CGRect(x: 150, y: 20, width: screenSize.width - 180, height: 100)
+        }
+        
         // commentbutton
         /*
         commentButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
@@ -436,6 +440,7 @@ class ExhibitStageViewController: UIViewController {
         commentButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         commentButton?.backgroundColor = UIColor.blueColor()
         */
+        
         // views
         gridFrame.addSubview(descriptionLabel!)
         //gridFrame.addSubview(commentButton!)
@@ -453,10 +458,9 @@ class ExhibitStageViewController: UIViewController {
                     
                     // create the right celltype
                     var t:MediaTileViewController = MediaTileViewController()
+                        t.infoNumber = String(roomID)
                     
                     var tView:Int = 0
-                    
-                    
                     var wider:Bool = false
                     
                     if(deviceFunctionService.deviceType != "ipad"){
@@ -499,7 +503,7 @@ class ExhibitStageViewController: UIViewController {
                         
                     }else{
                         
-                        var myHeight = (Int(gridItemHeight) + (spacing * 2) + marginTop)
+                        var myHeight = (Int(gridItemHeight) + (spacing * 2) + marginTop) - 30
                         var nPos = myHeight * i
                         
                         t.view.frame = CGRect(x: j*(Int(gridItemWidth) + spacing) + 18, y: (i*(Int(gridItemHeight))) + 140 + 40, width: Int(gridItemWidth), height: Int(gridItemHeight))
@@ -507,9 +511,7 @@ class ExhibitStageViewController: UIViewController {
   
                         if(deviceFunctionService.deviceType != "ipad"){
                             t.view.frame = CGRect(x: 20, y: 170 + nPos, width: Int(gridItemWidth), height: Int(gridItemHeight))
-
                         }
-                    
                     }
                 
                     
@@ -521,8 +523,6 @@ class ExhibitStageViewController: UIViewController {
                 }
                 counter++
             }
-            
-            
         }
         
 
@@ -544,29 +544,98 @@ class ExhibitStageViewController: UIViewController {
         socialMediaFrame.addSubview(socialText)
         
         
-        
         // socialGrid
-        var socialItemsCount:Int = 10
+        var socialItemsCount:Int = roomModel!.socialData.count
+        
+        println("kijk hier")
+        println(roomModel!.socialData)
+        
         var socialHeight = 160
         var socialWidth = 160
         var socialSpacing:Int = 20
-        var socialYPos = socialText.frame.origin.y + 70
+        var socialYPos = socialText.frame.origin.y + 90
         var socialXPos = 50
         
-        for var i = 0; i < numberOfRows; ++i {
+        var rowCount = 0
+        var itemCount = 0
+        var firstLine = false
+        var secondLine = false
+        var rasterHeight = 600
+        var rasterCount = 0
+        var resetX = true
+        var styleA = true
+        var limit = false
+        
+        for var i = 0; i < socialItemsCount; ++i {
+            
+            if(deviceFunctionService.deviceType != "ipad"){
+                socialYPos = CGFloat(screenSize.width - 40) * CGFloat(rowCount) + 200
+                socialXPos = 78
+                
+                socialHeight = Int(220)
+                socialWidth = Int(220)
+            }else{
+                if(!limit){
+                    
+                    if(styleA){
+                        
+                        if ((rowCount) / 3 == 1 && firstLine == false){
+                            
+                            socialYPos = socialText.frame.origin.y + 230 + (CGFloat(rasterHeight) * CGFloat(rasterCount))
+                            socialXPos = socialWidth
+                            firstLine = true
+                            
+                        }else if((rowCount) / 5 == 1 && secondLine == false){
+                            
+                            socialYPos = socialText.frame.origin.y + 370 + (CGFloat(rasterHeight) * CGFloat(rasterCount))
+                            socialXPos = socialWidth + 120
+                            secondLine = false
+                            firstLine = false
+                            
+                            rowCount = 0
+                            rasterCount++
+                            resetX = true
+                            styleA = false
+                        }
+                        
+                    }else{
+                        if(rowCount == 0){
+                            
+                            socialYPos = socialText.frame.origin.y + (CGFloat(rasterHeight) * CGFloat(rasterCount))
+                            socialXPos = socialWidth + 120
+                            secondLine = true
+                            
+                        }else if((rowCount) == 1){
+                            
+                            socialYPos = socialText.frame.origin.y + 140 + (CGFloat(rasterHeight) * CGFloat(rasterCount))
+                            socialXPos = socialWidth
+                            
+                        }else if(rowCount == 3) {
+                            socialYPos = socialText.frame.origin.y + 280 + (CGFloat(rasterHeight) * CGFloat(rasterCount))
+                            socialXPos = 50
+                            
+                        }else if (rowCount == 5){
+                            rowCount = 0
+                            rasterCount++
+                            resetX = true
+                            styleA = true
+                            limit = true
+                        }
+                    }
+                    
+                    
+                socialItemsCount = 20
+            }
+        }
             
             var e:SocialGridItemViewController = SocialGridItemViewController()
-            e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: 160, height: 160)
-            socialMediaFrame.addSubview(e.view)
-            
-            
-            //Mooie tentoonstelling in #netwerk
-            
-            e.view.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(45 * CGFloat(M_PI/180), 0, 0, 1))
+                e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: CGFloat(socialWidth), height: CGFloat(socialWidth))
+                socialMediaFrame.addSubview(e.view)
+                e.view.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(45 * CGFloat(M_PI/180), 0, 0, 1))
             
             var socialTitle = UILabel()
             socialTitle.frame = CGRect(x: 0, y: 0, width: 160, height: 160)
-            socialTitle.text = "Mooie tentoonstelling in Netwerk"
+            socialTitle.text = roomModel!.socialData[rowCount].mercury_room_social_data
             socialTitle.font = UIFont.boldSystemFontOfSize(33)
             socialTitle.textColor = UIColor.whiteColor()
             socialTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
@@ -576,12 +645,16 @@ class ExhibitStageViewController: UIViewController {
             e.view.addSubview(socialTitle)
             socialTitle.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(-45 * CGFloat(M_PI/180), 0, 0, 1))
             
+                socialXPos = socialXPos + socialWidth + 80
+                rowCount++
+                itemCount++
             
-            socialXPos = socialXPos + socialWidth + 70
-
-        }
-        
-
+                if(resetX){
+                    rowCount = 0
+                    resetX = false
+                    socialXPos = 50
+                }
+            }
     }
     
     

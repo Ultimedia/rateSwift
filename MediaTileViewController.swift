@@ -23,18 +23,35 @@ class MediaTileViewController: UIViewController {
     var viewWidthFloat:CGFloat? = 0
     var viewHeightFloat:CGFloat? = 0
 
-    
+    var infoNumber:String? = ""
     
     // screen size
     let screenSize: CGRect = UIScreen.mainScreen().bounds
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
 
+    var guidedColor:UIColor?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let applicationModel = ApplicationData.sharedModel()
 
+        
+        // colour style
+        switch infoNumber! {
+            case "1":
+                guidedColor = applicationModel.UIColorFromRGB(0x25d3b8)
+            break;
+            
+            case "2":
+                guidedColor = applicationModel.UIColorFromRGB(0xF78228)
+            break;
+        
+            default:
+                guidedColor = applicationModel.UIColorFromRGB(0xF78228)
+        }
+        
+        
         quoteLabel = UILabel(frame: CGRect(x: 0, y: 0, width: viewWidth!, height: viewHeight!))
         quoteLabel!.numberOfLines = 5
         quoteLabel!.lineBreakMode = .ByWordWrapping
@@ -68,7 +85,7 @@ class MediaTileViewController: UIViewController {
                     mediaImageView!.image = UIImage(data: data!)
                 }
             }
-            quoteLabel!.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
+            quoteLabel!.backgroundColor = guidedColor
             quoteLabel!.text = mediaModel?.mercury_room_media_caption
             quoteLabel!.textColor = UIColor.whiteColor()
             quoteLabel!.font =  UIFont(name: "Futura-Medium", size: 23)
@@ -79,8 +96,7 @@ class MediaTileViewController: UIViewController {
             
             // quoteframe
             var quoteFrame:UIView = UIView()
-                quoteFrame.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
-
+                quoteFrame.backgroundColor = guidedColor
             
             break;
             
@@ -168,11 +184,12 @@ class MediaTileViewController: UIViewController {
                 }
             }
           
-            
             // TYPE 1 (DEFAULT)
+            
+            
             var quoteBack:UIView = UIView()
-                quoteBack.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
-                quoteBack.frame = CGRect(x: 20, y: ((viewHeight! / 100) * 40) - 20, width: viewWidth! - 40, height: (viewHeight! / 100) * 60)
+                quoteBack.backgroundColor = guidedColor!
+                    quoteBack.frame = CGRect(x: 20, y: ((viewHeight! / 100) * 40) - 20, width: viewWidth! - 40, height: (viewHeight! / 100) * 60)
                 quoteBack.alpha = 0.9
                 view.addSubview(quoteBack)
             

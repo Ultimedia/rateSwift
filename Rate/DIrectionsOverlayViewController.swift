@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class DIrectionsOverlayViewController: UIViewController {
+class DIrectionsOverlayViewController: UIViewController, MKMapViewDelegate  {
     @IBOutlet weak var map: MKMapView!
     @IBOutlet weak var instructionsButton: UIButton!
     @IBOutlet weak var buttonFooter: UIView!
@@ -47,7 +47,7 @@ class DIrectionsOverlayViewController: UIViewController {
         
         // lets add museums (museum overview table)
         for museum in applicationModel.museumData{
-            
+
             var geocoder = CLGeocoder()
             var address = museum.museum_address
             geocoder.geocodeAddressString(address, completionHandler: {(placemarks, error)->Void in
@@ -66,6 +66,7 @@ class DIrectionsOverlayViewController: UIViewController {
                     
                     annotations.append(annotation)
                     
+                    
                 }else{
                     
                 }
@@ -77,6 +78,29 @@ class DIrectionsOverlayViewController: UIViewController {
         }
     }
 
+    func openMapForPlace() {
+        /*
+        var lat1 : NSString = self.venueLat
+        var lng1 : NSString = self.venueLng
+        
+        var latitute:CLLocationDegrees =  lat1.doubleValue
+        var longitute:CLLocationDegrees =  lng1.doubleValue
+        
+        let regionDistance:CLLocationDistance = 10000
+        var coordinates = CLLocationCoordinate2DMake(latitute, longitute)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        var options = [
+            MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+            MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+        ]
+        var placemark = MKPlacemark(coordinate: coordinates, addressDictionary: nil)
+        var mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = "\(self.venueName)"
+        mapItem.openInMapsWithLaunchOptions(options)
+        */
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -96,6 +120,17 @@ class DIrectionsOverlayViewController: UIViewController {
         
     }
     
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        
+        println("ben hier")
+        
+        if let annotation = view.annotation as? MKPointAnnotation  {
+            
+            println("jaaa")
+        
+        }
+    }
 
     /*
     // MARK: - Navigation
