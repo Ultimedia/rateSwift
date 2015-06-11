@@ -1,0 +1,235 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		6C7DD6F11B0C899000AB814B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C7DD6E31B0C899000AB814B /* ImageLoader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B2CF1119EF9F6600DA3605;
+			remoteInfo = ImageLoader;
+		};
+		6C7DD6F31B0C899000AB814B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C7DD6E31B0C899000AB814B /* ImageLoader.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B2CF1C19EF9F6600DA3605;
+			remoteInfo = ImageLoaderTests;
+		};
+		6C7DD6F61B0C899000AB814B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6C7DD6E81B0C899000AB814B /* ImageLoaderExample.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65D6FB9A1A03855700CF1DB7;
+			remoteInfo = ImageLoaderExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6C7DD6DE1B0C899000AB814B /* .DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = .DS_Store; sourceTree = "<group>"; };
+		6C7DD6DF1B0C899000AB814B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		6C7DD6E01B0C899000AB814B /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		6C7DD6E11B0C899000AB814B /* ImageLoader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ImageLoader; sourceTree = "<group>"; };
+		6C7DD6E21B0C899000AB814B /* ImageLoader.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ImageLoader.podspec; sourceTree = "<group>"; };
+		6C7DD6E31B0C899000AB814B /* ImageLoader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ImageLoader.xcodeproj; sourceTree = "<group>"; };
+		6C7DD6E61B0C899000AB814B /* ImageLoader.xcworkspace */ = {isa = PBXFileReference; lastKnownFileType = wrapper.workspace; path = ImageLoader.xcworkspace; sourceTree = "<group>"; };
+		6C7DD6E71B0C899000AB814B /* ImageLoaderExample */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ImageLoaderExample; sourceTree = "<group>"; };
+		6C7DD6E81B0C899000AB814B /* ImageLoaderExample.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ImageLoaderExample.xcodeproj; sourceTree = "<group>"; };
+		6C7DD6EB1B0C899000AB814B /* ImageLoaderTests */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ImageLoaderTests; sourceTree = "<group>"; };
+		6C7DD6EC1B0C899000AB814B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6C7DD6ED1B0C899000AB814B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		6C7DD6EE1B0C899000AB814B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		6C7DD6D81B0C899000AB814B = {
+			isa = PBXGroup;
+			children = (
+				6C7DD6DE1B0C899000AB814B /* .DS_Store */,
+				6C7DD6DF1B0C899000AB814B /* .gitignore */,
+				6C7DD6E01B0C899000AB814B /* .travis.yml */,
+				6C7DD6E11B0C899000AB814B /* ImageLoader */,
+				6C7DD6E21B0C899000AB814B /* ImageLoader.podspec */,
+				6C7DD6E31B0C899000AB814B /* ImageLoader.xcodeproj */,
+				6C7DD6E61B0C899000AB814B /* ImageLoader.xcworkspace */,
+				6C7DD6E71B0C899000AB814B /* ImageLoaderExample */,
+				6C7DD6E81B0C899000AB814B /* ImageLoaderExample.xcodeproj */,
+				6C7DD6EB1B0C899000AB814B /* ImageLoaderTests */,
+				6C7DD6EC1B0C899000AB814B /* LICENSE */,
+				6C7DD6ED1B0C899000AB814B /* Makefile */,
+				6C7DD6EE1B0C899000AB814B /* README.md */,
+			);
+			sourceTree = "<group>";
+		};
+		6C7DD6E41B0C899000AB814B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C7DD6F21B0C899000AB814B /* ImageLoader.framework */,
+				6C7DD6F41B0C899000AB814B /* ImageLoaderTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6C7DD6E91B0C899000AB814B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6C7DD6F71B0C899000AB814B /* ImageLoaderExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		6C7DD6DD1B0C899000AB814B /* ImageLoaderSwift-master */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 6C7DD6F81B0C899000AB814B /* Build configuration list for PBXLegacyTarget "ImageLoaderSwift-master" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/maartenbressinck/Desktop/ilove/rateSwift 2/ImageLoaderSwift-master";
+			dependencies = (
+			);
+			name = "ImageLoaderSwift-master";
+			passBuildSettingsInEnvironment = 1;
+			productName = "ImageLoaderSwift-master";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		6C7DD6D91B0C899000AB814B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = 6C7DD6DC1B0C899000AB814B /* Build configuration list for PBXProject "ImageLoaderSwift-master" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6C7DD6D81B0C899000AB814B;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6C7DD6E41B0C899000AB814B /* Products */;
+					ProjectRef = 6C7DD6E31B0C899000AB814B /* ImageLoader.xcodeproj */;
+				},
+				{
+					ProductGroup = 6C7DD6E91B0C899000AB814B /* Products */;
+					ProjectRef = 6C7DD6E81B0C899000AB814B /* ImageLoaderExample.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				6C7DD6DD1B0C899000AB814B /* ImageLoaderSwift-master */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6C7DD6F21B0C899000AB814B /* ImageLoader.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ImageLoader.framework;
+			remoteRef = 6C7DD6F11B0C899000AB814B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6C7DD6F41B0C899000AB814B /* ImageLoaderTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ImageLoaderTests.xctest;
+			remoteRef = 6C7DD6F31B0C899000AB814B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6C7DD6F71B0C899000AB814B /* ImageLoaderExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ImageLoaderExample.app;
+			remoteRef = 6C7DD6F61B0C899000AB814B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin XCBuildConfiguration section */
+		6C7DD6DA1B0C899000AB814B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		6C7DD6DB1B0C899000AB814B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		6C7DD6F91B0C899000AB814B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "ImageLoaderSwift-master";
+			};
+			name = Debug;
+		};
+		6C7DD6FA1B0C899000AB814B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "ImageLoaderSwift-master";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6C7DD6DC1B0C899000AB814B /* Build configuration list for PBXProject "ImageLoaderSwift-master" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C7DD6DA1B0C899000AB814B /* Debug */,
+				6C7DD6DB1B0C899000AB814B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6C7DD6F81B0C899000AB814B /* Build configuration list for PBXLegacyTarget "ImageLoaderSwift-master" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6C7DD6F91B0C899000AB814B /* Debug */,
+				6C7DD6FA1B0C899000AB814B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6C7DD6D91B0C899000AB814B /* Project object */;
+}

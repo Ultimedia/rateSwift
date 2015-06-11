@@ -34,7 +34,7 @@ class MuseumModel: NSObject, Printable {
         self.museum_title = museum_title ?? ""
         self.museum_address = museum_address ?? ""
         self.museum_description = museum_description ?? ""
-        self.museum_website = museum_address ?? ""
+        self.museum_website = museum_website ?? ""
         self.museum_twitter = museum_description ?? ""
         self.museum_facebook = museum_facebook ?? ""
         self.museum_visible = museum_visible ?? ""

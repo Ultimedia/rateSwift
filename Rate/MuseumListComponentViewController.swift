@@ -89,8 +89,6 @@ class MuseumListComponentViewController: UIViewController {
             distanceLabel.frame = CGRectMake( 100, 200, distanceLabel.frame.size.width, distanceLabel.frame.size.height ); // set new position exactly
         }
         
-        
-        
         view.addSubview(liner!)
         
     }

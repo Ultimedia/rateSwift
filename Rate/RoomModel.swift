@@ -18,8 +18,11 @@ class RoomModel: NSObject, Printable {
     let mercury_room_beacon_id:String
     var mediaData = Array<RoomMediaModel>()
     var socialData = Array<RoomSocialModel>()
+    var beaconData = Array<BeaconModel>()
+
     
-    init(mercury_room_id: String?, mercury_room_exhibit_id: String?, mercury_room_type: String?, mercury_room_title: String?, mercury_room_description: String?, mercury_room_order: String?, mediaData:Array<RoomMediaModel>, socialData:Array<RoomSocialModel>, mercury_room_beacon_id:String?) {
+    
+    init(mercury_room_id: String?, mercury_room_exhibit_id: String?, mercury_room_type: String?, mercury_room_title: String?, mercury_room_description: String?, mercury_room_order: String?, mediaData:Array<RoomMediaModel>, socialData:Array<RoomSocialModel>, beaconData:Array<BeaconModel>, mercury_room_beacon_id:String?) {
         self.mercury_room_id = mercury_room_id ?? ""
         self.mercury_room_exhibit_id = mercury_room_exhibit_id ?? ""
         self.mercury_room_type = mercury_room_type ?? ""
@@ -29,5 +32,6 @@ class RoomModel: NSObject, Printable {
         self.mercury_room_beacon_id = mercury_room_beacon_id ?? ""
         self.mediaData = mediaData
         self.socialData = socialData
+        self.beaconData = beaconData
     }
 }

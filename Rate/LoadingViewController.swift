@@ -15,8 +15,10 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadingSpinner.hidden = true
+        
         println("in de loadng")
-        loadingSpinner.startAnimating()
+        SwiftSpinner.show("Data ophalen")
         
         view.backgroundColor = UIColor.blackColor()
         // Do any additional setup after loading the view.

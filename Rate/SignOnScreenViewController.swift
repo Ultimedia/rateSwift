@@ -10,8 +10,7 @@ import UIKit
 import Accounts
 import Social
 
-
-class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
+class SignOnScreenViewController: UIViewController, FBLoginViewDelegate, FBSDKLoginButtonDelegate {
 
     //var swifter: Swifter
     var eventData = Dictionary<String, String>()
@@ -19,7 +18,6 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
 
     // Facebook view
     var fbl: FBLoginView = FBLoginView()
-
 
     
     // Services
@@ -39,13 +37,16 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     var overlay:UIImageView?
     var footer:UIImageView?
     
+    @IBOutlet weak var facebookLoginButton: FBSDKLoginButton!
+    private var currentAccessToken: String!
+
+    
     // Effects
     var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
     
     var userModel:UserModel?
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        //self.swifter = Swifter(consumerKey: "htbga9HzSGVe82aUd1DUA07wx", consumerSecret: "pYnAob3OJYVpPK8CNnnN6ZC917if1vqIEURY74xkXaVvPnrbnh")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
 
@@ -61,12 +62,43 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         
         // Do any additional setup after loading the view.
        self.fbl.delegate = self
-       self.fbl.readPermissions = ["public_profile", "email", "user_friends"]
+       self.fbl.readPermissions = ["email", "public_profile"]
         
         // update the interface
         createUI()
         
+        SwiftSpinner.hide()
         
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            currentAccessToken = self.returnFacebookAccessToken()
+            println("\(currentAccessToken)")
+        }
+    }
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        if ((error) != nil) {
+            println("Error")
+        }
+        else if result.isCancelled {
+            println("Cancel")
+        }
+        else {
+            println("User Logged In")
+            currentAccessToken = self.returnFacebookAccessToken()
+            println("\(currentAccessToken)")
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        println("User Logged Out")
+    }
+    
+    func returnFacebookAccessToken() -> String {
+        return FBSDKAccessToken.currentAccessToken().tokenString
+    }
+    
+    func goToStoryStoryboard() {
+
     }
 
 
@@ -238,6 +270,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     func signUpAction(sender: AnyObject) {
         applicationModel.localAccount = true
         loginComplete()
+        
     }
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
@@ -246,8 +279,35 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     }
     
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser){
-        userModel = UserModel(user_id: "0", user_name: user.first_name + " " + user.last_name, user_image: "Image", user_twitterhandle: "Tweet", user_facebookid: user.objectID, user_active: "1")
-        loginComplete()
+        var user_email:String = ""
+        var user_id:String = ""
+        
+        FBRequestConnection.startForMeWithCompletionHandler { (connection, user, error) -> Void in
+            if (error == nil){
+
+                if let id = user.objectForKey("id") as? String {
+                    // If we get here, we know "id" exists in the dictionary, and we know that we
+                    // got the type right.
+                    user_id = id
+                }
+                
+                if let email = user.objectForKey("email") as? String {
+                    // If we get here, we know "id" exists in the dictionary, and we know that we
+                    // got the type right.
+                    user_email = email
+                }
+                
+
+                
+                // save in the userModel
+                self.userModel = UserModel(user_id: user_id, user_name: user.first_name + " " + user.last_name, user_image: "https://graph.facebook.com/" + user_id + "/picture?type=large" , user_twitterhandle: "Tweet", user_facebookid: user_id, user_active: "1")
+                
+                
+                self.loginComplete()
+            }
+        }
+        
+        println("fetched stuff")
     }
     
     func loginViewShowingLoggedOutUser(loginView : FBLoginView!) {
@@ -257,61 +317,53 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
     func loginView(loginView : FBLoginView!, handleError:NSError) {
         println("Error: \(handleError.localizedDescription)")
     }
+    
+    func handleError(loginView: FBLoginView?, error: NSError?) {
+        var alertTitle: NSString?
+        var alertMessage: NSString?
+        // You need to override loginView:handleError in order to handle possible errors that can occur during login
+        
+        if (FBErrorUtility.shouldNotifyUserForError(error)) {
+            alertTitle = "Facebook error"
+            alertMessage = FBErrorUtility.userMessageForError(error)
+            
+        } else if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.AuthenticationReopenSession) {
+            
+            alertTitle = "Session Error"
+            alertMessage = "Your current session is no longer valid. Please log in again."
+            
+            // If the user has cancelled a login, we will do nothing.
+            // You can also choose to show the user a message if cancelling login will result in
+            // the user not being able to complete a task they had initiated in your app
+            // (like accessing FB-stored information or posting to Facebook)
+        } else if (FBErrorUtility.errorCategoryForError(error) == FBErrorCategory.UserCancelled) {
+            NSLog("user cancelled login")
+            
+            // For simplicity, this sample handles other errors with a generic message
+            // You can checkout our error handling guide for more detailed information
+            // https://developers.facebook.com/docs/ios/errors
+        } else {
+            alertTitle  = "Something went wrong"
+            alertMessage = "Please try again later."
+            NSLog("Unexpected error:%@", error!)
+        }
+        
+
+        
+    }
+
 
 
     /**
     * Twitter Login
     */
     func twitterAction(sender: AnyObject) {
-       /* let failureHandler: ((NSError) -> Void) = {
-            error in
-            self.alertWithTitle("Error", message: error.localizedDescription)
-        }
         
-        if useACAccount {
-            let accountStore = ACAccountStore()
-            let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
-            
-            // Prompt the user for permission to their twitter account stored in the phone's settings
-            accountStore.requestAccessToAccountsWithType(accountType, options: nil) {
-                granted, error in
-                
-                if granted {
-                    let twitterAccounts = accountStore.accountsWithAccountType(accountType)
-                    
-                    if twitterAccounts?.count == 0
-                    {
-                        self.alertWithTitle("Error", message: "There are no Twitter accounts configured. You can add or create a Twitter account in Settings.")
-                    }else {
-                        let twitterAccount = twitterAccounts[0] as ACAccount
-                        self.swifter = Swifter(account: twitterAccount)
-
-                        
-                        self.userModel = UserModel(user_id: "0", user_name:twitterAccount.userFullName, user_image: "Image", user_twitterhandle: twitterAccount.username, user_facebookid: "", user_active: "1")
-
-                        
-                        println(twitterAccount.userFullName)
-                        
-                        
-                        
-                        // create user object
-                        self.loginComplete()
-                    }
-                }
-                else {
-                    self.alertWithTitle("Error", message: error.localizedDescription)
-                }
-            }
-        }
-        else {
-            swifter.authorizeWithCallbackURL(NSURL(string: "swifter://success")!, success: {
-                accessToken, response in
-                
-                println("ingelogd")
-                
-                },failure: failureHandler
-            )
-        }*/
+        let alertController = UIAlertController(title: "Opgelet", message:
+            "Twitter is momenteel niet beschikbaar, probeer aan te melden via Facebook of meld aan zonder account", preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Sluit", style: UIAlertActionStyle.Default,handler: nil))
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 
     
@@ -325,7 +377,7 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
         // Generate a temporary account
         if(applicationModel.localAccount){
             // lets generate a temporary user
-            userModel = UserModel(user_id: "0", user_name: "Gebruiker", user_image: "Image", user_twitterhandle: "Tweet", user_facebookid: "FB", user_active: "1")
+            userModel = UserModel(user_id: "0", user_name: "Gebruiker", user_image: "Image", user_twitterhandle: "Tweet", user_facebookid: "0", user_active: "1")
             
             applicationModel.defaults.setObject(true, forKey: "localAccount")
         }else{
@@ -336,11 +388,18 @@ class SignOnScreenViewController: UIViewController, FBLoginViewDelegate {
             applicationModel.defaults.setObject(false, forKey: "firstLogin")
             applicationModel.defaults.setObject(false, forKey: "localAccount")
             
-            println("setting stuff")
+            applicationModel.defaults.setObject(userModel?.user_name, forKey: "user_name")
+            applicationModel.defaults.setObject(userModel?.user_image, forKey: "user_image")
+            applicationModel.defaults.setObject(userModel?.user_id, forKey: "user_id")
+            applicationModel.defaults.setObject(userModel?.user_facebookid, forKey: "user_id")
+
+            
         }
         
         // Store the model of our current user
         applicationModel.activeUser = userModel
+
+        
         
         // Update default data storage
         applicationModel.defaults.synchronize()

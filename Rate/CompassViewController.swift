@@ -26,7 +26,7 @@ class CompassViewController: UIViewController {
         mapKit.clipsToBounds = true
         mapKit.layer.borderWidth = 5.0
         mapKit.layer.borderColor = UIColor.whiteColor().CGColor
-        mapKit.alpha = 0
+        mapKit.alpha = 1
 
         compasLabel.hidden = true
     }

@@ -54,7 +54,7 @@ class NavigationController: UINavigationController {
         barView = UIView()
         barView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 64)
         barView?.backgroundColor = UIColor.whiteColor()
-        barView?.alpha = 0.96
+        barView?.alpha = 0
         
         var border = CALayer()
         var width = CGFloat(1)
@@ -166,6 +166,8 @@ class NavigationController: UINavigationController {
         barView?.hidden = false
         menuButton?.hidden = false
         
+        println(notif.userInfo )
+        println("setting righticons")
         
         if let toggle = notif.userInfo {
             var target:String = (toggle["icon"] as! String)
@@ -193,7 +195,14 @@ class NavigationController: UINavigationController {
                 
                 break;
                 
-
+                case "beacons":
+                    println("share button show")
+                    
+                    let ddd = UIImage(named: "share-button") as UIImage?
+                    helpButton!.setImage(ddd, forState: .Normal)
+                    helpButton!.hidden = false
+                    helpButton!.tag = 3
+                break;
                 
             
             default:
@@ -249,7 +258,7 @@ class NavigationController: UINavigationController {
                     let helpIcon = UIImage(named: "help-ico") as UIImage?
                     menuButton?.setImage(helpIcon, forState: .Normal)
                     menuButton?.tag = 4
-                    menuButton?.hidden = false
+                    menuButton?.hidden = true
                 
                 break;
                 
@@ -420,11 +429,8 @@ class NavigationController: UINavigationController {
             break;
             
             case 3:
-            
-                
                 eventData["menu"] = "overview"
                 NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
-                
             break;
             
             
@@ -488,6 +494,12 @@ class NavigationController: UINavigationController {
             case 2:
             
                 NSNotificationCenter.defaultCenter().postNotificationName("GridToggle", object: nil, userInfo:  nil)
+            break;
+            
+            case 3:
+            
+                NSNotificationCenter.defaultCenter().postNotificationName("BeaconStatus", object: nil, userInfo:  nil)
+                
             break;
             
 

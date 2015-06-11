@@ -17,7 +17,10 @@ class ApplicationData: NSObject {
     var userData:[UserModel] = []
     var museumData:[MuseumModel] = []
     var beaconData:[BeaconModel] = []
+    var roomPosition: [RoomPosModel] = []
     
+    // Image path (from CMS)
+    var imagePath = "http://ultimedia.biz/museumtracker/cms/services/uploads/";
 
     // Store the nearest museum and exhibit
     var nearestMuseum:MuseumModel?
@@ -26,9 +29,14 @@ class ApplicationData: NSObject {
     
     // Use this to build the exhibit detail pages
     var selectedMuseum:MuseumModel?
+
+    var selectedMuseumDuplicate:MuseumModel?
+
     var activeExhibits = Array<ExhibitModel>()
+
     var selectedExhibit:ExhibitModel?
     var localExhibitSelected:Bool = false
+    var selectedExhibitIndex:Int = 0;
     
     var defaultLocation = CLLocationCoordinate2D(
         latitude: 50.819478,
@@ -39,7 +47,16 @@ class ApplicationData: NSObject {
     var activeMuseum:MuseumModel?
     var activeExhibition:ExhibitModel?
     var nearestBeacon:BeaconModel?
+    var activeSocialItem:RoomSocialModel?
+    var activeSocialItemColor:UIColor?
+    var socialPopup:Bool = false
+    var socialPanel:Bool = true;
     
+    var activeMediaItem:RoomMediaModel?
+    var mediaPopup:Bool = false
+    var activeMediaItemColor:UIColor?
+    var collectionViewIndex:Int = 0;
+
     var currentViewController:UIViewController?
     
     var menuAnimationValueForIphone = 100
@@ -61,6 +78,12 @@ class ApplicationData: NSObject {
     var lastPage:String?
     
     
+    // Settings
+    var facebookEnabled = true
+    var iBeaconEnabled = true
+    var pushEnabled = true
+    
+    
     // Devs
     var developer:Bool = true
     
@@ -79,8 +102,30 @@ class ApplicationData: NSObject {
             localAccount = defaults.objectForKey("localAccount") as! Bool
         }
         
-        println("locccaaal")
-        println(firstLogin)
+        // retrieve the userModel
+        if let firstNameIsNotNill = defaults.objectForKey("user_name") as? String {
+            var user_id = defaults.objectForKey("user_id") as? String
+            var user_name = defaults.objectForKey("user_name") as! String
+            var user_image = defaults.objectForKey("user_image") as! String
+            
+            activeUser = UserModel(user_id: user_id, user_name: user_name, user_image: user_image, user_twitterhandle: "", user_facebookid: "0", user_active: "1")
+        }
+
+        // retrieve settings
+        if let settingsData = defaults.objectForKey("facebookEnabled") as? Bool {
+            facebookEnabled = defaults.objectForKey("facebookEnabled") as! Bool
+        }
+        
+        if let settingsData = defaults.objectForKey("iBeaconEnabled") as? Bool {
+            iBeaconEnabled = defaults.objectForKey("iBeaconEnabled") as! Bool
+
+        }
+
+        if let settingsData = defaults.objectForKey("pushEnabled") as? Bool {
+            pushEnabled = defaults.objectForKey("pushEnabled") as! Bool
+        }
+        
+        
         
         localDataLoaded = true
     }

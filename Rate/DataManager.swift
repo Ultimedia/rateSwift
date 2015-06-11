@@ -11,11 +11,17 @@ import Foundation
 
 
 class DataManager: NSObject {
-    let museumUrl = "http://ultimedia.biz/mulab/museums"
-    let userUrl = "http://ultimedia.biz/mulab/users"
-    var userSaveUrl = "http://ultimedia.biz/mulab/user"
-    var beaconUrl = "http://ultimedia.biz/mulab/beacons"
+    
 
+    let museumUrl = "http://ultimedia.biz/museumtracker/cms/services/index.php/museums"
+    var userUrl = "http://ultimedia.biz/museumtracker/cms/services/index.php/users"
+    var userSaveUrl = "http://ultimedia.biz/museumtracker/cms/services/index.php/user"
+    var beaconUrl = "http://ultimedia.biz/museumtracker/cms/services/index.php/beacons"
+    var facebookUrl = ""
+    var socialShareUrl = "http://ultimedia.biz/museumtracker/cms/services/webservices/services/createSocialItem.php"
+    var feedbackShareUrl = "http://ultimedia.biz/museumtracker/cms/services/webservices/services/createFeedback.php"
+
+    
     
     // Data load checks
     var userLoaded:Bool = false
@@ -27,6 +33,7 @@ class DataManager: NSObject {
 
     
     func checkDataLoad(){
+        
         if(userLoaded == true && museumLoaded == true){
             dataLoaded = true
         }
@@ -42,6 +49,8 @@ class DataManager: NSObject {
     * Load core applicationData
     */
     func loadData(){
+        
+        println("fetching data");
         
         // Get all beacons
         getBeaconData { (beaconData) -> Void in
@@ -104,6 +113,8 @@ class DataManager: NSObject {
             // show activity indicator, disable interactions
             
             let json = JSON(data: museumData)
+            println(json);
+            
             
             // get all museums involved
             let museumArray = json["museums"].arrayValue
@@ -128,6 +139,7 @@ class DataManager: NSObject {
                         
                         for exhibit in exhibitArray {
                             
+                            
                             let exhibit_id:String? = exhibit["exhibit_id"].stringValue
                             let exhibit_museum_id:String? = exhibit["exhibit_museum_id"].stringValue
                             let exhibit_title:String? = exhibit["exhibit_title"].stringValue
@@ -138,6 +150,7 @@ class DataManager: NSObject {
                             let exhibit_facebook:String? = exhibit["exhibit_facebook"].stringValue
                             let exhibit_subtitle:String? = exhibit["exhibit_subtitle"].stringValue
                             let exhibit_cover_image:String? = exhibit["exhibit_cover_image"].stringValue
+                            let exhibit_opening_hours:String? = exhibit["exhibit_opening"].stringValue
                             let exhibit_twitter_enabled:String? = exhibit["exhibit_twitter_enabled"].stringValue
                             let exhibit_facebook_enabled:String? = exhibit["exhibit_facebook_enabled"].stringValue
 
@@ -177,19 +190,25 @@ class DataManager: NSObject {
                                     let mercury_room_order:String? = room["mercury_room_order"].stringValue
                                     
                                     
+                                    println(exhibit_title);
+                                    
                                     // get all media inside this room
                                     var mediaData = [RoomMediaModel]()
                                     let roomMediaArray = room["roomMedia"].arrayValue
                                         
                                         for media in roomMediaArray{
+                                            
                                             let mercury_room_media_id:String? = media["mercury_room_media_id"].stringValue
                                             let mercury_room_id:String? = media["mercury_room_id"].stringValue
                                             let mercury_room_media_url:String? = media["mercury_room_media_url"].stringValue
                                             let mercury_room_media_caption:String? = media["mercury_room_media_caption"].stringValue
                                             let mercury_room_media_type:String? = media["mercury_room_media_type"].stringValue
+                                            let mercury_room_author:String? = media["mercury_room_author"].stringValue
+
             
                                             var mediaModel = RoomMediaModel(mercury_room_media_id: mercury_room_media_id, mercury_room_id: mercury_room_id, mercury_room_media_url: mercury_room_media_url, mercury_room_media_caption: mercury_room_media_caption,
-                                                mercury_room_media_type: mercury_room_media_type)
+                                                mercury_room_media_type: mercury_room_media_type,
+                                                mercury_room_author: mercury_room_author)
             
                                             mediaData.append(mediaModel)
                                         }
@@ -200,10 +219,7 @@ class DataManager: NSObject {
                                     let roomSocialArray = room["socialData"].arrayValue
 
                                     
-                                    println(room["socialData"].arrayValue)
-                                    
                                         for social in roomSocialArray{
-                                            println("social data found")
                                             
                                             let mercury_room_social_id:String? = social["mercury_room_social_id"].stringValue
                                             let mercury_room_id:String? = social["mercury_room_id"].stringValue
@@ -215,20 +231,35 @@ class DataManager: NSObject {
                                             
                                             socialData.append(socialModel)
                                         }
-                        
-                                        println("social social")
-                                        println(socialData)
+
+                                    
+                                    // get all social data inside this room
+                                    var beaconData = [BeaconModel]()
+                                    let beaconArray = room["beaconData"].arrayValue
                                     
                                     
+                                    for beacon in beaconArray{
+                                        
+                                        let mercury_beacon_id:String? = beacon["mercury_beacon_id"].stringValue
+                                        let mercury_beacon_identifier:String? = beacon["mercury_beacon_identifier"].stringValue
+                                        let mercury_beacon_device_id:String? = beacon["mercury_beacon_device_id"].stringValue
+                                        let mercury_exhibit_id:String? = beacon["mercury_exhibit_id"].stringValue
+                                        let mercury_beacon_uuid:String? = beacon["mercury_beacon_uuid"].stringValue
+                                        let mercury_room_id:String? = beacon["mercury_room_id"].stringValue
+                                        let mercury_media_id:String? = beacon["mercury_media_id"].stringValue
+                                        let mercury_museum_id:String? = beacon["mercury_museum_id"].stringValue
+                                        
+                                        var beaconModel = BeaconModel(mercury_beacon_id: mercury_beacon_id, mercury_beacon_identifier:mercury_beacon_identifier , mercury_beacon_device_id:mercury_beacon_device_id , mercury_exhibit_id:mercury_exhibit_id , mercury_beacon_uuid:mercury_beacon_uuid, mercury_room_id:mercury_room_id, mercury_media_id:mercury_media_id, mercury_museum_id:mercury_museum_id)
+                                        
+                                        beaconData.append(beaconModel)
+                                    }
                                     
-                                    var roomModel = RoomModel(mercury_room_id: mercury_room_id, mercury_room_exhibit_id: mercury_room_exhibit_id, mercury_room_type: mercury_room_type, mercury_room_title: mercury_room_title, mercury_room_description: mercury_room_description, mercury_room_order: mercury_room_order,mediaData: mediaData, socialData: socialData, mercury_room_beacon_id: mercury_room_beacon_id)
+                                    var roomModel = RoomModel(mercury_room_id: mercury_room_id, mercury_room_exhibit_id: mercury_room_exhibit_id, mercury_room_type: mercury_room_type, mercury_room_title: mercury_room_title, mercury_room_description: mercury_room_description, mercury_room_order: mercury_room_order,mediaData: mediaData, socialData: socialData, beaconData: beaconData, mercury_room_beacon_id: mercury_room_beacon_id)
                                     
                                     roomData.append(roomModel)
                                 }
-                                
-    
                             
-                            var exhibitModel = ExhibitModel(exhibit_id:exhibit_id , exhibit_museum_id:exhibit_museum_id , exhibit_title:exhibit_title , exhibit_description:exhibit_description , exhibit_hash:exhibit_hash , exhibit_twitter:exhibit_twitter , exhibit_facebook:exhibit_facebook , exhibit_subtitle:exhibit_subtitle , exhibit_cover_image:exhibit_cover_image, exhibit_twitter_enabled: exhibit_twitter_enabled, exhibit_facebook_enabled:exhibit_facebook_enabled, exhibit_website:exhibit_website, roomData: roomData, beaconData: beaconData)
+                            var exhibitModel = ExhibitModel(exhibit_id:exhibit_id , exhibit_museum_id:exhibit_museum_id , exhibit_title:exhibit_title , exhibit_description:exhibit_description , exhibit_hash:exhibit_hash , exhibit_twitter:exhibit_twitter , exhibit_facebook:exhibit_facebook , exhibit_subtitle:exhibit_subtitle , exhibit_cover_image:exhibit_cover_image, exhibit_twitter_enabled: exhibit_twitter_enabled, exhibit_facebook_enabled:exhibit_facebook_enabled, exhibit_opening_hours: exhibit_opening_hours, exhibit_website:exhibit_website, roomData: roomData, beaconData: beaconData)
                             
                             exhibitData.append(exhibitModel)
                         }
@@ -269,6 +300,53 @@ class DataManager: NSObject {
         urlAsString += "&user_facebookid=" + user_facebookid
         
         postData(userSaveUrl, dataString: urlAsString)
+        
+        
+    }
+    
+    
+    func postSocialData(socialModel:RoomSocialModel, dataObject:String){
+        var mercury_room_id:String = socialModel.mercury_room_id
+        var mercry_room_social_type:String = socialModel.mercury_room_social_type
+        var mercury_room_social_data:String = dataObject
+        var mercury_user_id:String = socialModel.mercury_user_id
+        
+        if(self.applicationModel.activeUser?.user_id == nil){
+            mercury_user_id = "0";
+        }
+        
+        var urlAsString = ""
+        urlAsString += "mercury_room_id=" + mercury_room_id
+        urlAsString += "&mercury_room_social_type=" + mercry_room_social_type
+        urlAsString += "&mercury_room_social_data=" + mercury_room_social_data
+        urlAsString += "&mercury_user_id=" + mercury_user_id
+        
+        postData(socialShareUrl, dataString: urlAsString)
+        
+        // push the model to the collection
+    }
+    
+    
+    func postFeedback(feedbackModel:FeedbackModel){
+        let feedback_score:String = feedbackModel.feedback_score
+        let feedback_text:String = feedbackModel.feedback_text
+        let exhibit_id:String = feedbackModel.exhibit_id
+        var user_id:String = feedbackModel.user_id
+        
+        
+        if(self.applicationModel.activeUser?.user_id == nil){
+            user_id = "0";
+        }
+        
+        var urlAsString = ""
+        urlAsString += "feedback_score=" + feedback_score
+        urlAsString += "&feedback_text=" + feedback_text
+        urlAsString += "&exhibit_id=" + exhibit_id
+        urlAsString += "&user_id=" + user_id
+        
+        postData(feedbackShareUrl, dataString: urlAsString)
+        
+        // push the model to the collection
     }
     
     
@@ -289,14 +367,21 @@ class DataManager: NSObject {
                 data: NSData!,
                 error: NSError!) in
                 
-                if data.length > 0 && error == nil{
+                if(NSString(data: data, encoding: NSUTF8StringEncoding) == "socialAdded"){
+
+                    // hier
+                    NSNotificationCenter.defaultCenter().postNotificationName("SocialAdded", object: nil, userInfo:  nil)
+
+                
+                }else if (data.length > 0 && error == nil){
                     let html = NSString(data: data, encoding: NSUTF8StringEncoding)
                     println("html = \(html)")
-                } else if data.length == 0 && error == nil{
+                } else if (data.length == 0 && error == nil){
                     println("Nothing was downloaded")
-                } else if error != nil{
+                } else if (error != nil){
                     println("Error happened = \(error)")
                 }
+                
             }
         )
     }
@@ -312,6 +397,8 @@ class DataManager: NSObject {
         
         if let urlData = data {
             success(userData: urlData)
+            
+            
         }
         })
     }
@@ -332,6 +419,23 @@ class DataManager: NSObject {
     }
     
     
+    /**
+    * Get beacons
+    */
+    func getFacebookData(success: ((facebookData: NSData!) -> Void)) {
+        
+        loadDataFromURL(NSURL(string: facebookUrl)!, completion:{(data, error) -> Void in
+            let applicationModel = ApplicationData.sharedModel()
+            
+            if let urlData = data {
+                let json = JSON(data: urlData)
+                
+                success(facebookData: urlData)
+            }
+        })
+    }
+    
+    
     
     /**
     * Get musuem data
@@ -340,7 +444,8 @@ class DataManager: NSObject {
         loadDataFromURL(NSURL(string: museumUrl)!, completion:{(data, error) -> Void in
             
             let applicationModel = ApplicationData.sharedModel()
-
+            
+            
             if let urlData = data {
                 success(museumData: urlData)
             }
@@ -359,7 +464,7 @@ class DataManager: NSObject {
             if let responseError = error {
                 completion(data: nil, error: responseError)
             
-                println("completion error -")
+                SwiftSpinner.show("Error: Kan de data niet ophalen", animated: false)
             } else if let httpResponse = response as? NSHTTPURLResponse {
                 
                 if httpResponse.statusCode != 200 {

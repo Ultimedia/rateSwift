@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Social
+
 
 class ExhibitStageViewController: UIViewController {
     
@@ -47,6 +49,8 @@ class ExhibitStageViewController: UIViewController {
     var roomID:Int = 0
     
     
+
+    
     // Singleton Models
     let deviceFunctionService = DeviceFunctionServices.deviceFunctionServices()
     
@@ -70,6 +74,10 @@ class ExhibitStageViewController: UIViewController {
         // close feedback
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeFeedbackPanel:", name:"CloseFeedbackPanel", object: nil)
         
+        
+            
+
+        
         // initialise the feedback view controller
         feedbackViewController = FeedbackViewController(nibName: "FeedbackViewController", bundle: nil)
         feedbackViewController?.roomModel = roomModel
@@ -89,21 +97,37 @@ class ExhibitStageViewController: UIViewController {
             
             
             // add cover image
-            coverImage = UIImage(named:"cover")
+            coverImage = UIImage()
             coverImageView =  UIImageView(frame: view.bounds)
             coverImageView!.image = coverImage
             coverImageView!.center = view.center
             
-            let url = NSURL(string: ( exhibitModel!.exhibit_cover_image))
-            if((url) != nil && url != ""){
-                let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
-                coverImageView?.image = UIImage(data: data!)
-                coverImageView?.contentMode = .ScaleAspectFit
-                coverImageView?.frame = view.bounds
-                coverImageView?.center = view.center
-                coverImageView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-                coverImageView?.contentMode = UIViewContentMode.ScaleAspectFill
-            }
+            let request: NSURLRequest = NSURLRequest(URL: NSURL(string: applicationModel.imagePath + exhibitModel!.exhibit_cover_image)!)
+            let mainQueue = NSOperationQueue.mainQueue()
+            NSURLConnection.sendAsynchronousRequest(request, queue: mainQueue, completionHandler: { (response, data, error) -> Void in
+                if error == nil {
+                    // Convert the downloaded data in to a UIImage object
+                    let image = UIImage(data: data)
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        // add cover image
+                        self.coverImageView?.image = UIImage(data: data!)
+                        self.coverImageView?.contentMode = .ScaleAspectFit
+                        self.coverImageView?.frame = self.view.bounds
+                        self.coverImageView?.center = self.view.center
+                        self.coverImageView?.frame = CGRect(x: 0, y: 0, width: self.screenSize.width, height: self.screenSize.height)
+                        self.coverImageView?.contentMode = UIViewContentMode.ScaleAspectFill
+                        
+                        SwiftSpinner.hide()
+
+                    })
+                }
+                else {
+                    println("dezen error");
+                    println("Error: \(error.localizedDescription)")
+                }
+            })
+
             
             coverPaddingView = UIView(frame: CGRect(x: 0, y: 40, width: screenSize.width, height: screenSize.height-80))
             
@@ -224,7 +248,6 @@ class ExhibitStageViewController: UIViewController {
                 
                 
                 readButton!.frame = CGRectMake(30, exhibitionTitleLabel!.frame.origin.y + exhibitionTitleLabel!.frame.height + 20, 180, 60)
-                
             }
             
             
@@ -242,6 +265,9 @@ class ExhibitStageViewController: UIViewController {
             view.addSubview(scrollDown!)
             view.addSubview(scrollDownButton!)
             view.addSubview(logoLabel!)
+            
+            
+
             
             
             // Twitter button
@@ -280,45 +306,6 @@ class ExhibitStageViewController: UIViewController {
             
             //view.addSubview(facebookButton!)
             
-            
-            
-            
-            /**
-            * Social media content
-            */
-            /*
-            if(exhibitModel?.exhibit_twitter_enabled == "1"){
-            
-            // Twitter button
-            twitterButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-            twitterButton!.setTitle("Twitter", forState: UIControlState.Normal)
-            twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
-            twitterButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-            twitterButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            twitterButton?.backgroundColor = UIColor.blueColor()
-            
-            view.addSubview(twitterButton!)
-            }
-            
-            
-            if(exhibitModel?.exhibit_facebook_enabled == "1"){
-            facebookButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-            facebookButton!.setTitle("Facebook", forState: UIControlState.Normal)
-            
-            if(exhibitModel?.exhibit_twitter_enabled == "1"){
-            facebookButton!.frame = CGRectMake(210, screenSize.height - 70, 100, 30)
-            }else{
-            twitterButton!.frame = CGRectMake(70, screenSize.height - 70, 100, 30)
-            }
-            facebookButton!.addTarget(self, action: "buttonAction:", forControlEvents: UIControlEvents.TouchUpInside)
-            facebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            facebookButton?.backgroundColor = UIColor.blueColor()
-            
-            view.addSubview(facebookButton!)
-            }
-            */
-            
-            
         }else if(roomModel?.mercury_room_type == "room"){
             
             // create content grid (different grids for different amounts of content)
@@ -328,10 +315,26 @@ class ExhibitStageViewController: UIViewController {
     
     func shareTwitter(sender:UIButton){
         
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+            
+            var tweetShare:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            
+            tweetShare.setInitialText("Ik ben nu in " + applicationModel.selectedMuseum!.museum_title + " " + exhibitModel!.exhibit_title)
+            
+            self.presentViewController(tweetShare, animated: true, completion: nil)
+            
+        } else {
+            
+            var alert = UIAlertController(title: "Geen Account", message: "Ga naar instellingen en meld je aan om te Tweeten", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
     }
     
     func drawContentGrid(){
-        println("draw content grid")
     
         var items:Int = 12
         var gridCols:CGFloat = 1
@@ -350,23 +353,28 @@ class ExhibitStageViewController: UIViewController {
         var numberOfRows:Int = mediaCount!
         var counter = 0
         
+        println("media count");
+        println(mediaCount);
+        
         // creating grid frame
         var gridFrame:UIView = UIView()
         var gridFrameHeight = screenSize.height
-        
         var marginTop = 0
-
+        var socialHeight = 160
+        var socialWidth = 160
+        var socialSpacing:Int = 20
+        var socialXPos = 50
+        
+        
         var gridFrameHeading:UIView = UIView()
         gridFrameHeading.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 140)
         gridFrameHeading.backgroundColor = applicationModel.UIColorFromRGB(0xe9eae2)
         gridFrame.addSubview(gridFrameHeading)
         
         
-        
         if(deviceFunctionService.deviceType != "ipad"){
-            gridFrameHeight = (CGFloat(gridItemHeight) + (CGFloat(spacing) * 2) + gridFrameHeading.frame.height) * CGFloat(exhibitModel!.roomData.count)
+            gridFrameHeight = (CGFloat(gridItemHeight) + (CGFloat(spacing))) * CGFloat(roomModel!.mediaData.count) + gridFrameHeading.frame.height
         }else{
-         
             gridFrameHeight = CGFloat(gridFrameHeading.frame.height) + ((CGFloat(mediaCount!) / 3) * gridItemHeight) + 60
         }
         
@@ -374,9 +382,21 @@ class ExhibitStageViewController: UIViewController {
         gridFrame.backgroundColor = applicationModel.UIColorFromRGB(0xddded6)
         view.addSubview(gridFrame)
         
+        
         var socialMediaFrame:UIView = UIView()
-        socialMediaFrame.frame = CGRect(x: 0, y: lastYpos + gridFrameHeight, width: screenSize.width, height: 1220)
-        socialMediaFrame.backgroundColor = applicationModel.UIColorFromRGB(0xe5e6de)
+            socialMediaFrame.frame = CGRect(x: 0, y: gridFrameHeight, width: screenSize.width, height:CGFloat(roomModel!.socialData.count) * CGFloat(socialHeight + (socialSpacing * 2)) + 200)
+            socialMediaFrame.backgroundColor =  applicationModel.UIColorFromRGB(0xe5e6de)
+
+        
+        if(deviceFunctionService.deviceType != "ipad"){
+
+            println("gridframe height")
+            println(gridFrame.frame.origin.y + gridFrame.frame.height)
+            
+            socialMediaFrame.frame = CGRect(x: 0, y: gridFrame.frame.origin.y + gridFrame.frame.height, width: screenSize.width, height: 2000)
+            
+        }
+        
         view.addSubview(socialMediaFrame)
         
         var infoNumber:UILabel = UILabel(frame: CGRect(x: 80, y: 20, width: 100, height: 100))
@@ -397,7 +417,7 @@ class ExhibitStageViewController: UIViewController {
         view.addSubview(infoNumber)
         
         var numberDescription:UILabel = UILabel(frame: CGRect(x: 80, y: infoNumber.frame.origin.y + infoNumber.frame.height - 10, width: 400,  height: 100))
-        numberDescription.text = "OVER DEZE RUIMTE"
+        numberDescription.text = roomModel?.mercury_room_title
         numberDescription.textAlignment = NSTextAlignment.Left
         numberDescription.numberOfLines = 0
         numberDescription.sizeToFit()
@@ -409,10 +429,9 @@ class ExhibitStageViewController: UIViewController {
         infoText.frame = CGRect(x: numberDescription.frame.width + 100, y: 20, width: screenSize.width - numberDescription.frame.width - 70 - 80, height: 100)
         infoText.font =  UIFont (name: "Avenir-Book", size: 16)
         infoText.numberOfLines = 4
-        infoText.text = "Thomas Hobbes wos nen Iengelschn filosôof die olgemêen wierd gezien lyk êen van de groundleggers van de moderne polletieke filosofie. Zyn bekendste werk es zyn in 1651 uutgekommn boek Leviathan"
+        infoText.text = roomModel?.mercury_room_description
         view.addSubview(infoText)
-        
-
+    
         
         
         // description
@@ -431,22 +450,14 @@ class ExhibitStageViewController: UIViewController {
             infoText.frame = CGRect(x: 150, y: 20, width: screenSize.width - 180, height: 100)
         }
         
-        // commentbutton
-        /*
-        commentButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
-        commentButton!.setTitle("Comment", forState: UIControlState.Normal)
-        commentButton!.frame = CGRectMake(20, screenSize.height - 70, 100, 30)
-        commentButton!.addTarget(self, action: "showCommentPanel:", forControlEvents: UIControlEvents.TouchUpInside)
-        commentButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        commentButton?.backgroundColor = UIColor.blueColor()
-        */
-        
         // views
         gridFrame.addSubview(descriptionLabel!)
         //gridFrame.addSubview(commentButton!)
         
         var gridCollection = Array<MediaTileViewController>()
         var mediaIterate = Array<MediaTileViewController>()
+        
+        
         
         
         for var i = 0; i < numberOfRows; ++i {
@@ -459,6 +470,8 @@ class ExhibitStageViewController: UIViewController {
                     // create the right celltype
                     var t:MediaTileViewController = MediaTileViewController()
                         t.infoNumber = String(roomID)
+                        println(i)
+
                     
                     var tView:Int = 0
                     var wider:Bool = false
@@ -479,6 +492,10 @@ class ExhibitStageViewController: UIViewController {
                     }
                     t.viewHeight = Int(gridItemHeight - 20)
                     t.mediaModel = roomModel!.mediaData[counter]
+                    
+                    t.view.tag = roomModel!.mediaData[counter].mercury_room_media_id.toInt()!
+                    t.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleMediaTouch:"))
+
                     
                     if(wider){
                         
@@ -511,12 +528,23 @@ class ExhibitStageViewController: UIViewController {
   
                         if(deviceFunctionService.deviceType != "ipad"){
                             t.view.frame = CGRect(x: 20, y: 170 + nPos, width: Int(gridItemWidth), height: Int(gridItemHeight))
+                            
+                            
+                            println("social")
+                            println(170 + nPos)
                         }
                     }
+                    
+                    
+                    if(deviceFunctionService.deviceType != "ipad"){
+                        gridItemWidth = screenSize.width - 50
+                        t.view.frame = CGRect(x: (Int(screenSize.width) / 2) - (Int(gridItemWidth) / 2), y: (i*(Int(gridItemHeight))) + 140 + 40, width: Int(gridItemWidth), height: Int(gridItemHeight))
+
+                    }
+                    
                 
-                    
                     gridFrame.addSubview(t.view)
-                    
+            
                     // add this
                     gridCollection.append(t)
                     
@@ -525,55 +553,74 @@ class ExhibitStageViewController: UIViewController {
             }
         }
         
+        if(roomModel!.socialData.count > 0){
+    
 
-        // social media content
-        var socialNumber:UILabel = UILabel(frame: CGRect(x: 0, y: 40, width: screenSize.width, height: 50))
-        socialNumber.text = roomString
-        socialNumber.textAlignment = NSTextAlignment.Center
-        socialNumber.numberOfLines = 1
-        socialNumber.font =  UIFont (name: "AvenirNext-UltraLight", size: 60)
-        socialMediaFrame.addSubview(socialNumber)
+            // social media content
+            var socialNumber:UILabel = UILabel(frame: CGRect(x: 0, y: 40, width: screenSize.width, height: 50))
+                socialNumber.text = roomString
+                socialNumber.textAlignment = NSTextAlignment.Center
+                socialNumber.numberOfLines = 1
+                socialNumber.font =  UIFont (name: "AvenirNext-UltraLight", size: 60)
+                socialMediaFrame.addSubview(socialNumber)
         
         
-        var socialText:UILabel = UILabel()
-        socialText.frame = CGRect(x: 0, y: socialNumber.frame.origin.y + socialNumber.frame.height, width: screenSize.width, height: 40)
-        socialText.font =  UIFont (name: "Avenir-Book", size: 20)
-        socialText.numberOfLines = 1
-        socialText.textAlignment = NSTextAlignment.Center
-        socialText.text = "DOOR DE BEZOEKERS"
-        socialMediaFrame.addSubview(socialText)
+            var socialText:UILabel = UILabel()
+                socialText.frame = CGRect(x: 0, y: socialNumber.frame.origin.y + socialNumber.frame.height, width: screenSize.width, height: 40)
+                socialText.font =  UIFont (name: "Avenir-Book", size: 20)
+                socialText.numberOfLines = 1
+                socialText.textAlignment = NSTextAlignment.Center
+                socialText.text = "DOOR DE BEZOEKERS"
+                socialMediaFrame.addSubview(socialText)
         
         
-        // socialGrid
-        var socialItemsCount:Int = roomModel!.socialData.count
+            // socialGrid
+            var socialItemsCount:Int = roomModel!.socialData.count
+            
         
-        println("kijk hier")
-        println(roomModel!.socialData)
+            var socialHeight = 160
+            var socialWidth = 160
+            if(deviceFunctionService.deviceType != "ipad"){
+
+                socialWidth = Int(screenSize.width) - 20
+                
+            }
+            
+            
+            var socialSpacing:Int = 20
+            var socialYPos = socialText.frame.origin.y + 90
+            var socialXPos = 50
         
-        var socialHeight = 160
-        var socialWidth = 160
-        var socialSpacing:Int = 20
-        var socialYPos = socialText.frame.origin.y + 90
-        var socialXPos = 50
-        
-        var rowCount = 0
-        var itemCount = 0
-        var firstLine = false
-        var secondLine = false
-        var rasterHeight = 600
-        var rasterCount = 0
-        var resetX = true
-        var styleA = true
-        var limit = false
+            var rowCount = 0
+            var itemCount = 0
+            var firstLine = false
+            var secondLine = false
+            var rasterHeight = 600
+            var rasterCount = 0
+            var resetX = true
+            var styleA = true
+            var limit = false
         
         for var i = 0; i < socialItemsCount; ++i {
+
+            var selectedSocialItem = roomModel!.socialData[i]
             
             if(deviceFunctionService.deviceType != "ipad"){
-                socialYPos = CGFloat(screenSize.width - 40) * CGFloat(rowCount) + 200
-                socialXPos = 78
+                socialSpacing = 20
                 
-                socialHeight = Int(220)
-                socialWidth = Int(220)
+                socialWidth = Int(screenSize.width) / 2 - 25;
+                socialHeight = socialWidth
+                
+        
+                if (i % 2 == 0) {
+                    socialXPos = 20
+                    socialYPos = CGFloat(i / 2) * CGFloat(socialHeight + (socialSpacing) / 2) + 150
+
+                }else{
+                    socialXPos = 30 + socialWidth
+                }
+                
+                
             }else{
                 if(!limit){
                     
@@ -624,37 +671,113 @@ class ExhibitStageViewController: UIViewController {
                     }
                     
                     
-                socialItemsCount = 20
             }
         }
             
             var e:SocialGridItemViewController = SocialGridItemViewController()
-                e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: CGFloat(socialWidth), height: CGFloat(socialWidth))
+            
+                if(deviceFunctionService.deviceType != "ipad"){
+                    
+                    e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: CGFloat(socialWidth), height: CGFloat(socialWidth))
+                    
+                    
+                }else{
+                    e.view.frame = CGRect(x: CGFloat(socialXPos), y: socialYPos, width: CGFloat(socialWidth), height: CGFloat(socialWidth))
+
+                }
+            
+            
+            
+                e.socialModel = selectedSocialItem
+                e.itemWidth = CGFloat(socialWidth)
+                e.itemHeight = CGFloat(socialWidth)
+                e.view.tag = selectedSocialItem.mercury_room_social_id.toInt()!
+            
                 socialMediaFrame.addSubview(e.view)
-                e.view.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(45 * CGFloat(M_PI/180), 0, 0, 1))
-            
-            var socialTitle = UILabel()
-            socialTitle.frame = CGRect(x: 0, y: 0, width: 160, height: 160)
-            socialTitle.text = roomModel!.socialData[rowCount].mercury_room_social_data
-            socialTitle.font = UIFont.boldSystemFontOfSize(33)
-            socialTitle.textColor = UIColor.whiteColor()
-            socialTitle.font =  UIFont (name: "DINAlternate-Bold", size: 18)
-            socialTitle.textAlignment = NSTextAlignment.Center
-            socialTitle.numberOfLines = 5
-            
-            e.view.addSubview(socialTitle)
-            socialTitle.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(-45 * CGFloat(M_PI/180), 0, 0, 1))
+                //e.view.layer.transform = CATransform3DConcat(CATransform3DMakeScale(1, 1, 1),  CATransform3DMakeRotation(45 * CGFloat(M_PI/180), 0, 0, 1))
+                e.createView()
+                e.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "handleSocialTouch:"))
             
                 socialXPos = socialXPos + socialWidth + 80
                 rowCount++
                 itemCount++
-            
+                
                 if(resetX){
                     rowCount = 0
                     resetX = false
                     socialXPos = 50
                 }
             }
+            
+        }
+    
+
+    }
+    
+    func handleMediaTouch(gestureRecognizer: UITapGestureRecognizer){
+        
+        println("social panel");
+        println(applicationModel.socialPanel);
+        
+        if(applicationModel.socialPanel == true){
+        
+            
+            
+        // now get the selected model
+        for media in roomModel!.mediaData{
+            
+            if(media.mercury_room_media_id.toInt() == gestureRecognizer.view!.tag){
+                
+                applicationModel.activeMediaItem = media
+                applicationModel.mediaPopup = true
+                applicationModel.activeMediaItemColor = gestureRecognizer.view?.backgroundColor
+                
+                createMediaOverlay()
+            }
+        }
+            
+        }
+    }
+    
+    func handleSocialTouch(gestureRecognizer: UITapGestureRecognizer){
+        
+        
+        if(applicationModel.socialPanel == true){
+        
+        // now get the selected model
+        for social in roomModel!.socialData{
+            
+            if(social.mercury_room_social_id.toInt() == gestureRecognizer.view!.tag){
+
+                applicationModel.activeSocialItem = social
+                applicationModel.socialPopup = true
+                applicationModel.activeSocialItemColor = gestureRecognizer.view?.backgroundColor
+                
+                
+                createSocialOverlay()
+            
+            }
+            
+        }
+            
+        }
+        
+    }
+    
+    func createSocialOverlay(){
+        
+        println("dispatched")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("SocialPopup", object: nil, userInfo:  nil)
+
+    }
+    
+    func createMediaOverlay(){
+        
+        println("dispatched")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("MediaPopup", object: nil, userInfo:  nil)
+        
     }
     
     
@@ -705,14 +828,14 @@ class ExhibitStageViewController: UIViewController {
         }else{
             
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("ShowFeedbackPanel", object: nil, userInfo:  nil)
+    NSNotificationCenter.defaultCenter().postNotificationName("ShowFeedbackPanel", object: nil, userInfo:  nil)
     }
     
     func closeFeedbackPanel(notification: NSNotification){
+        
         overlay?.removeFromSuperview()
+    
     }
-    
-    
-    
+
 }
 

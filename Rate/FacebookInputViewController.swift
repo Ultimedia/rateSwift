@@ -15,7 +15,6 @@ class FacebookInputViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -25,9 +24,7 @@ class FacebookInputViewController: UIViewController {
     }
     
     @IBAction func postButton(sender: AnyObject) {
-        
         println("plaats op facebook")
-    
     }
 
     /*
@@ -39,5 +36,4 @@ class FacebookInputViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
 }

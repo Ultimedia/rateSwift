@@ -10,20 +10,15 @@ import UIKit
 import MobileCoreServices
 
 class CameraInputViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     @IBOutlet var pictureButton: UIView!
     @IBOutlet weak var fotoFrameButton: UIImageView!
     
     var beenHereBefore = false
     var controller: UIImagePickerController?
-    
-    
     var cameraUI: UIImagePickerController! = UIImagePickerController()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
 

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		6C0839E71AC42402005F3DEB /* ExhibitListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0839E61AC42402005F3DEB /* ExhibitListViewController.swift */; };
-		6C1364AF1ADE61B4001B76A3 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C4712B01A2363C7002C355D /* FacebookSDK.framework */; };
 		6C18A27C1A27185100A5D46E /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C18A27B1A27185100A5D46E /* LocationServices.swift */; };
 		6C198D8F1A1CECAB003F2A21 /* ExhibitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C198D8D1A1CECAB003F2A21 /* ExhibitViewController.swift */; };
 		6C198D901A1CECAB003F2A21 /* ExhibitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C198D8E1A1CECAB003F2A21 /* ExhibitViewController.xib */; };
@@ -18,7 +17,6 @@
 		6C198D9A1A1DF2BA003F2A21 /* MenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C198D981A1DF2BA003F2A21 /* MenuViewController.xib */; };
 		6C2138371A35AD5A0041E725 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2138351A35AD5A0041E725 /* FeedbackViewController.swift */; };
 		6C2138381A35AD5A0041E725 /* FeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C2138361A35AD5A0041E725 /* FeedbackViewController.xib */; };
-		6C22A6C21A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */; };
 		6C22A6C31A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C22A6C11A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib */; };
 		6C315B6B1A1CA33400EAEBC0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C315B6A1A1CA33400EAEBC0 /* AppDelegate.swift */; };
 		6C315B6D1A1CA33400EAEBC0 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C315B6C1A1CA33400EAEBC0 /* MainController.swift */; };
@@ -48,7 +46,6 @@
 		6C4712F11A25CD77002C355D /* RoomSocialModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4712F01A25CD77002C355D /* RoomSocialModel.swift */; };
 		6C4712F31A25D369002C355D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4712F21A25D369002C355D /* UserModel.swift */; };
 		6C580F701AADD6AC003A3581 /* AvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C580F6F1AADD6AC003A3581 /* AvatarViewController.swift */; };
-		6C580F761AADE03E003A3581 /* SettingsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C580F751AADE03E003A3581 /* SettingsListViewController.swift */; };
 		6C6F90FA1A2DCEE800B4D4CF /* HTTPRequestSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F61A2DCEE800B4D4CF /* HTTPRequestSerializer.swift */; };
 		6C6F90FB1A2DCEE800B4D4CF /* HTTPResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F71A2DCEE800B4D4CF /* HTTPResponseSerializer.swift */; };
 		6C6F90FC1A2DCEE800B4D4CF /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F90F81A2DCEE800B4D4CF /* HTTPTask.swift */; };
@@ -61,6 +58,12 @@
 		6C7C24111A275ED200E735DD /* MyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C24101A275ED200E735DD /* MyAnnotation.swift */; };
 		6C7C24181A27675400E735DD /* CompassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C24161A27675400E735DD /* CompassViewController.swift */; };
 		6C7C24191A27675400E735DD /* CompassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7C24171A27675400E735DD /* CompassViewController.xib */; };
+		6C7DD6D41B01EBF600AB814B /* SettingsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DD6D21B01EBF600AB814B /* SettingsListViewController.swift */; };
+		6C7DD6D51B01EBF600AB814B /* SettingsListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7DD6D31B01EBF600AB814B /* SettingsListViewController.xib */; };
+		6C7DD6D71B0C7F4600AB814B /* DIrectionsOverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DD6D61B0C7F4600AB814B /* DIrectionsOverlayViewController.swift */; };
+		6C7DD7021B0CCA3A00AB814B /* CommentsPanellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DD7011B0CCA3A00AB814B /* CommentsPanellViewController.swift */; };
+		6C7DD7041B0DC32F00AB814B /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DD7031B0DC32F00AB814B /* PaddedLabel.swift */; };
+		6C7DD7061B0DE49800AB814B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7DD7051B0DE49800AB814B /* Player.swift */; };
 		6C7E8F551AB9B6F1007C7EB1 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C7E8F541AB9B6F1007C7EB1 /* CoreBluetooth.framework */; };
 		6C7E8F5C1AB9B8B3007C7EB1 /* MuseumOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E8F5A1AB9B8B3007C7EB1 /* MuseumOverviewViewController.swift */; };
 		6C7E8F5D1AB9B8B3007C7EB1 /* MuseumOverviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C7E8F5B1AB9B8B3007C7EB1 /* MuseumOverviewViewController.xib */; };
@@ -70,6 +73,10 @@
 		6C8699051A309EDB005BEC05 /* HelpPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8699031A309EDB005BEC05 /* HelpPopupView.xib */; };
 		6C8968671AE153290017AC22 /* SocialToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */; };
 		6C8968681AE153290017AC22 /* SocialToolbarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */; };
+		6C9364D01B1EE4290005C6E1 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9364CF1B1EE4280005C6E1 /* ShareViewController.swift */; };
+		6C9364D61B2047110005C6E1 /* RoomPosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9364D51B2047110005C6E1 /* RoomPosModel.swift */; };
+		6C970C0B1B20944D0060B43D /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C970C0A1B20944D0060B43D /* SRWebClient.swift */; };
+		6C970C0E1B2188860060B43D /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C970C0D1B2188860060B43D /* UIImageExtension.swift */; };
 		6CA1D6D81A271DDF00AF80C0 /* DeviceFunctionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */; };
 		6CA1D6E11A2721BA00AF80C0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */; };
 		6CA1D6E21A2721BA00AF80C0 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CA1D6E01A2721BA00AF80C0 /* LoadingViewController.xib */; };
@@ -114,9 +121,30 @@
 		6CE116541A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */; };
 		6CE9E11E1A9235D6009889DE /* MuseumListComponentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */; };
 		6CE9E11F1A9235D6009889DE /* MuseumListComponentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */; };
+		6CED30E91B0497D000AF9E8F /* SwiftSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CED30E81B0497D000AF9E8F /* SwiftSpinner.swift */; };
+		6CED30F01B04A2DB00AF9E8F /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30EA1B04A2DB00AF9E8F /* Bolts.framework */; };
+		6CED30F11B04A2DB00AF9E8F /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30EB1B04A2DB00AF9E8F /* Parse.framework */; };
+		6CED30F21B04A2DB00AF9E8F /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30EC1B04A2DB00AF9E8F /* ParseCrashReporting.framework */; };
+		6CED30F31B04A2DB00AF9E8F /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30ED1B04A2DB00AF9E8F /* ParseFacebookUtils.framework */; };
+		6CED30F41B04A2DB00AF9E8F /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30EE1B04A2DB00AF9E8F /* ParseFacebookUtilsV4.framework */; };
+		6CED30F51B04A2DB00AF9E8F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30EF1B04A2DB00AF9E8F /* ParseUI.framework */; };
+		6CED30F71B04A30000AF9E8F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30F61B04A30000AF9E8F /* AudioToolbox.framework */; };
+		6CED30F91B04A30E00AF9E8F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30F81B04A30E00AF9E8F /* CFNetwork.framework */; };
+		6CED30FB1B04A32800AF9E8F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30FA1B04A32800AF9E8F /* MobileCoreServices.framework */; };
+		6CED30FD1B04A32F00AF9E8F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30FC1B04A32F00AF9E8F /* CoreLocation.framework */; };
+		6CED30FF1B04A33C00AF9E8F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED30FE1B04A33C00AF9E8F /* QuartzCore.framework */; };
+		6CED31011B04A34900AF9E8F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31001B04A34900AF9E8F /* Security.framework */; };
+		6CED31031B04A35600AF9E8F /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31021B04A35600AF9E8F /* StoreKit.framework */; };
+		6CED31051B04A36300AF9E8F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31041B04A36300AF9E8F /* SystemConfiguration.framework */; };
+		6CED31071B04A37600AF9E8F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31061B04A37600AF9E8F /* libz.dylib */; };
+		6CED31091B04A38100AF9E8F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31081B04A38100AF9E8F /* libsqlite3.dylib */; };
+		6CED31261B0505A900AF9E8F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C4712B01A2363C7002C355D /* FacebookSDK.framework */; };
+		6CED312B1B051CAE00AF9E8F /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED31291B051CAE00AF9E8F /* FBSDKCoreKit.framework */; };
+		6CED312C1B051CAE00AF9E8F /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CED312A1B051CAE00AF9E8F /* FBSDKLoginKit.framework */; };
 		6CF072291AE6539900ABD59A /* MapsPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF072281AE6539900ABD59A /* MapsPin.swift */; };
-		6CF0722B1AE653E000ABD59A /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF0722A1AE653E000ABD59A /* MapViewController.swift */; };
 		6CF916A21A31BB4800A78055 /* ExhibitHolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */; };
+		6CFE41A91B25874800EB810B /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFE41A81B25874800EB810B /* FloatRatingView.swift */; };
+		6CFE41AC1B25B7F500EB810B /* FeedbackModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFE41AB1B25B7F500EB810B /* FeedbackModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,7 +168,6 @@
 		6C198D981A1DF2BA003F2A21 /* MenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MenuViewController.xib; sourceTree = "<group>"; };
 		6C2138351A35AD5A0041E725 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		6C2138361A35AD5A0041E725 /* FeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedbackViewController.xib; sourceTree = "<group>"; };
-		6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIrectionsOverlayViewController.swift; sourceTree = "<group>"; };
 		6C22A6C11A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DIrectionsOverlayViewController.xib; sourceTree = "<group>"; };
 		6C315B651A1CA33400EAEBC0 /* Rate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C315B691A1CA33400EAEBC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -175,7 +202,6 @@
 		6C4712F01A25CD77002C355D /* RoomSocialModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomSocialModel.swift; sourceTree = "<group>"; };
 		6C4712F21A25D369002C355D /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		6C580F6F1AADD6AC003A3581 /* AvatarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AvatarViewController.swift; sourceTree = "<group>"; };
-		6C580F751AADE03E003A3581 /* SettingsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsListViewController.swift; sourceTree = "<group>"; };
 		6C6F90F61A2DCEE800B4D4CF /* HTTPRequestSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPRequestSerializer.swift; sourceTree = "<group>"; };
 		6C6F90F71A2DCEE800B4D4CF /* HTTPResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPResponseSerializer.swift; sourceTree = "<group>"; };
 		6C6F90F81A2DCEE800B4D4CF /* HTTPTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
@@ -188,6 +214,14 @@
 		6C7C24101A275ED200E735DD /* MyAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAnnotation.swift; sourceTree = "<group>"; };
 		6C7C24161A27675400E735DD /* CompassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassViewController.swift; sourceTree = "<group>"; };
 		6C7C24171A27675400E735DD /* CompassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompassViewController.xib; sourceTree = "<group>"; };
+		6C7DD6D21B01EBF600AB814B /* SettingsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsListViewController.swift; sourceTree = "<group>"; };
+		6C7DD6D31B01EBF600AB814B /* SettingsListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsListViewController.xib; sourceTree = "<group>"; };
+		6C7DD6D61B0C7F4600AB814B /* DIrectionsOverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIrectionsOverlayViewController.swift; sourceTree = "<group>"; };
+		6C7DD6FB1B0C899100AB814B /* ImageLoaderSwift-master.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ImageLoaderSwift-master.xcodeproj"; path = "ImageLoaderSwift-master/ImageLoaderSwift-master.xcodeproj"; sourceTree = "<group>"; };
+		6C7DD6FF1B0C89FB00AB814B /* ImageLoader.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageLoader.framework; path = "ImageLoaderSwift-master/build/Debug-iphoneos/ImageLoader.framework"; sourceTree = "<group>"; };
+		6C7DD7011B0CCA3A00AB814B /* CommentsPanellViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentsPanellViewController.swift; sourceTree = "<group>"; };
+		6C7DD7031B0DC32F00AB814B /* PaddedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
+		6C7DD7051B0DE49800AB814B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		6C7E8F541AB9B6F1007C7EB1 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		6C7E8F5A1AB9B8B3007C7EB1 /* MuseumOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MuseumOverviewViewController.swift; path = ../MuseumOverviewViewController.swift; sourceTree = "<group>"; };
 		6C7E8F5B1AB9B8B3007C7EB1 /* MuseumOverviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MuseumOverviewViewController.xib; path = ../MuseumOverviewViewController.xib; sourceTree = "<group>"; };
@@ -197,6 +231,10 @@
 		6C8699031A309EDB005BEC05 /* HelpPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpPopupView.xib; sourceTree = "<group>"; };
 		6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialToolbarViewController.swift; sourceTree = "<group>"; };
 		6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialToolbarViewController.xib; sourceTree = "<group>"; };
+		6C9364CF1B1EE4280005C6E1 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		6C9364D51B2047110005C6E1 /* RoomPosModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPosModel.swift; sourceTree = "<group>"; };
+		6C970C0A1B20944D0060B43D /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
+		6C970C0D1B2188860060B43D /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		6C9997161A233C4C00961EAC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		6CA1D6D71A271DDF00AF80C0 /* DeviceFunctionServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFunctionServices.swift; sourceTree = "<group>"; };
 		6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -242,9 +280,33 @@
 		6CE116521A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExhibitFeedbackScreenViewController.xib; sourceTree = "<group>"; };
 		6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MuseumListComponentViewController.swift; sourceTree = "<group>"; };
 		6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MuseumListComponentViewController.xib; sourceTree = "<group>"; };
+		6CED30E81B0497D000AF9E8F /* SwiftSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftSpinner.swift; sourceTree = "<group>"; };
+		6CED30EA1B04A2DB00AF9E8F /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = SDKS/Bolts.framework; sourceTree = "<group>"; };
+		6CED30EB1B04A2DB00AF9E8F /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = SDKS/Parse.framework; sourceTree = "<group>"; };
+		6CED30EC1B04A2DB00AF9E8F /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseCrashReporting.framework; path = SDKS/ParseCrashReporting.framework; sourceTree = "<group>"; };
+		6CED30ED1B04A2DB00AF9E8F /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = SDKS/ParseFacebookUtils.framework; sourceTree = "<group>"; };
+		6CED30EE1B04A2DB00AF9E8F /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtilsV4.framework; path = SDKS/ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
+		6CED30EF1B04A2DB00AF9E8F /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseUI.framework; path = SDKS/ParseUI.framework; sourceTree = "<group>"; };
+		6CED30F61B04A30000AF9E8F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		6CED30F81B04A30E00AF9E8F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		6CED30FA1B04A32800AF9E8F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		6CED30FC1B04A32F00AF9E8F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		6CED30FE1B04A33C00AF9E8F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6CED31001B04A34900AF9E8F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		6CED31021B04A35600AF9E8F /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		6CED31041B04A36300AF9E8F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6CED31061B04A37600AF9E8F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		6CED31081B04A38100AF9E8F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		6CED31231B04FC7600AF9E8F /* Swifter */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Swifter; sourceTree = "<group>"; };
+		6CED31271B05076C00AF9E8F /* SwifteriOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwifteriOS.framework; path = "../../../../Users/maartenbressinck/Library/Developer/Xcode/DerivedData/Rate-ftglryrrqgpziraidppzbwnojrwq/Build/Products/Debug-iphoneos/SwifteriOS.framework"; sourceTree = "<group>"; };
+		6CED31291B051CAE00AF9E8F /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Rate/Resources/Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		6CED312A1B051CAE00AF9E8F /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Rate/Resources/Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		6CF072281AE6539900ABD59A /* MapsPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsPin.swift; sourceTree = "<group>"; };
-		6CF0722A1AE653E000ABD59A /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6CF916A11A31BB4800A78055 /* ExhibitHolderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExhibitHolderViewController.swift; sourceTree = "<group>"; };
+		6CFE41A81B25874800EB810B /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		6CFE41AB1B25B7F500EB810B /* FeedbackModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackModel.swift; sourceTree = "<group>"; };
+		6CFE41AF1B26C68600EB810B /* YouTubePlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YouTubePlayer.framework; path = "Rate/YouTubePlayer/build/Debug-iphoneos/YouTubePlayer.framework"; sourceTree = "<group>"; };
+		6CFE41B51B26C8E400EB810B /* Player.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,12 +314,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CED312B1B051CAE00AF9E8F /* FBSDKCoreKit.framework in Frameworks */,
+				6CED312C1B051CAE00AF9E8F /* FBSDKLoginKit.framework in Frameworks */,
+				6CED31091B04A38100AF9E8F /* libsqlite3.dylib in Frameworks */,
+				6CED31071B04A37600AF9E8F /* libz.dylib in Frameworks */,
+				6CED31051B04A36300AF9E8F /* SystemConfiguration.framework in Frameworks */,
+				6CED31031B04A35600AF9E8F /* StoreKit.framework in Frameworks */,
+				6CED31011B04A34900AF9E8F /* Security.framework in Frameworks */,
+				6CED30FF1B04A33C00AF9E8F /* QuartzCore.framework in Frameworks */,
+				6CED30FD1B04A32F00AF9E8F /* CoreLocation.framework in Frameworks */,
+				6CED30FB1B04A32800AF9E8F /* MobileCoreServices.framework in Frameworks */,
+				6CED30F91B04A30E00AF9E8F /* CFNetwork.framework in Frameworks */,
+				6CED30F71B04A30000AF9E8F /* AudioToolbox.framework in Frameworks */,
 				6C7E8F551AB9B6F1007C7EB1 /* CoreBluetooth.framework in Frameworks */,
 				6C6F910D1A2F15ED00B4D4CF /* CoreData.framework in Frameworks */,
 				6C4712D61A238C2D002C355D /* MapKit.framework in Frameworks */,
 				6C4712CF1A236AEE002C355D /* Accounts.framework in Frameworks */,
 				6C4712CD1A236AE7002C355D /* Social.framework in Frameworks */,
-				6C1364AF1ADE61B4001B76A3 /* FacebookSDK.framework in Frameworks */,
+				6CED30F01B04A2DB00AF9E8F /* Bolts.framework in Frameworks */,
+				6CED30F11B04A2DB00AF9E8F /* Parse.framework in Frameworks */,
+				6CED30F21B04A2DB00AF9E8F /* ParseCrashReporting.framework in Frameworks */,
+				6CED30F31B04A2DB00AF9E8F /* ParseFacebookUtils.framework in Frameworks */,
+				6CED30F41B04A2DB00AF9E8F /* ParseFacebookUtilsV4.framework in Frameworks */,
+				6CED30F51B04A2DB00AF9E8F /* ParseUI.framework in Frameworks */,
+				6CED31261B0505A900AF9E8F /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,11 +356,14 @@
 			children = (
 				6C198D931A1CED06003F2A21 /* ExhibitStageViewController.swift */,
 				6C8968651AE153290017AC22 /* SocialToolbarViewController.swift */,
+				6C9364CF1B1EE4280005C6E1 /* ShareViewController.swift */,
+				6C7DD7011B0CCA3A00AB814B /* CommentsPanellViewController.swift */,
 				6C8968661AE153290017AC22 /* SocialToolbarViewController.xib */,
 				6CE116491A289077004B9DC1 /* ExhibitOverviewController.swift */,
 				6CA23B951A5C2F9C000D43F9 /* GradientView.swift */,
 				6CE116511A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift */,
 				6C7E8F5A1AB9B8B3007C7EB1 /* MuseumOverviewViewController.swift */,
+				6C7DD7031B0DC32F00AB814B /* PaddedLabel.swift */,
 				6C7E8F5B1AB9B8B3007C7EB1 /* MuseumOverviewViewController.xib */,
 				6CE1164D1A28A870004B9DC1 /* TeaserMuseumTileController.swift */,
 				6CE114631A36F55A00A553B7 /* TextInputViewController.swift */,
@@ -288,8 +371,10 @@
 				6CAE5DC91A41C08E00C0F2E0 /* CompassView.swift */,
 				6CE114671A36F58C00A553B7 /* CameraInputViewController.swift */,
 				6CA1D6DF1A2721BA00AF80C0 /* LoadingViewController.swift */,
+				6C7DD6D61B0C7F4600AB814B /* DIrectionsOverlayViewController.swift */,
 				6CC01B6F1A1F331C00DBB952 /* FavouritesViewController.swift */,
 				6C315B9A1A1CE76200EAEBC0 /* TeaserViewController.swift */,
+				6C970C0D1B2188860060B43D /* UIImageExtension.swift */,
 				6CDE2AA91A84C3C700FDF096 /* InfoPanelViewController.swift */,
 				6CDE2AAA1A84C3C700FDF096 /* InfoPanelViewController.xib */,
 				6CA23B881A4DE4EE000D43F9 /* TeaserThumbViewController.swift */,
@@ -299,8 +384,6 @@
 				6C7C24161A27675400E735DD /* CompassViewController.swift */,
 				6CE9E11C1A9235D5009889DE /* MuseumListComponentViewController.swift */,
 				6CE9E11D1A9235D6009889DE /* MuseumListComponentViewController.xib */,
-				6C22A6C01A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift */,
-				6CF0722A1AE653E000ABD59A /* MapViewController.swift */,
 				6CF072281AE6539900ABD59A /* MapsPin.swift */,
 				6C198D8D1A1CECAB003F2A21 /* ExhibitViewController.swift */,
 				6C0839E61AC42402005F3DEB /* ExhibitListViewController.swift */,
@@ -313,7 +396,6 @@
 				6C7EE7201A3840590083999C /* ExhibitFoundViewController.swift */,
 				6C315B6C1A1CA33400EAEBC0 /* MainController.swift */,
 				6CC01B741A1F364200DBB952 /* SettingsViewController.swift */,
-				6C580F751AADE03E003A3581 /* SettingsListViewController.swift */,
 				6CCE311A1A1F912D007682BB /* SignOnScreenViewController.swift */,
 				6CBBD8661A6FE9290065BFFE /* ErrorViewController.swift */,
 				6CBBD8671A6FE9290065BFFE /* WelcomeViewController.xib */,
@@ -323,6 +405,8 @@
 				6CE114531A36ECB400A553B7 /* TwitterInputViewController.swift */,
 				6CE1145B1A36F52600A553B7 /* FacebookInputViewController.swift */,
 				6C580F6F1AADD6AC003A3581 /* AvatarViewController.swift */,
+				6C7DD6D21B01EBF600AB814B /* SettingsListViewController.swift */,
+				6C7DD6D31B01EBF600AB814B /* SettingsListViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -372,9 +456,11 @@
 		6C198D9E1A1DF39B003F2A21 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6C9364D51B2047110005C6E1 /* RoomPosModel.swift */,
 				6C6F91031A2F089400B4D4CF /* BeaconModel.swift */,
 				6C4712F21A25D369002C355D /* UserModel.swift */,
 				6C4712E81A24CB8A002C355D /* RoomModel.swift */,
+				6CFE41AB1B25B7F500EB810B /* FeedbackModel.swift */,
 				6C315B961A1CC0E000EAEBC0 /* ApplicationData.swift */,
 				6C4712EA1A25C8F9002C355D /* RoomMediaModel.swift */,
 				6C4712F01A25CD77002C355D /* RoomSocialModel.swift */,
@@ -387,6 +473,30 @@
 		6C315B5C1A1CA33400EAEBC0 = {
 			isa = PBXGroup;
 			children = (
+				6CFE41AF1B26C68600EB810B /* YouTubePlayer.framework */,
+				6C970C0A1B20944D0060B43D /* SRWebClient.swift */,
+				6C7DD6FF1B0C89FB00AB814B /* ImageLoader.framework */,
+				6CED31291B051CAE00AF9E8F /* FBSDKCoreKit.framework */,
+				6CED312A1B051CAE00AF9E8F /* FBSDKLoginKit.framework */,
+				6CED31271B05076C00AF9E8F /* SwifteriOS.framework */,
+				6C7DD6FB1B0C899100AB814B /* ImageLoaderSwift-master.xcodeproj */,
+				6CED31231B04FC7600AF9E8F /* Swifter */,
+				6CED31081B04A38100AF9E8F /* libsqlite3.dylib */,
+				6CED31061B04A37600AF9E8F /* libz.dylib */,
+				6CED31041B04A36300AF9E8F /* SystemConfiguration.framework */,
+				6CED31021B04A35600AF9E8F /* StoreKit.framework */,
+				6CED31001B04A34900AF9E8F /* Security.framework */,
+				6CED30FE1B04A33C00AF9E8F /* QuartzCore.framework */,
+				6CED30FC1B04A32F00AF9E8F /* CoreLocation.framework */,
+				6CED30FA1B04A32800AF9E8F /* MobileCoreServices.framework */,
+				6CED30F81B04A30E00AF9E8F /* CFNetwork.framework */,
+				6CED30F61B04A30000AF9E8F /* AudioToolbox.framework */,
+				6CED30EA1B04A2DB00AF9E8F /* Bolts.framework */,
+				6CED30EB1B04A2DB00AF9E8F /* Parse.framework */,
+				6CED30EC1B04A2DB00AF9E8F /* ParseCrashReporting.framework */,
+				6CED30ED1B04A2DB00AF9E8F /* ParseFacebookUtils.framework */,
+				6CED30EE1B04A2DB00AF9E8F /* ParseFacebookUtilsV4.framework */,
+				6CED30EF1B04A2DB00AF9E8F /* ParseUI.framework */,
 				6C7E8F541AB9B6F1007C7EB1 /* CoreBluetooth.framework */,
 				6CAEF2851A6E867400A29F42 /* MediaTileViewController.swift */,
 				6C6F910C1A2F15ED00B4D4CF /* CoreData.framework */,
@@ -465,14 +575,25 @@
 			name = Services;
 			sourceTree = "<group>";
 		};
+		6C7DD6FC1B0C899100AB814B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6CC01B731A1F334300DBB952 /* Addons */ = {
 			isa = PBXGroup;
 			children = (
+				6CFE41A81B25874800EB810B /* FloatRatingView.swift */,
 				6C6F90F61A2DCEE800B4D4CF /* HTTPRequestSerializer.swift */,
+				6CFE41B51B26C8E400EB810B /* Player.h */,
 				6C6F90F71A2DCEE800B4D4CF /* HTTPResponseSerializer.swift */,
 				6C6F90F81A2DCEE800B4D4CF /* HTTPTask.swift */,
 				6C6F90F91A2DCEE800B4D4CF /* HTTPUpload.swift */,
 				6C7C24101A275ED200E735DD /* MyAnnotation.swift */,
+				6C7DD7051B0DE49800AB814B /* Player.swift */,
+				6CED30E81B0497D000AF9E8F /* SwiftSpinner.swift */,
 				6C4712D91A2496F6002C355D /* SwiftyJSON.swift */,
 				6C315B981A1CC0ED00EAEBC0 /* Reachability.swift */,
 				6C4198DF1A690C4500389CA0 /* UIBorderedLabel.swift */,
@@ -529,7 +650,7 @@
 				TargetAttributes = {
 					6C315B641A1CA33400EAEBC0 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = 4EB92GU758;
+						DevelopmentTeam = 9RZW73LTB7;
 					};
 					6C315B791A1CA33400EAEBC0 = {
 						CreatedOnToolsVersion = 6.1;
@@ -548,6 +669,12 @@
 			mainGroup = 6C315B5C1A1CA33400EAEBC0;
 			productRefGroup = 6C315B661A1CA33400EAEBC0 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6C7DD6FC1B0C899100AB814B /* Products */;
+					ProjectRef = 6C7DD6FB1B0C899100AB814B /* ImageLoaderSwift-master.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				6C315B641A1CA33400EAEBC0 /* Rate */,
@@ -589,6 +716,7 @@
 				6C315B721A1CA33400EAEBC0 /* Images.xcassets in Resources */,
 				6C6F91421A2F397A00B4D4CF /* OverviewTileViewController.xib in Resources */,
 				6C22A6C31A4C3A4400D76A44 /* DIrectionsOverlayViewController.xib in Resources */,
+				6C7DD6D51B01EBF600AB814B /* SettingsListViewController.xib in Resources */,
 				6C198D961A1CED06003F2A21 /* ExhibitStageViewController.xib in Resources */,
 				6CE1145E1A36F52600A553B7 /* FacebookInputViewController.xib in Resources */,
 				6CC01B721A1F331C00DBB952 /* FavouritesViewController.xib in Resources */,
@@ -617,7 +745,6 @@
 				6C6F90FC1A2DCEE800B4D4CF /* HTTPTask.swift in Sources */,
 				6CE1145D1A36F52600A553B7 /* FacebookInputViewController.swift in Sources */,
 				6C4712D31A2378BC002C355D /* ManualLoginViewController.swift in Sources */,
-				6C580F761AADE03E003A3581 /* SettingsListViewController.swift in Sources */,
 				6CA23B831A4C96B9000D43F9 /* TeaserAddressCollectionViewController.swift in Sources */,
 				6CE114551A36ECB400A553B7 /* TwitterInputViewController.swift in Sources */,
 				6CE114651A36F55A00A553B7 /* TextInputViewController.swift in Sources */,
@@ -633,10 +760,12 @@
 				6CE116531A28B672004B9DC1 /* ExhibitFeedbackScreenViewController.swift in Sources */,
 				6CE1164F1A28A870004B9DC1 /* TeaserMuseumTileController.swift in Sources */,
 				6CA1D6D81A271DDF00AF80C0 /* DeviceFunctionServices.swift in Sources */,
+				6C7DD7061B0DE49800AB814B /* Player.swift in Sources */,
 				6CA23B961A5C2F9C000D43F9 /* GradientView.swift in Sources */,
 				6CBBD8681A6FE9290065BFFE /* ErrorViewController.swift in Sources */,
 				6C7E8F5C1AB9B8B3007C7EB1 /* MuseumOverviewViewController.swift in Sources */,
 				6C4712EB1A25C8F9002C355D /* RoomMediaModel.swift in Sources */,
+				6C970C0E1B2188860060B43D /* UIImageExtension.swift in Sources */,
 				6C2138371A35AD5A0041E725 /* FeedbackViewController.swift in Sources */,
 				6C315B991A1CC0ED00EAEBC0 /* Reachability.swift in Sources */,
 				6C198D8F1A1CECAB003F2A21 /* ExhibitViewController.swift in Sources */,
@@ -647,6 +776,7 @@
 				6C315B6D1A1CA33400EAEBC0 /* MainController.swift in Sources */,
 				6C7C24111A275ED200E735DD /* MyAnnotation.swift in Sources */,
 				6CA23B8A1A4DE4EE000D43F9 /* TeaserThumbViewController.swift in Sources */,
+				6C7DD6D71B0C7F4600AB814B /* DIrectionsOverlayViewController.swift in Sources */,
 				6C6F90FD1A2DCEE800B4D4CF /* HTTPUpload.swift in Sources */,
 				6CF916A21A31BB4800A78055 /* ExhibitHolderViewController.swift in Sources */,
 				6CA1D6E11A2721BA00AF80C0 /* LoadingViewController.swift in Sources */,
@@ -664,20 +794,27 @@
 				6CCE311C1A1F912D007682BB /* SignOnScreenViewController.swift in Sources */,
 				6CC01B761A1F364200DBB952 /* SettingsViewController.swift in Sources */,
 				6C4712E91A24CB8A002C355D /* RoomModel.swift in Sources */,
+				6C7DD6D41B01EBF600AB814B /* SettingsListViewController.swift in Sources */,
 				6C4712DC1A249724002C355D /* DataManager.swift in Sources */,
-				6CF0722B1AE653E000ABD59A /* MapViewController.swift in Sources */,
 				6C7EE7221A3840590083999C /* ExhibitFoundViewController.swift in Sources */,
-				6C22A6C21A4C3A4400D76A44 /* DIrectionsOverlayViewController.swift in Sources */,
 				6CAEF2861A6E867400A29F42 /* MediaTileViewController.swift in Sources */,
 				6CDE2AAB1A84C3C700FDF096 /* InfoPanelViewController.swift in Sources */,
 				6C6F90FA1A2DCEE800B4D4CF /* HTTPRequestSerializer.swift in Sources */,
+				6CED30E91B0497D000AF9E8F /* SwiftSpinner.swift in Sources */,
+				6C9364D01B1EE4290005C6E1 /* ShareViewController.swift in Sources */,
+				6C7DD7041B0DC32F00AB814B /* PaddedLabel.swift in Sources */,
 				6C4712DA1A2496F6002C355D /* SwiftyJSON.swift in Sources */,
+				6C9364D61B2047110005C6E1 /* RoomPosModel.swift in Sources */,
+				6CFE41A91B25874800EB810B /* FloatRatingView.swift in Sources */,
+				6C7DD7021B0CCA3A00AB814B /* CommentsPanellViewController.swift in Sources */,
 				6C4198E01A690C4500389CA0 /* UIBorderedLabel.swift in Sources */,
 				6C18A27C1A27185100A5D46E /* LocationServices.swift in Sources */,
 				6C315B971A1CC0E000EAEBC0 /* ApplicationData.swift in Sources */,
 				6CE1164B1A289077004B9DC1 /* ExhibitOverviewController.swift in Sources */,
 				6CAE5DCA1A41C08E00C0F2E0 /* CompassView.swift in Sources */,
 				6CA23B8F1A5BF56A000D43F9 /* TeaserCollectionCell.swift in Sources */,
+				6C970C0B1B20944D0060B43D /* SRWebClient.swift in Sources */,
+				6CFE41AC1B25B7F500EB810B /* FeedbackModel.swift in Sources */,
 				6CCE31181A1F8C05007682BB /* TeaserSubViewController.swift in Sources */,
 				6C4712E21A24BADC002C355D /* ExhibitModel.swift in Sources */,
 				6C0839E71AC42402005F3DEB /* ExhibitListViewController.swift in Sources */,
@@ -822,6 +959,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Rate",
 					"$(PROJECT_DIR)/Rate/Resources/Frameworks",
+					"$(PROJECT_DIR)/SDKS",
+					"$(PROJECT_DIR)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Rate-ftglryrrqgpziraidppzbwnojrwq/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/ImageLoaderSwift-master/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Rate/YouTubePlayer/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Rate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -843,6 +985,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Rate",
 					"$(PROJECT_DIR)/Rate/Resources/Frameworks",
+					"$(PROJECT_DIR)/SDKS",
+					"$(PROJECT_DIR)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Rate-ftglryrrqgpziraidppzbwnojrwq/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/ImageLoaderSwift-master/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/Rate/YouTubePlayer/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = Rate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

@@ -22,9 +22,11 @@ class ExhibitModel: NSObject, Printable {
     let exhibit_cover_image:String
     let exhibit_twitter_enabled:String
     let exhibit_facebook_enabled:String
+    let exhibit_opening_hours:String
     var roomData = Array<RoomModel>()
     var myRoom:RoomModel?
     var beaconData = Array<BeaconModel>()
+    
 
     // Default Texts
     let overviewInfo_Dutch = "Begeef je door de exhibitie, deze app zal je automatisch begeleiden. Hieronder vind je een overzicht met de verschillende ruimtes die de worden geactiveerd"
@@ -36,7 +38,7 @@ class ExhibitModel: NSObject, Printable {
     // Functional variables
     var globalIndex = 1
     
-    init(exhibit_id: String?, exhibit_museum_id: String?, exhibit_title: String?, exhibit_description: String?, exhibit_hash: String?, exhibit_twitter: String?, exhibit_facebook: String?, exhibit_subtitle: String?, exhibit_cover_image: String?, exhibit_twitter_enabled:String?, exhibit_facebook_enabled:String?, exhibit_website:String?, roomData:Array<RoomModel>, beaconData:Array<BeaconModel>) {
+    init(exhibit_id: String?, exhibit_museum_id: String?, exhibit_title: String?, exhibit_description: String?, exhibit_hash: String?, exhibit_twitter: String?, exhibit_facebook: String?, exhibit_subtitle: String?, exhibit_cover_image: String?, exhibit_twitter_enabled:String?, exhibit_facebook_enabled:String?, exhibit_opening_hours:String?,  exhibit_website:String?, roomData:Array<RoomModel>, beaconData:Array<BeaconModel>) {
         self.exhibit_id = exhibit_id ?? ""
         self.exhibit_museum_id = exhibit_museum_id ?? ""
         self.exhibit_title = exhibit_title ?? ""
@@ -49,6 +51,7 @@ class ExhibitModel: NSObject, Printable {
         self.exhibit_website = exhibit_website ?? ""
         self.exhibit_twitter_enabled = exhibit_twitter_enabled ?? ""
         self.exhibit_facebook_enabled = exhibit_facebook_enabled ?? ""
+        self.exhibit_opening_hours = exhibit_opening_hours ?? "" 
         self.roomData = roomData
         self.beaconData = beaconData
     }

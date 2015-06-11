@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class TeaserViewController: UIViewController, UIScrollViewDelegate {
     
@@ -17,6 +18,11 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     var logoLabel: UILabel?
     var subtitleLabel: UILabel?
     var descriptionLabel: UILabel?
+    
+    var infoLabel1: UILabel?
+    var infoLabel2: UILabel?
+    var infoLabel3: UILabel?
+
     
     // background
     var overlay:UIImageView?
@@ -32,6 +38,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     // active exhibits
     var activeExibition:TeaserThumbViewController?
     var exhibitThumbs = Array<TeaserThumbViewController>()
+    var museumArray = Array<MuseumListComponentViewController>()
     
     // subviews
     var teaserData:TeaserSubViewController?
@@ -63,9 +70,10 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     var eventData = Dictionary<String, String>()
     var museumList = Array<MuseumListComponentViewController>()
     var toTop:UIButton?
-    var infoView:UIView?
+    var infoView:UIScrollView?
     var infoTitle:UILabel?
     var compassButton:UIButton?
+    var scrollImage:UIImage?
     
     // Effects
     var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Dark)) as UIVisualEffectView
@@ -98,6 +106,8 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         // bugfix
         view.backgroundColor = UIColor.blackColor()
         
+        
+        println("drawing UI")
     
         // create the scrollview
         scrollView = UIScrollView()
@@ -114,9 +124,11 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
             scrollView!.frame = CGRect(x: 0, y: 240, width: screenSize.width, height: screenSize.height - 240)
         }
         
-        infoView = UIView()
-        infoView!.backgroundColor = UIColor.whiteColor()
+        infoView = UIScrollView()
+        infoView!.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
+
         infoView!.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        infoView!.contentSize = CGSize(width: screenSize.width, height: screenSize.height * 2)
         infoView!.hidden = true
         
         infoTitle = UILabel(frame: CGRect(x: 20, y: 150, width: 80, height: 60))
@@ -124,9 +136,31 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         infoTitle!.font = UIFont.boldSystemFontOfSize(33)
         infoTitle!.textColor = applicationModel.UIColorFromRGB(0x242424)
         infoTitle!.font =  UIFont (name: "DINAlternate-Bold", size: 18)
-        infoView!.addSubview(infoTitle!)
+        //infoView!.addSubview(infoTitle!)
+        
+        var logoLabelTitle:UILabel
+            logoLabelTitle = UILabel(frame: CGRect(x: 0, y: 80, width: screenSize.width, height: 60))
+            logoLabelTitle.text = "Info"
+            logoLabelTitle.font = UIFont.boldSystemFontOfSize(44)
+            logoLabelTitle.textColor = applicationModel.UIColorFromRGB(0x222222)
+            logoLabelTitle.font =  UIFont (name: "Futura-Medium", size: 30)
+            logoLabelTitle.textAlignment = NSTextAlignment.Center
+        
+        infoView!.addSubview(logoLabelTitle)
         
         
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 12
+        
+        var attrString = NSMutableAttributedString(string: "De app gaat via GPS opzoek naar verschillende musea in de buurt.")
+        attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
+        
+        var attrString2 = NSMutableAttributedString(string: "In deze musea hebben wij sensoren aangebracht die door middel van Bluetooth verbinding maken met uw toestel.")
+        attrString2.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString2.length))
+        
+        var attrString3 = NSMutableAttributedString(string: "Wanneer uw toestel de signalen van de sensoren opvangt zal deze mobiele app u automatisch begeleiden en extra informatie aanbieden.")
+        attrString3.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString3.length))
+
         
         logoLabel = UILabel(frame: CGRect(x: 20, y: 150, width: 80, height: 60))
         logoLabel!.text = "MUSEA IN JOUW BUURT"
@@ -136,12 +170,114 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         logoLabel!.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
         logoLabel!.sizeToFit()
         
+        
+        var borderTop:UIView?
+        var borderTop2:UIView?
+        var borderTop3:UIView?
+
+        
+        var infoCircle1:UIView = UIView(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 150, width: 50, height: 50))
+            infoCircle1.backgroundColor = UIColor.blackColor()
+            infoCircle1.layer.cornerRadius = 25
+        
+        var infoCircleLabel:UILabel = UILabel(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 150, width: 50, height: 50))
+            infoCircleLabel.text = "1"
+            infoCircleLabel.textColor = UIColor.whiteColor()
+            infoCircleLabel.textAlignment = NSTextAlignment.Center
+            infoCircleLabel.font =  UIFont (name: "Georgia-Italic", size: 30)
+
+        infoLabel1 = UILabel(frame: CGRect(x: 40, y: infoCircle1.frame.origin.y + infoCircle1.frame.height - 10, width: screenSize.width - 80, height: 140))
+        infoLabel1!.numberOfLines = 4
+        infoLabel1!.text = ""
+        infoLabel1!.font =  UIFont (name: "Georgia-Italic", size: 23)
+        infoLabel1!.textColor = applicationModel.UIColorFromRGB(0x222222)
+        infoLabel1?.attributedText = attrString
+        infoView!.addSubview(infoLabel1!)
+
+        
+        var infoCircle2:UIView = UIView(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 350, width: 50, height: 50))
+        infoCircle2.backgroundColor = UIColor.blackColor()
+        infoCircle2.layer.cornerRadius = 25
+        
+        var infoCircleLabel2:UILabel = UILabel(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 350, width: 50, height: 50))
+        infoCircleLabel2.text = "2"
+        infoCircleLabel2.textColor = UIColor.whiteColor()
+        infoCircleLabel2.textAlignment = NSTextAlignment.Center
+        infoCircleLabel2.font =  UIFont (name: "Georgia-Italic", size: 30)
+        
+        
+        infoLabel2 = UILabel(frame: CGRect(x: 40, y: infoCircle2.frame.origin.y + infoCircle2.frame.height, width: screenSize.width - 80, height: 200))
+        infoLabel2!.numberOfLines = 5
+        infoLabel2!.text = ""
+        infoLabel2!.font =  UIFont (name: "Georgia-Italic", size: 23)
+        infoLabel2!.textColor = applicationModel.UIColorFromRGB(0x222222)
+        infoLabel2?.attributedText = attrString2
+        infoView!.addSubview(infoLabel2!)
+        
+        
+        
+        var infoCircle3:UIView = UIView(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 630, width: 50, height: 50))
+        infoCircle3.backgroundColor = UIColor.blackColor()
+        infoCircle3.layer.cornerRadius = 25
+        
+        var infoCircleLabel3:UILabel = UILabel(frame: CGRect(x: (screenSize.width / 2) - (50 / 2), y: 630, width: 50, height: 50))
+        infoCircleLabel3.text = "3"
+        infoCircleLabel3.textColor = UIColor.whiteColor()
+        infoCircleLabel3.textAlignment = NSTextAlignment.Center
+        infoCircleLabel3.font =  UIFont (name: "Georgia-Italic", size: 28)
+        
+        
+        infoLabel3 = UILabel(frame: CGRect(x: 40, y: infoCircle3.frame.origin.y + infoCircle3.frame.height - 10, width: screenSize.width - 80, height: 250))
+        infoLabel3!.numberOfLines = 10
+        infoLabel3!.text = ""
+        infoLabel3!.font =  UIFont (name: "Georgia-Italic", size: 23)
+        infoLabel3!.textColor = applicationModel.UIColorFromRGB(0x222222)
+        infoLabel3?.attributedText = attrString3
+        infoView!.addSubview(infoLabel3!)
+        
+        borderTop = UIView(frame: CGRect(x: infoLabel1!.frame.origin.x, y: infoLabel1!.frame.origin.y - 10, width: infoLabel1!.frame.width, height: 1))
+        borderTop?.backgroundColor = applicationModel.UIColorFromRGB(0x222222)
+
+        borderTop2 = UIView(frame: CGRect(x: infoLabel1!.frame.origin.x, y: infoLabel2!.frame.origin.y - 20, width: infoLabel2!.frame.width, height: 1))
+        borderTop2?.backgroundColor = applicationModel.UIColorFromRGB(0x222222)
+        
+        borderTop3 = UIView(frame: CGRect(x: infoLabel3!.frame.origin.x, y: infoLabel3!.frame.origin.y - 10, width: infoLabel3!.frame.width, height: 1))
+        borderTop3?.backgroundColor = applicationModel.UIColorFromRGB(0x222222)
+
+        
+        if(deviceFunctionService.deviceType == "ipad"){
+
+            infoLabel1!.frame = CGRect(x: 40, y: infoCircle1.frame.origin.y + infoCircle1.frame.height - 10, width: screenSize.width - 400, height: 100)
+            
+            infoLabel2!.frame = CGRect(x: 40, y: infoCircle2.frame.origin.y + infoCircle2.frame.height - 10, width: screenSize.width - 400, height: 200)
+
+            infoLabel3!.frame = CGRect(x: 40, y: infoCircle3.frame.origin.y + infoCircle3.frame.height - 10, width: screenSize.width - 400, height: 200)
+            
+        }
+        
+        
+        infoView!.addSubview(borderTop!)
+        infoView!.addSubview(infoCircle1)
+        infoView!.addSubview(infoCircleLabel)
+
+        infoView!.addSubview(borderTop2!)
+        infoView!.addSubview(infoCircle2)
+        infoView!.addSubview(infoCircleLabel2)
+        
+        infoView!.addSubview(borderTop3!)
+        infoView!.addSubview(infoCircle3)
+        infoView!.addSubview(infoCircleLabel3)
+        
         image = UIImage(named: "loginBackground")
+        if(deviceFunctionService.deviceType != "ipad"){
+            image = UIImage(named: "loginBackgroundMobile")
+        }
+        
         imageView = UIImageView(frame: view.bounds)
         imageView?.image = image
         imageView?.center = view.center
         imageView?.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
-        
+        imageView?.contentMode = UIViewContentMode.ScaleToFill
     
         subtitleLabel = UILabel(frame: CGRect(x: 20, y: 220, width: screenSize.width - 40, height: 100))
         subtitleLabel!.numberOfLines = 4
@@ -170,7 +306,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         exhibitHolderTitle!.font =  UIFont (name: "HelveticaNeue-Light", size: 23)
         exhibitHolderTitle!.textColor = UIColor.whiteColor()
         exhibitHolderTitle!.textAlignment = .Center;
-        exhibitHolderTitle?.backgroundColor = UIColor.redColor()
         exhibitHolderTitle?.hidden = true
     
         
@@ -191,8 +326,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
 
         
         scrollButton!.backgroundColor = UIColor.clearColor()
-        let scrollImage = UIImage(named: "ScrollDown") as UIImage?
-        
+        scrollImage = UIImage(named: "ScrollDown") as UIImage!
         scrollButton?.setImage(scrollImage, forState: .Normal)
         
         
@@ -203,20 +337,18 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         
         var twitterImage = UIImage(named: "TwitterIcon") as UIImage?
         twitterButton?.setImage(twitterImage, forState: .Normal)
-        twitterButton!.addTarget(self, action: "skip:", forControlEvents: UIControlEvents.TouchUpInside)
+        twitterButton!.addTarget(self, action: "shareTwitter:", forControlEvents: UIControlEvents.TouchUpInside)
 
         twitterButton!.frame = CGRect(x: screenSize.width - 130, y: screenSize.height - compasFooter!.frame.height + 40, width: 50, height: 50)
         twitterButton!.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
         twitterButton!.imageView?.contentMode = UIViewContentMode.ScaleToFill;
-
         
         
         let facebookImage = UIImage(named: "FacebookIcon") as UIImage?
         facebookButton?.setImage(facebookImage, forState: .Normal)
         facebookButton!.frame = CGRect(x: screenSize.width - 70, y: screenSize.height - compasFooter!.frame.height + 40, width: 50, height: 50)
-        facebookButton?.backgroundColor = UIColor.redColor()
         facebookButton!.backgroundColor = applicationModel.UIColorFromRGB(0x25d3b8)
-        
+        facebookButton!.addTarget(self, action: "shareFacebook:", forControlEvents: UIControlEvents.TouchUpInside)
     
         infoPanel = InfoPanelViewController(nibName: "InfoPanelViewController", bundle: nil)
         infoPanel?.view.frame = CGRect(x: 0, y: 60, width: screenSize.width, height: 133)
@@ -280,24 +412,12 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         view.addSubview(facebookButton!)
         view.addSubview(scrollButton!)
         
-        // load spinner
-        spinner = UIActivityIndicatorView()
-        spinner?.startAnimating()
-        view.addSubview(spinner!)
-        
-        spinner!.frame = CGRect(x: screenSize.width/2, y: screenSize.height/2, width: 40, height: 40)
-        //spinner!.center = view.center
-        spinner!.hidesWhenStopped = true
-        spinner!.activityIndicatorViewStyle =
-            UIActivityIndicatorViewStyle.WhiteLarge
-        view.addSubview(spinner!)
-        spinner!.startAnimating()
-        
-        
+
+        SwiftSpinner.show("Musea ophalen")
         exhibitHolder?.addSubview(exhibitHolderTitle!)
 
-        
         // resetting when we load the page
+        
         applicationModel.localExhibitSelected = false
         NSNotificationCenter.defaultCenter().postNotificationName("ShowBar", object: nil, userInfo:  nil)
         
@@ -313,8 +433,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         toTop!.titleLabel?.textAlignment = NSTextAlignment.Left;
         toTop!.hidden = true
         view.addSubview(toTop!)
-        
-
         
     
         compassButton = UIButton.buttonWithType(UIButtonType.System) as? UIButton
@@ -334,14 +452,24 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     func compassTouch(sender:UIButton!)
     {
         NSNotificationCenter.defaultCenter().postNotificationName("ShowMapPopup", object: nil, userInfo:  nil)
-
     }
-    
     
     
     func museumListUpdated(notification:NSNotification){
      
         println("updated the musuem list")
+        
+        
+        // reset if needed
+        if(museumArray.count > 0){
+            for ms in museumArray{
+                ms.removeFromParentViewController()
+                ms.view.removeFromSuperview()
+            }
+        }
+        
+        museumArray.removeAll(keepCapacity: true)
+        
         
         // now render the list
         
@@ -357,8 +485,10 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
 
         
         // hide the spinner
-        spinner!.stopAnimating()
-        spinner!.hidden = true
+        //spinner!.stopAnimating()
+        //spinner!.hidden = true
+        SwiftSpinner.hide()
+
         
         var starting:Bool = true
         var muCount:Int = 0
@@ -373,12 +503,9 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                 if(deviceFunctionService.deviceType == "ipad"){
                     museum.view.frame = CGRect(x: 100, y: yPos, width: (screenSize.width) - 200, height: 95)
                     museum.listWidth = (screenSize.width) - 200
-
-                
                 }else{
                     museum.view.frame = CGRect(x: 10, y: yPos, width: screenSize.width - 20, height: 95)
                     museum.listWidth = screenSize.width - 20
-
                 }
                 
                 museum.titleField?.text = musuemd.museum_title
@@ -396,6 +523,10 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                 
                 
                 var distance = round(musuemd.museum_dis!)
+                let name: String = distance.description
+                museum.distanceField.text = name + "Km"
+
+                
                 if(distance < locationServices.distanceVar){
                     museum.activeDot?.hidden = false
                     println("show activedots")
@@ -404,8 +535,11 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                     museum.view.alpha = 0.4
                 }
                 
-                let name: String = distance.description
-                museum.distanceField.text = name + "Km"
+                if(distance == 0){
+                    museum.distanceField.text =  "120m"
+                }else if(distance < locationServices.distanceVar){
+                    museum.distanceField.text = name + "Km"
+                }
                 
                 // if mobile
                 if(deviceFunctionService.deviceType == "ipad"){
@@ -417,12 +551,14 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
                 
                 scrollView!.addSubview(museum.view)
                 
+                // add to array
+                museumArray.append(museum)
+                
                 yPos = yPos + museum.view.frame.height
                 muCount++
                 
                 museum.reposition()
             }
-            
             
             scrollView!.contentSize = CGSize(width:screenSize.width, height: CGFloat(95 * muCount) + 200)
         }
@@ -476,8 +612,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         
         
         if(selectedMuseum.activeDot?.hidden == false){
-       
-        
             eventData["title"] = selectedMuseum.museumModel?.museum_title
         NSNotificationCenter.defaultCenter().postNotificationName("SetTitle", object: nil, userInfo:  eventData)
         
@@ -488,15 +622,14 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
             eventData["icon"] = "teaser"
         NSNotificationCenter.defaultCenter().postNotificationName("MenuIcon", object: nil, userInfo:  eventData)
         
+            /*
             eventData["icon"] = "hidden"
-        NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)
+        NSNotificationCenter.defaultCenter().postNotificationName("RightIcon", object: nil, userInfo:  eventData)*/
         
         //
         applicationModel.localExhibitSelected = false
         locationServices.beaconSearching = true
-            
         }
-    
     }
 
     /**
@@ -504,7 +637,6 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
     */
     func buttonAction(sender:UIButton!)
     {
-        var scrollImage:UIImage
         if(scrollView!.contentOffset.y > 0){
             // scroll to point
             scrollView!.setContentOffset(CGPointMake(0, 0), animated: true)
@@ -529,7 +661,7 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
 
             scrollImage = UIImage(named: "ScrollUp") as UIImage!
             scrollButton?.setImage(scrollImage, forState: .Normal)
-            toTop!.hidden = false
+            toTop!.hidden = true
             infoView?.hidden = false
 
             infoView!.frame = CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height)
@@ -547,12 +679,49 @@ class TeaserViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    func shareFacebook(sender:UIButton){
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook) {
+            var fbShare:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            
+                fbShare.setInitialText("Ik heb " + String(museumArray.count) + " museums gevonden met de MuseumTracker app")
+
+            
+            self.presentViewController(fbShare, animated: true, completion: nil)
+            
+        } else {
+            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func shareTwitter(sender:UIButton){
+        
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter) {
+            
+            var tweetShare:SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            
+                tweetShare.setInitialText("Ik heb " + String(museumArray.count) + " museums gevonden met de MuseumTracker app")
+            
+            self.presentViewController(tweetShare, animated: true, completion: nil)
+            
+        } else {
+            
+            var alert = UIAlertController(title: "Geen Account", message: "Ga naar instellingen en meld je aan om te Tweeten", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
+    }
+    
     func skip(sender:UIButton!)
     {
         // scroll to point
         eventData["menu"] = "exhibit"
         NSNotificationCenter.defaultCenter().postNotificationName("MenuChangedHandler", object: nil, userInfo:  eventData)
-        
     }
     
     
